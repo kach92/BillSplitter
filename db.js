@@ -33,10 +33,11 @@ if( process.env.DATABASE_URL ){
 
 }else{
   configs = {
-    user: 'akira',
+    user: 'kach92',
     host: '127.0.0.1',
-    database: 'testdb',
-    port: 5432
+    database: 'blitt',
+    port: 5432,
+    password:"Kenny Ang"
   };
 }
 
@@ -47,53 +48,21 @@ pool.on('error', function (err) {
   console.log('idle client error', err.message, err.stack);
 });
 
-
-
-/*
- * ===================================================
- * ===================================================
- * ===================================================
- * ===================================================
- * ======        REQUIRE MODEL FILES         =========
- * ===================================================
- * ===================================================
- * ===================================================
- * ===================================================
- */
-
-
-const allModelsFunction = require('./models/main');
-
-const modelsObject = allModelsFunction( pool );
-
-
-
-/*
- * ===================================================
- * ===================================================
- * ===================================================
- * ===================================================
- * ======          MODULE EXPORTS            =========
- * ===================================================
- * ===================================================
- * ===================================================
- * ===================================================
- */
-
+const allMainModelsFunction = require('./models/main');
+const allUserModelsFunction = require('./models/user');
+const allGroupModelsFunction = require('./models/group');
+const mainModelsObject = allMainModelsFunction( pool );
+const userModelsObject = allUserModelsFunction( pool );
+const groupModelsObject = allGroupModelsFunction(pool)
 
 module.exports = {
-  //make queries directly from here
+
   queryInterface: (text, params, callback) => {
     return pool.query(text, params, callback);
   },
-
-  // get a reference to end the connection pool at server end
   pool:pool,
 
-  /*
-   * ADD APP MODELS HERE
-   */
-
-  // users: userModelsObject,
-  main: modelsObject
+  main: mainModelsObject,
+  user: userModelsObject,
+  group: groupModelsObject
 };

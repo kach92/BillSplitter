@@ -1,0 +1,44 @@
+.login-container{
+    width:400px;
+    margin:20px auto;
+    border:1px solid black;
+    border-radius:5px;
+    padding:30px;
+}
+
+.login-container a{
+    text-transform: none;
+    margin-left:10px;
+}
+
+.main-container{
+    display:flex;
+}
+
+.side-bar{
+    border:1px solid black;
+    width:200px;
+    height:600px;
+
+}
+
+.main-content{
+    width:100%;
+}
+
+#user-takein{
+    border:none;
+    margin-bottom:10px;
+}
+
+.card-slot{
+    width:700px;
+    border:1px solid black;
+    margin: 0 auto;
+}
+
+.group-card{
+    height:150px;
+    padding:30px;
+    border:1px solid black;
+}

@@ -1,8 +1,6 @@
-/**
- * ===========================================
- * Export model functions as a module
- * ===========================================
- */
+var sha256 = require('js-sha256');
+var SALT = "whosyourdaddy";
+
 module.exports = (dbPoolInstance) => {
 
   // `dbPoolInstance` is accessible within this function scope
