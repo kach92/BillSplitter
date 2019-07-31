@@ -83,14 +83,12 @@ module.exports = (db) => {
     let singleGroupControllerCallback = (request, response) => {
         let cookieAvailable = checkCookie(request);
         if (cookieAvailable) {
-            db.group.getAllGroups((error, result) => {
-                let data = {
+            let data = {
                     title: "Group List",
                     cookieAvailable: cookieAvailable,
-                    allGroups: result
+                    group_id:request.params.id
                 }
-                response.render('views/group_list', data);
-            })
+            response.render("views/single_group",data)
         } else {
             response.redirect('/blitt/login')
         }

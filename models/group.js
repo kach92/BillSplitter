@@ -53,11 +53,29 @@ module.exports = (dbPoolInstance) => {
         });
     }
 
+    let getUsersInGroup = (group_id, callback) => {
+        let query = 'SELECT groups.id AS group_id,groups.name AS group_name,users.id AS user_id, users.name AS user_name FROM groups INNER JOIN users_groups ON(groups.id = users_groups.group_id) INNER JOIN users ON (users_groups.user_id = users.id) WHERE groups.id = $1 ORDER BY users.id ASC';
+        let arr = [group_id]
+        dbPoolInstance.query(query, arr,(error, queryResult) => {
+            if (error) {
+                callback(error, null);
+            } else {
+                if (queryResult.rows.length > 0) {
+
+                    callback(null, queryResult.rows);
+                } else {
+                    callback(null, []);
+                }
+            }
+        });
+    }
+
 
 
     return {
         newGroup,
         userGroupLink,
-        getAllGroups
+        getAllGroups,
+        getUsersInGroup
     };
 };

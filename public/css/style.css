@@ -24,6 +24,7 @@
 
 .main-content{
     width:100%;
+    position:relative;
 }
 
 #user-takein{
@@ -41,4 +42,35 @@
     height:150px;
     padding:30px;
     border:1px solid black;
+}
+
+.add-sign{
+    border:1px solid black;
+    font-size:20px;
+    width:30px;
+    height:30px;
+    text-align:center;
+    border-radius:50%;
+    position:relative;
+    left:750px;
+
+}
+
+.add-sign a:hover{
+    text-decoration: none !important;
+
+}
+
+.split-amount-by-user-container{
+    font-size:10px;
+
+}
+
+.split-amount-by-user-container .split-user-name{
+    display:inline-block;
+    width:100px;
+}
+
+.split-amount-by-user-container input{
+    border:none;
 }

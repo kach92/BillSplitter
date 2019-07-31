@@ -17,8 +17,8 @@ class Create_Group extends React.Component {
                 <input type="test" class="form-control" id="group_name" placeholder="Enter Username" name="group_name" required/>
               </div>
               <div class="form-group">
-                <label for="selections">Users</label>
-                <select type="password" class="form-control" id="selections">
+                <label for="user_selections">Users</label>
+                <select type="text" class="form-control" id="user_selections">
                     <option>Select users to add</option>{allUsers}
                 </select>
               </div>

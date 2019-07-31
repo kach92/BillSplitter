@@ -16,6 +16,7 @@ module.exports = (app, allModels) => {
   const mainControllerCallbacks = require('./controllers/main')(allModels);
   const userControllerCallbacks = require('./controllers/user')(allModels);
   const groupControllerCallbacks = require('./controllers/group')(allModels);
+  const billControllerCallbacks = require('./controllers/bill')(allModels)
 
   app.get('/', mainControllerCallbacks.redirect);
   app.get('/blitt', mainControllerCallbacks.index);
@@ -28,5 +29,5 @@ module.exports = (app, allModels) => {
   app.post('/blitt/create_group',groupControllerCallbacks.createGroupPost);
   app.get('/blitt/groupList',groupControllerCallbacks.listAll);
   app.get('/blitt/groupList/:id',groupControllerCallbacks.singleGroup);
-  //app.get('/pokemons/:id', pokemons.getPokemon);
+  app.get('/blitt/groupList/:id/newBill',billControllerCallbacks.newBill)
 };
