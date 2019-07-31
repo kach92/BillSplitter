@@ -57,9 +57,10 @@ class Create_Bill extends React.Component {
               </div>
               <div className="split-amount-by-user-container">
                 {user_to_pay_list}
+                <p id="amount-left"></p>
               </div>
 
-              <button type="submit" class="btn btn-primary">Add</button>
+              <button type="submit" class="btn btn-primary" id="add-bill-button">Add</button>
               <a className="btn btn-primary"href={cancelUrl}>Cancel</a>
             </form>
 

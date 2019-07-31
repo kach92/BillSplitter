@@ -2,18 +2,26 @@ let billInput = document.getElementById("billAmountInput");
 let userSplitAmount = document.querySelectorAll(".user-split-amount");
 let splitType = document.getElementById("split_type");
 let checkBoxes = document.querySelectorAll(".checkBox");
+let amountLeftP = document.getElementById("amount-left");
+let addButton = document.getElementById("add-bill-button");
 let boolTable = [];
 let tickCount = 0;
 let tempAmount = 0;
+let tempAccumulateAmount = 0;
+
+
 
 //initialise boolTable and tickCount
 for (let i = 0; i < userSplitAmount.length; i++) {
     boolTable.push(true);
     tickCount++;
+
 }
 //update amount if checkboxes is clicked
 let update = function() {
     if (splitType.value === "Split Equally") {
+        document.getElementById("add-bill-button").disabled = false;
+        amountLeftP.style.visibility = "hidden";
         for (let i = 0; i < userSplitAmount.length; i++) {
             userSplitAmount[i].readOnly = true;
             userSplitAmount[i].style.border = "none"
@@ -34,16 +42,33 @@ let update = function() {
 
         }
     } else if (splitType.value === "Split Unequally") {
+        document.getElementById("add-bill-button").disabled = true;
+        amountLeftP.style.visibility = "visible";
+        tempAccumulateAmount=0;
+        if (billInput.value === "") {
+            tempAmount = 0
+        } else {
+            tempAmount = parseInt(billInput.value)
+        }
+
+
         for (let i = 0; i < userSplitAmount.length; i++) {
             if (boolTable[i]) {
                 userSplitAmount[i].readOnly = false;
                 userSplitAmount[i].style.border = "1px solid black"
+                tempAccumulateAmount+=parseInt(userSplitAmount[i].value);
+
             } else {
                 userSplitAmount[i].value = 0
                 userSplitAmount[i].readOnly = true;
                 userSplitAmount[i].style.border = "none";
             }
 
+        }
+
+        amountLeftP.innerText = `S$${tempAccumulateAmount} of S$${tempAmount}`
+        if((tempAccumulateAmount-tempAmount)===0){
+            document.getElementById("add-bill-button").disabled = false;
         }
     }
 
@@ -67,6 +92,10 @@ for (let i = 0; i < checkBoxes.length; i++) {
             console.log(tickCount)
             update();
         }
+    })
+
+    userSplitAmount[i].addEventListener("change",function(){
+        update();
     })
 }
 
