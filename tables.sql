@@ -10,9 +10,11 @@ CREATE TABLE IF NOT EXISTS bills (
     amount FLOAT(8),
     category TEXT,
     description TEXT,
+    paid_by_user_id INT,
     group_id INT,
     created_at TIMESTAMP DEFAULT now(),
-    FOREIGN KEY(group_id) REFERENCES groups (id)
+    FOREIGN KEY(group_id) REFERENCES groups (id),
+    FOREIGN KEY(paid_by_user_id) REFERENCES users (id)
 
 );
 

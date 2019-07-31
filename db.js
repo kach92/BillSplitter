@@ -51,9 +51,11 @@ pool.on('error', function (err) {
 const allMainModelsFunction = require('./models/main');
 const allUserModelsFunction = require('./models/user');
 const allGroupModelsFunction = require('./models/group');
+const allBillModelsFunction = require('./models/bill')
 const mainModelsObject = allMainModelsFunction( pool );
 const userModelsObject = allUserModelsFunction( pool );
-const groupModelsObject = allGroupModelsFunction(pool)
+const groupModelsObject = allGroupModelsFunction(pool);
+const billModelsObject = allBillModelsFunction(pool);
 
 module.exports = {
 
@@ -64,5 +66,6 @@ module.exports = {
 
   main: mainModelsObject,
   user: userModelsObject,
-  group: groupModelsObject
+  group: groupModelsObject,
+  bill: billModelsObject
 };

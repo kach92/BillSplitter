@@ -14,9 +14,15 @@ class Create_Bill extends React.Component {
     let split_type = Categories.split.map(x=>{
         return <option>{x}</option>
     })
-
+    let count = -1;
     let user_to_pay_list = this.props.result.map(x=>{
-        return <div><span className="split-user-name">{x.user_name}</span><span>$S </span><input className="user-split-amount"value="0" readOnly/></div>
+        count++;
+        return <div><input value={count} className="checkBox"type="checkbox" checked/><span className="split-user-name">{x.user_name}</span><span>$S </span><input name="split_amount" className="user-split-amount"value="0.00" readOnly/></div>
+
+    })
+
+    let user_who_pay = this.props.result.map(x=>{
+        return <option value={x.user_id}>{x.user_name}</option>
     })
     return (
       <Default title={this.props.title}>
@@ -32,6 +38,12 @@ class Create_Bill extends React.Component {
                 <input type="number" class="form-control" id="billAmountInput" placeholder="Enter Amount" name="bill_amount" required/>
               </div>
               <div class="form-group">
+                <label for="payer">Payer</label>
+                <select name="payer" class="form-control" id="payer">
+                    {user_who_pay}
+                </select>
+              </div>
+              <div class="form-group">
                 <label for="category_selections">Category</label>
                 <select type="text"name="bill_category"class="form-control" id="category_selections">
                     {category_list}
@@ -39,15 +51,13 @@ class Create_Bill extends React.Component {
               </div>
               <div class="form-group">
                 <label for="split_type">Split Type</label>
-                <select name="bill_category"class="form-control" id="split_type">
+                <select class="form-control" id="split_type">
                     {split_type}
                 </select>
               </div>
               <div className="split-amount-by-user-container">
                 {user_to_pay_list}
               </div>
-
-              <input name="group_id" value={this.props.group_id} hidden/>
 
               <button type="submit" class="btn btn-primary">Add</button>
               <a className="btn btn-primary"href={cancelUrl}>Cancel</a>

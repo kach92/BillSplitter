@@ -28,8 +28,36 @@ module.exports = (db) => {
         }
     }
 
+    let newBillPostControllerCallback = (request, response) => {
+
+        let cookieAvailable = checkCookie(request);
+        let group_id = request.params.id
+        if (cookieAvailable) {
+            let bill_information = request.body
+
+            db.bill.createNewBillInGroup(group_id, bill_information, (error, result) => {
+                if (result) {
+                    let bill_id = result;
+                    db.bill.createUserBillLink(bill_id,group_id,bill_information,(error,result)=>{
+                        if(result){
+                            response.redirect(`/blitt/groupList/${group_id}`)
+                        }else{
+                            response.send("INSERT USER BILL LINK FAIL")
+                        }
+                    })
+                }else{
+                    response.send("INSERT FAIL")
+                }
+
+            })
+        } else {
+            response.redirect('/blitt/login')
+        }
+    }
+
     return {
-        newBill: newBillControllerCallback
+        newBill: newBillControllerCallback,
+        newBillPost: newBillPostControllerCallback
 
     };
 

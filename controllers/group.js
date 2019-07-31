@@ -5,6 +5,35 @@ var checkCookie = function(request) {
     return (sha256(request.cookies["user_id"] + 'logged_in' + SALT) === request.cookies["logged_in"]) ? true : false;
 }
 
+let timeConverted = function(time) {
+    let curretTime = new Date();
+    let timeAgo = curretTime - time;
+
+    var day, hour, minute, seconds;
+    seconds = Math.floor(timeAgo / 1000);
+    minute = Math.floor(seconds / 60);
+    seconds = seconds % 60;
+    hour = Math.floor(minute / 60);
+    minute = minute % 60;
+    day = Math.floor(hour / 24);
+    hour = hour % 24;
+
+    let date = time.getDate();
+    let monthArray = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"];
+    let month =  monthArray[time.getMonth()]
+    if (day > 0) {
+        return `${date} ${month}`
+    } else {
+        if (hour > 0) {
+            return `${hour} hours ago`;
+        } else {
+            return `${minute} mins ago`;
+        }
+    }
+
+
+}
+
 module.exports = (db) => {
 
     let createGroupControllerCallback = (request, response) => {
@@ -83,12 +112,29 @@ module.exports = (db) => {
     let singleGroupControllerCallback = (request, response) => {
         let cookieAvailable = checkCookie(request);
         if (cookieAvailable) {
-            let data = {
-                    title: "Group List",
-                    cookieAvailable: cookieAvailable,
-                    group_id:request.params.id
+            let user_id = request.cookies["user_id"];
+
+            db.bill.getAllBillsByGroup(user_id, request.params.id, (error, result) => {
+                if (result) {
+                    for (let i = 0; i < result.length; i++) {
+                        result[i].created_at = timeConverted(result[i].created_at);
+                    }
+
+                    let data = {
+                        title: "Group List",
+                        cookieAvailable: cookieAvailable,
+                        group_id: request.params.id,
+                        billList:result
+                    }
+
+                    response.render("views/single_group", data)
+                }else{
+                    response.send("QUERY FOR BILL LIST FAIL")
                 }
-            response.render("views/single_group",data)
+
+
+            })
+
         } else {
             response.redirect('/blitt/login')
         }
@@ -99,7 +145,7 @@ module.exports = (db) => {
         createGroup: createGroupControllerCallback,
         createGroupPost: createGroupPostControllerCallback,
         listAll: listAllGroupControllerCallback,
-        singleGroup:singleGroupControllerCallback
+        singleGroup: singleGroupControllerCallback
 
     };
 
