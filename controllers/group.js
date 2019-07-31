@@ -19,8 +19,8 @@ let timeConverted = function(time) {
     hour = hour % 24;
 
     let date = time.getDate();
-    let monthArray = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"];
-    let month =  monthArray[time.getMonth()]
+    let monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+    let month = monthArray[time.getMonth()]
     if (day > 0) {
         return `${date} ${month}`
     } else {
@@ -95,14 +95,54 @@ module.exports = (db) => {
 
     let listAllGroupControllerCallback = (request, response) => {
         let cookieAvailable = checkCookie(request);
+        let user_id = request.cookies["user_id"];
         if (cookieAvailable) {
-            db.group.getAllGroups((error, result) => {
-                let data = {
-                    title: "Group List",
-                    cookieAvailable: cookieAvailable,
-                    allGroups: result
+            db.group.getAllGroupsWithBillDetails(user_id, (error, result) => {
+                if (result) {
+                    let billsByGroup = result;
+                    db.group.getAllGroups(user_id, (error, result2) => {
+                        if (result2) {
+
+                            let groupDetails = result2;
+                            let resultArray = []
+
+                            for(let i=0;i<groupDetails.length;i++){
+                                let group_id = groupDetails[i].group_id
+                                for(let j=0;j<billsByGroup.length;j++){
+                                    if(billsByGroup[i].group_id === group_id){
+                                        if(billsByGroup[i].)
+                                    }
+                                }
+
+                                let obj = {
+                                    group_id: group_id,
+                                    group_name:groupDetails[i].group_name,
+
+                                }
+
+                                resultArray.push(obj);
+                            }
+
+
+
+
+
+
+                            response.render('views/group_list', data);
+                            let data = {
+                                title: "Group List",
+                                cookieAvailable: cookieAvailable,
+                                result: result
+                            }
+                        } else {
+                            response.send("CANT GET GROUPS")
+                        }
+
+                    })
+                } else {
+                    response.send("CANT GET BILLS")
                 }
-                response.render('views/group_list', data);
+
             })
         } else {
             response.redirect('/blitt/login')
@@ -124,11 +164,11 @@ module.exports = (db) => {
                         title: "Group List",
                         cookieAvailable: cookieAvailable,
                         group_id: request.params.id,
-                        billList:result
+                        billList: result
                     }
 
                     response.render("views/single_group", data)
-                }else{
+                } else {
                     response.send("QUERY FOR BILL LIST FAIL")
                 }
 
