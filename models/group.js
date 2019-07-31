@@ -38,7 +38,7 @@ module.exports = (dbPoolInstance) => {
     }
 
     let getAllGroupsWithBillDetails  = (user_id,callback) => {
-        let query = 'SELECT user_id, SUM(split_amount),group_id FROM (SELECT users.id AS user_id, users.name AS user_name, users_bills.split_amount,bills.id AS bill_id,bills.paid_by_user_id AS payer_id,groups.id AS group_id FROM groups INNER JOIN bills ON (groups.id = bills.group_id) INNER JOIN users_bills ON (bills.id = users_bills.bill_id) INNER JOIN users ON (users_bills.user_id = users.id) INNER JOIN users_groups ON (groups.id = users_groups.group_id) WHERE users_groups.user_id = $1) AS x GROUP BY user_id,group_id ORDER BY group_id;';
+        let query = 'SELECT x.user_id,x.net,users.name,x.group_id FROM users INNER JOIN (SELECT user_id,SUM(net) AS net,pay_to_id,group_id FROM net_table GROUP BY user_id,pay_to_id,group_id HAVING user_id =$1 ORDER BY group_id) AS x ON (users.id = x.pay_to_id) ORDER BY x.group_id';
 
         let arr = [user_id];
         dbPoolInstance.query(query, arr,(error, queryResult) => {
@@ -89,6 +89,22 @@ module.exports = (dbPoolInstance) => {
         });
     }
 
+    let getGroupCount = (callback)=>{
+        let query = 'SELECT * FROM groups';
+        dbPoolInstance.query(query,(error, queryResult) => {
+            if (error) {
+                callback(error, null);
+            } else {
+                if (queryResult.rows.length > 0) {
+
+                    callback(null, queryResult.rows);
+                } else {
+                    callback(null, []);
+                }
+            }
+        });
+    }
+
 
 
     return {
@@ -96,6 +112,7 @@ module.exports = (dbPoolInstance) => {
         userGroupLink,
         getAllGroupsWithBillDetails,
         getUsersInGroup,
-        getAllGroups
+        getAllGroups,
+        getGroupCount
     };
 };

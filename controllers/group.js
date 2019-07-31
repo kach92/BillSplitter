@@ -97,48 +97,47 @@ module.exports = (db) => {
         let cookieAvailable = checkCookie(request);
         let user_id = request.cookies["user_id"];
         if (cookieAvailable) {
+
             db.group.getAllGroupsWithBillDetails(user_id, (error, result) => {
                 if (result) {
-                    let billsByGroup = result;
-                    db.group.getAllGroups(user_id, (error, result2) => {
+                    let netDetails = result
+                    db.group.getGroupCount((error, result2) => {
                         if (result2) {
-
-                            let groupDetails = result2;
-                            let resultArray = []
-
-                            for(let i=0;i<groupDetails.length;i++){
-                                let group_id = groupDetails[i].group_id
-                                for(let j=0;j<billsByGroup.length;j++){
-                                    if(billsByGroup[i].group_id === group_id){
-                                        if(billsByGroup[i].)
+                            let groupDetails = result2
+                            let resultObj = []
+                            for (let i = 0; i < groupDetails.length; i++) {
+                                let members_net = netDetails.filter(x => x.group_id === groupDetails[i].id).map(x => {
+                                    return {
+                                        name: x.name,
+                                        net: x.net
                                     }
+                                });
+                                let user_net = members_net.reduce((total, obj) => obj.net * -1 + total, 0)
+                                let temp = {
+                                    group_name: groupDetails[i].name,
+                                    group_id: groupDetails[i].id,
+                                    members_net: members_net,
+                                    user_net: user_net
                                 }
-
-                                let obj = {
-                                    group_id: group_id,
-                                    group_name:groupDetails[i].group_name,
-
-                                }
-
-                                resultArray.push(obj);
+                                resultObj.push(temp);
                             }
 
-
-
-
-
-
-                            response.render('views/group_list', data);
                             let data = {
                                 title: "Group List",
                                 cookieAvailable: cookieAvailable,
-                                result: result
+                                result: resultObj
                             }
+
+                            response.render('views/group_list', data);
+
+
+
                         } else {
-                            response.send("CANT GET GROUPS")
+                            response.send("CANT GET GROUP COUNT")
                         }
 
                     })
+
                 } else {
                     response.send("CANT GET BILLS")
                 }

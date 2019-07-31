@@ -40,3 +40,14 @@ CREATE TABLE IF NOT EXISTS users_groups(
     FOREIGN KEY(user_id) REFERENCES users (id),
     FOREIGN KEY(group_id) REFERENCES groups (id)
 );
+
+CREATE TABLE IF NOT EXISTS net_table(
+    id SERIAL PRIMARY KEY,
+    user_id INT,
+    net FLOAT(8),
+    pay_to_id INT,
+    group_id INT,
+    FOREIGN KEY(user_id) REFERENCES users (id),
+    FOREIGN KEY(group_id) REFERENCES groups (id),
+    FOREIGN KEY(pay_to_id) REFERENCES users (id)
+);

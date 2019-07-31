@@ -17,7 +17,7 @@ module.exports = (db) => {
                         title: "Group List",
                         cookieAvailable: cookieAvailable,
                         result: result,
-                        group_id:group_id
+                        group_id: group_id
                     }
                     response.render('views/create_bill', data);
                 }
@@ -31,21 +31,31 @@ module.exports = (db) => {
     let newBillPostControllerCallback = (request, response) => {
 
         let cookieAvailable = checkCookie(request);
-        let group_id = request.params.id
+        let group_id = request.params.id;
+        let split_array = request.body.split_amount;
+        let payer_id = request.body.payer;
         if (cookieAvailable) {
             let bill_information = request.body
-
+            console.log(bill_information);
             db.bill.createNewBillInGroup(group_id, bill_information, (error, result) => {
                 if (result) {
-                    let bill_id = result;
-                    db.bill.createUserBillLink(bill_id,group_id,bill_information,(error,result)=>{
-                        if(result){
-                            response.redirect(`/blitt/groupList/${group_id}`)
-                        }else{
+                    let bill_id = result.id;
+                    let payer_id = result.paid_by_user_id;
+                    db.bill.createUserBillLink(bill_id, group_id, bill_information, (error, result2) => {
+                        if (result2) {
+                            db.bill.updateNetTable(group_id,split_array,payer_id,(error,result3)=>{
+                                if(result3){
+                                    response.send("SUCCESS")
+                                }else{
+                                    response.send("HABIS")
+                                }
+                            })
+                            // response.redirect(`/blitt/groupList/${group_id}`)
+                        } else {
                             response.send("INSERT USER BILL LINK FAIL")
                         }
                     })
-                }else{
+                } else {
                     response.send("INSERT FAIL")
                 }
 
