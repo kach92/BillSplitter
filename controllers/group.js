@@ -166,7 +166,8 @@ module.exports = (db) => {
                         title: "Group List",
                         cookieAvailable: cookieAvailable,
                         group_id: request.params.id,
-                        billList: result
+                        billList: result,
+                        group_name: result[0].group_name
                     }
 
                     response.render("views/single_group", data)

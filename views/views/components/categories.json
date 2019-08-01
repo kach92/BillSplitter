@@ -1,4 +1,14 @@
 {
     "categories":["Food","Entertainment","Rental"],
-    "split":["Split Equally","Split Unequally"]
+    "split":["Split Equally","Split Unequally"],
+    "categories_img":{
+        "Food":"https://cdn4.iconfinder.com/data/icons/eldorado-mobile/40/food_2-512.png",
+        "Entertainment": "https://cdn0.iconfinder.com/data/icons/leisure-and-entertainment-1/64/entertainment-reel-camera-cinema-film-movies-512.png",
+        "Rental":"https://cdn2.iconfinder.com/data/icons/miscellaneous-7-solid/128/rent_key_rental_leasing-512.png"
+    },
+    "categories_color":{
+        "Food":"#29a745",
+        "Rental":"#ff7070",
+        "Entertainment":"#5b6eff"
+    }
 }

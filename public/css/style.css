@@ -52,7 +52,6 @@ body{
     min-width:400px;
     max-width:700px;
     margin: 0px auto;
-    padding-top:20px;
     padding-bottom:30px;
     background-color: white;
 }
@@ -164,23 +163,90 @@ body{
 }
 
 .bill-card{
-    height:150px;
-    padding:30px;
-    border:1px solid black;
+    height:125px;
+
     position:relative;
+    width:600px;
+    margin:0 auto;
+    box-shadow: 1px 1px 1px 1px;
+    display:flex;
+    justify-content: space-between;
+    margin-bottom:10px;
+    margin-top:10px;
+
 }
 
-.bill-card .time-of-bill{
+.time-of-bill{
     position:absolute;
-    right:0;
-    top:0;
+    right:30px;
+    bottom:-5px;
+    color:grey;
+    font-size:15px;
+
 }
 
-.bill-card .amount-to-pay{
-    position:absolute;
-    right:100px;
-    top:50px;
 
+.bill-card-img{
+    width:17%;
+
+    position:relative;
+
+}
+
+.bill-card-img img{
+    width:50px;
+    background-color: white;
+    border-radius:50%;
+    border:4px solid white;
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+}
+
+
+.bill-card-details{
+    width:40%;
+    padding:20px;
+}
+
+.bill-card-amount{
+    width:40%;
+    display:flex;
+    align-items: center;
+
+}
+
+.bill-card-description{
+    font-weight:bold;
+    font-size:27px;
+}
+
+.bill-card-description a{
+    color:black;
+}
+
+.bill-card-description a:hover{
+    color:blue;
+    text-decoration: none;
+}
+
+
+
+.payer{
+    color:grey;
+}
+
+.amount-to-pay{
+    text-align:right;
+    width:100%;
+    margin-right:30px;
+
+}
+
+.amount-to-pay span{
+    display:block;
+    font-size:25px;
 }
 
 .total-card{
@@ -223,6 +289,63 @@ body{
 .total-card-details p{
     font-weight:bold;
 }
+
+.group-head{
+
+    width:100%;
+    height:auto;
+    position:relative;
+    background-image: url("https://coolbackgrounds.io/images/backgrounds/index/ranger-4df6c1b6.png");
+    padding-top:10px;
+    padding-bottom:10px;
+}
+
+.group-head-img{
+
+}
+.group-head-img img{
+    width:70px;
+    display:block;
+    margin:0 auto;
+
+}
+
+.group-head-name{
+    text-align:center;
+    font-weight:bold;
+    font-size:30px;
+    color:white;
+
+}
+
+.group-head-amount{
+    text-align:center;
+    font-weight:bold;
+    font-size:20px;
+}
+
+.settle-up-button{
+    border:1px solid black;
+    padding:10px;
+    display:block;
+    margin:0 auto;
+    width:100px;
+    text-align:center;
+    background-color: #ff8205;
+    border-radius:10px;
+    font-weight:bold;
+    color:white;
+
+}
+
+.settle-up-button:hover{
+text-decoration: none;
+
+}
+
+
+
+
 
 
 

@@ -112,7 +112,7 @@ module.exports = (dbPoolInstance) => {
     }
 
     let getAllBillsByGroup = (user_id, group_id, callback) => {
-        let query = 'SELECT users_bills.user_id AS user_id,bills.id AS bill_id, bills.category,bills.description,bills.created_at, split_amount,bills.paid_by_user_id AS payer_id,bills.amount,users.name AS payer_name FROM bills INNER JOIN users_bills ON ( bills.id = users_bills.bill_id) INNER JOIN users ON (bills.paid_by_user_id = users.id) WHERE bills.group_id = $1 AND users_bills.user_id = $2 ORDER BY bills.id DESC';
+        let query = 'SELECT users_bills.user_id AS user_id,bills.id AS bill_id, bills.category,bills.description,bills.created_at, split_amount,bills.paid_by_user_id AS payer_id,bills.amount,users.name AS payer_name,groups.name AS group_name FROM bills INNER JOIN users_bills ON ( bills.id = users_bills.bill_id) INNER JOIN users ON (bills.paid_by_user_id = users.id) INNER JOIN groups ON (groups.id = bills.group_id) WHERE bills.group_id = $1 AND users_bills.user_id = $2 ORDER BY bills.id DESC';
         let arr = [group_id, user_id];
         dbPoolInstance.query(query, arr, (error, queryResult) => {
             if (error) {
