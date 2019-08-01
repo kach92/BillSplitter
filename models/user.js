@@ -57,7 +57,7 @@ module.exports = (dbPoolInstance) => {
 
         let query = 'SELECT * FROM users WHERE name = $1'
         let arr = [user_name]
-        dbPoolInstance.query(query, arr,(error, queryResult) => {
+        dbPoolInstance.query(query, arr, (error, queryResult) => {
             if (error) {
                 callback(error, null);
             } else {
@@ -71,10 +71,46 @@ module.exports = (dbPoolInstance) => {
         });
     }
 
+    let getAllRelatedFriends = (user_id, callback) => {
+        let query = 'SELECT x.user_id,x.net,users.id AS pay_to_id,users.name,x.group_id,groups.name AS group_name FROM users INNER JOIN (SELECT user_id,SUM(net) AS net,pay_to_id,group_id FROM net_table GROUP BY user_id,pay_to_id,group_id HAVING user_id =$1 ORDER BY group_id) AS x ON (users.id = x.pay_to_id) INNER JOIN groups ON (groups.id = x.group_id) ORDER BY x.group_id,users.id'
+        let arr = [user_id]
+        dbPoolInstance.query(query, arr, (error, queryResult) => {
+            if (error) {
+                callback(error, null);
+            } else {
+                if (queryResult.rows.length > 0) {
+
+                    callback(null, queryResult.rows);
+                } else {
+                    callback(null, []);
+                }
+            }
+        });
+    }
+
+    let getAllFriendsRelatedToUser = (user_id, callback) => {
+        let query = "SELECT DISTINCT net_table.pay_to_id,users.name FROM net_table INNER JOIN users ON (users.id = net_table.pay_to_id) WHERE net_table.user_id = $1"
+        let arr = [user_id]
+        dbPoolInstance.query(query, arr, (error, queryResult) => {
+            if (error) {
+                callback(error, null);
+            } else {
+                if (queryResult.rows.length > 0) {
+
+                    callback(null, queryResult.rows);
+                } else {
+                    callback(null, []);
+                }
+            }
+        });
+    }
+
     return {
         registerPost,
         loginPost,
         getAllUsers,
-        getSingleUserByName
+        getSingleUserByName,
+        getAllRelatedFriends,
+        getAllFriendsRelatedToUser
     };
 };

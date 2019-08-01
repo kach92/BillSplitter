@@ -8,10 +8,12 @@ class GroupCard extends React.Component {
         return <p>{text}</p>
     })
 
+    let url = "/blitt/groupList/"+this.props.group_id
+
     let user_owing = this.props.user_net>0?<p>You are owed S${this.props.user_net}</p>:<p>You owe S${this.props.user_net*-1}</p>;
     return (
       <div className="group-card">
-            <p>{this.props.group_name}</p>
+            <p><a href={url}>{this.props.group_name}</a></p>
             {user_owing}
             {member_list}
       </div>

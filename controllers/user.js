@@ -80,8 +80,58 @@ module.exports = (db) => {
         })
     }
 
-    let logoutControllerCallback = (request,response) => {
-        response.cookie("logged_in","SALT")
+    let listFriendsControllerCallback = (request, response) => {
+        let cookieAvailable = checkCookie(request);
+        if (cookieAvailable) {
+            let user_id = request.cookies["user_id"];
+            db.user.getAllRelatedFriends(user_id, (error, result) => {
+                if (result) {
+                    let friends_owe_details = result
+                    db.user.getAllFriendsRelatedToUser(user_id, (error, result2) => {
+                        if (result2) {
+
+                            friends_details = result2;
+
+                            let resultObj = []
+                            for (let i = 0; i < friends_details.length; i++) {
+                                let group_net = friends_owe_details.filter(x => x.pay_to_id === friends_details[i].pay_to_id).map(x => {
+                                    return {
+                                        group_name: x.group_name,
+                                        net: x.net
+                                    }
+                                });
+                                let user_net = group_net.reduce((total, obj) => obj.net * -1 + total, 0)
+                                let temp = {
+                                    friend_name: friends_details[i].name,
+                                    friend_id: friends_details[i].pay_to_id,
+                                    group_net: group_net,
+                                    user_net: user_net
+                                }
+                                resultObj.push(temp);
+
+                            }
+                            let data = {
+                                title: "Friend List",
+                                cookieAvailable: cookieAvailable,
+                                result: resultObj
+                            }
+
+                            response.render('views/friends_list', data);
+                        } else {
+                            response.send("CANT GET ALL FRIENDS RELATED TO")
+                        }
+                    })
+                } else {
+                    response.send("CANT QUERY FOR FRIENDS DETAILS")
+                }
+            })
+        } else {
+            response.redirect('/blitt/login')
+        }
+    }
+
+    let logoutControllerCallback = (request, response) => {
+        response.cookie("logged_in", "SALT")
         response.redirect("/blitt/login")
     }
 
@@ -92,7 +142,8 @@ module.exports = (db) => {
         loginPost: loginPostControllerCallback,
         register: registerControllerCallback,
         registerPost: registerPostControllerCallback,
-        logout:logoutControllerCallback
+        logout: logoutControllerCallback,
+        listFriends: listFriendsControllerCallback
 
     };
 

@@ -36,6 +36,7 @@ class Default extends React.Component {
                 <ul>
                     <li><a href="/blitt/create_group">Create Group</a></li>
                     <li><a href="/blitt/groupList">Group List</a></li>
+                    <li><a href="/blitt/friendList">Friends</a></li>
                 </ul>
             </div>
             <div className="main-content">{this.props.children}</div>

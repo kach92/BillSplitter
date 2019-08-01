@@ -45,7 +45,7 @@ module.exports = (db) => {
                         if (result2) {
                             db.bill.updateNetTable(group_id,split_array,payer_id,(error,result3)=>{
                                 if(result3){
-                                    response.send("SUCCESS")
+                                    response.redirect("/blitt/groupList/"+group_id)
                                 }else{
                                     response.send("HABIS")
                                 }

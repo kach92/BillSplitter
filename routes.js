@@ -28,7 +28,9 @@ module.exports = (app, allModels) => {
   app.get('/blitt/create_group', groupControllerCallbacks.createGroup);
   app.post('/blitt/create_group',groupControllerCallbacks.createGroupPost);
   app.get('/blitt/groupList',groupControllerCallbacks.listAll);
+  app.get('/blitt/friendList',userControllerCallbacks.listFriends);
   app.get('/blitt/groupList/:id',groupControllerCallbacks.singleGroup);
   app.get('/blitt/groupList/:id/newBill',billControllerCallbacks.newBill)
-  app.post('/blitt/groupList/:id/addInBill',billControllerCallbacks.newBillPost)
+  app.post('/blitt/groupList/:id/addInBill',billControllerCallbacks.newBillPost);
+
 };

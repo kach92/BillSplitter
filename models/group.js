@@ -89,11 +89,13 @@ module.exports = (dbPoolInstance) => {
         });
     }
 
-    let getGroupCount = (callback)=>{
-        let query = 'SELECT * FROM groups';
-        dbPoolInstance.query(query,(error, queryResult) => {
+    let getGroupCount = (user_id,callback)=>{
+        let query = 'SELECT * FROM groups WHERE id IN (SELECT group_id FROM users_groups WHERE user_id=$1)';
+        let arr = [user_id]
+        dbPoolInstance.query(query,arr,(error, queryResult) => {
             if (error) {
                 callback(error, null);
+
             } else {
                 if (queryResult.rows.length > 0) {
 

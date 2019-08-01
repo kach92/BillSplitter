@@ -101,7 +101,7 @@ module.exports = (db) => {
             db.group.getAllGroupsWithBillDetails(user_id, (error, result) => {
                 if (result) {
                     let netDetails = result
-                    db.group.getGroupCount((error, result2) => {
+                    db.group.getGroupCount(user_id,(error, result2) => {
                         if (result2) {
                             let groupDetails = result2
                             let resultObj = []
