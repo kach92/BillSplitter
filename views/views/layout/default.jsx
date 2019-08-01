@@ -17,14 +17,14 @@ class Default extends React.Component {
 
           </head>
         <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-success">
           <a class="navbar-brand" href="/blitt">Blitt</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
+            <ul class="navbar-nav mr-auto ">
+              <li class="nav-item active ">
                 <a class="nav-link" href={url}>{loginOrLogout}<span class="sr-only">(current)</span></a>
               </li>
             </ul>
@@ -32,13 +32,7 @@ class Default extends React.Component {
 
         </nav>
         <div className="main-container">
-            <div className="side-bar">
-                <ul>
-                    <li><a href="/blitt/create_group">Create Group</a></li>
-                    <li><a href="/blitt/groupList">Group List</a></li>
-                    <li><a href="/blitt/friendList">Friends</a></li>
-                </ul>
-            </div>
+
             <div className="main-content">{this.props.children}</div>
         </div>
 

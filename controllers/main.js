@@ -17,7 +17,7 @@ module.exports = (db) => {
                 title: "Home",
                 cookieAvailable:cookieAvailable
             }
-            response.render('views/index',data);
+            response.render("views/index",data)
         } else {
             response.redirect('/blitt/login')
         }

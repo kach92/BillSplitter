@@ -1,10 +1,25 @@
+body{
+    background-image: linear-gradient(to bottom right, #ccffe1,white);
+    height:663px;
+}
+
 .login-container{
     width:400px;
-    margin:20px auto;
+    margin:0 auto;
     border:1px solid black;
+    position:relative;
+    top:100px;
     border-radius:5px;
     padding:30px;
+    background-color: white;
+    box-shadow:4px 4px 4px -1px;
 }
+
+
+.welcoming-msg{
+
+}
+
 
 .login-container a{
     text-transform: none;
@@ -13,13 +28,14 @@
 
 .main-container{
     display:flex;
+    width:700px;
+    margin: 0 auto;
 }
 
 .side-bar{
     border:1px solid black;
     width:200px;
     height:600px;
-
 }
 
 .main-content{
@@ -35,16 +51,86 @@
 .card-slot{
     min-width:400px;
     max-width:700px;
-    border:1px solid black;
-    margin: 0 auto;
+    margin: 0px auto;
+    padding-top:20px;
+    padding-bottom:30px;
+    background-color: white;
 }
 
 .group-card{
-    height:200px;
-    padding:30px;
+    min-height:100px;
+    height:auto;
+    padding:20px;
+    display:flex;
+    justify-content: space-between;
     border:1px solid black;
+    width:600px;
+    margin: 0px auto;
+    margin-bottom:20px;
+    box-shadow: 5px 5px 7px 0px;
+    position:relative;
+
 
 }
+
+.group-card-img{
+
+    width:10%;
+}
+
+.group-card-img img{
+    width:100%;
+    height:50px;
+    border-radius:50%;
+}
+
+.group-card-main{
+
+
+    width:50%;
+}
+
+.group-card-main .group-name{
+    font-size:26px;
+    font-weight:bold;
+    margin-bottom:0;
+}
+
+.group-name a{
+    color:black;
+}
+
+.group-name a:hover{
+    text-decoration: none;
+    color:#28a745;
+}
+
+.group-card-amount{
+
+    width:30%;
+    text-align:right;
+
+    font-size:15px;
+}
+
+.group-card-amount-only{
+    display:block;
+    font-size:30px;
+}
+
+.member-list{
+    display:flex;
+    flex-direction:column;
+    flex-wrap: nowrap;
+    font-size:12px;
+    height:auto;
+    margin-top:5px;
+}
+
+.member-list p{
+    margin-bottom:2px;
+}
+
 
 .add-sign{
     border:1px solid black;
@@ -56,7 +142,6 @@
     position:absolute;
     right:0;
     top:0;
-
 }
 
 .add-sign a:hover{
@@ -95,5 +180,8 @@
     position:absolute;
     right:100px;
     top:50px;
+
 }
+
+
 
