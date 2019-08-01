@@ -26,8 +26,9 @@ class Create_Bill extends React.Component {
     })
     return (
       <Default title={this.props.title}>
-      <div className="login-container">
-            <h2>Add Bill</h2>
+      <div className="login-container adjust-login-container">
+            <h2>Add bill</h2>
+            <h4>into {this.props.group_name}</h4>
             <form method="POST" action={url}>
               <div class="form-group">
                 <label for="billDescriptionInput">Description</label>
@@ -60,8 +61,8 @@ class Create_Bill extends React.Component {
                 <p id="amount-left"></p>
               </div>
 
-              <button type="submit" class="btn btn-primary" id="add-bill-button">Add</button>
-              <a className="btn btn-primary"href={cancelUrl}>Cancel</a>
+              <button type="submit" class="btn btn-outline-success" id="add-bill-button">Add</button>
+              <a className="btn btn-outline-success"href={cancelUrl}>Cancel</a>
             </form>
 
       </div>

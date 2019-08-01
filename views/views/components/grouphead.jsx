@@ -2,8 +2,8 @@ var React = require("react");
 
 class GroupHead extends React.Component {
   render() {
-    let text = this.props.user_total > 0? <p className="group-head-amount"style={{color:"green"}}>You get back {parseFloat(this.props.user_total)}</p> : <p className="group-head-amount"style={{color:"red"}}>You owe {parseFloat(this.props.user_total)*-1}</p>
-
+    let text = this.props.user_total > 0? <p className="group-head-amount">You get back S${parseFloat(this.props.user_total)}</p> : <p className="group-head-amount">You owe S${parseFloat(this.props.user_total)*-1}</p>
+    let url = "/blitt/groupList/"+this.props.group_id+"/newBill"
     return (
       <div className="group-head">
             <div className="group-head-img">
@@ -13,7 +13,11 @@ class GroupHead extends React.Component {
                 {this.props.group_name}
             </div>
         {text}
-        <a className="settle-up-button" href="#">Settle Up</a>
+        <div className="group-head-buttons-container">
+            <a className="settle-up-button" href="#">Settle Up</a>
+            <a className="settle-up-button" href={url}>Add Bill</a>
+        </div>
+
       </div>
     );
   }

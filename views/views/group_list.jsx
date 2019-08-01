@@ -10,7 +10,7 @@ class Group_List extends React.Component {
 
         return <GroupCard group_name={x.group_name} group_id={x.group_id} members_net={x.members_net} user_net={x.user_net}/>
     })
-
+    let url = "/blitt/create_group"
     return (
       <Default title={this.props.title} cookieAvailable={this.props.cookieAvailable}>
             <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
@@ -28,6 +28,7 @@ class Group_List extends React.Component {
 
                 <div className="card-slot">
                 <TotalCard user_total = {this.props.user_total}/>
+                <a href={url}className="create-new-group-button">Create New Group</a>
                     {groupList}
                 </div>
             </div>

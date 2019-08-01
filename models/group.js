@@ -56,7 +56,7 @@ module.exports = (dbPoolInstance) => {
     }
 
     let getUsersInGroup = (user_id, callback) => {
-        let query = 'SELECT groups.id AS group_id,users.id AS user_id, users.name AS user_name FROM groups INNER JOIN users_groups ON(groups.id = users_groups.group_id) INNER JOIN users ON (users_groups.user_id = users.id) WHERE groups.id = $1 ORDER BY users.id ASC';
+        let query = 'SELECT groups.id AS group_id,users.id AS user_id, users.name AS user_name,groups.name AS group_name FROM groups INNER JOIN users_groups ON(groups.id = users_groups.group_id) INNER JOIN users ON (users_groups.user_id = users.id) WHERE groups.id = $1 ORDER BY users.id ASC';
         let arr = [user_id]
         dbPoolInstance.query(query, arr,(error, queryResult) => {
             if (error) {

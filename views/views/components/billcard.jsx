@@ -10,7 +10,12 @@ class BillCard extends React.Component {
     if(user_id === payer_id){
         payment = <p className="amount-to-pay" style={{color:"green"}}>You lent <span>S${(parseFloat(this.props.amount)-parseFloat(this.props.split_amount))}</span></p>
     }else{
-        payment = <p className="amount-to-pay"style={{color:"red"}}>You borrowed <span>S${this.props.split_amount}</span></p>
+        if(parseFloat(this.props.split_amount)===0){
+            payment = <p className="amount-to-pay"style={{color:"grey"}}>You are not involved</p>
+        }else{
+            payment = <p className="amount-to-pay"style={{color:"red"}}>You borrowed <span>S${this.props.split_amount}</span></p>
+        }
+
     }
 
     let img_src = Categories.categories_img[this.props.category];

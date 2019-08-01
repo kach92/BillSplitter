@@ -2,7 +2,6 @@ var React = require("react");
 
 class TotalCard extends React.Component {
   render() {
-    console.log(this.props.user_total)
     let total = parseFloat(this.props.user_total)>0? <p style={{color:"green"}}>You are owed S${this.props.user_total}</p>:<p style={{color:"red"}}>You oweS${parseFloat(this.props.user_total)*-1}</p>
     return (
       <div className="total-card">

@@ -17,7 +17,8 @@ module.exports = (db) => {
                         title: "Group List",
                         cookieAvailable: cookieAvailable,
                         result: result,
-                        group_id: group_id
+                        group_id: group_id,
+                        group_name:result[0].group_name
                     }
                     response.render('views/create_bill', data);
                 }

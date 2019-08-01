@@ -267,7 +267,7 @@ body{
     width:70px;
     border-radius:50%;
     height:70px;
-    border:5px solid blue;
+    border:5px solid #29a745;
 
 }
 
@@ -322,24 +322,51 @@ body{
     text-align:center;
     font-weight:bold;
     font-size:20px;
+    color:white;
+}
+
+.group-head-buttons-container{
+    display:flex;
+    justify-content: center;
 }
 
 .settle-up-button{
-    border:1px solid black;
     padding:10px;
-    display:block;
-    margin:0 auto;
+    margin: 0 30px;
+
     width:100px;
     text-align:center;
     background-color: #ff8205;
-    border-radius:10px;
     font-weight:bold;
     color:white;
-
 }
 
 .settle-up-button:hover{
-text-decoration: none;
+    text-decoration: none;
+    color:black;
+
+}
+
+.adjust-login-container{
+    top:10px;
+}
+
+.create-new-group-button{
+    display:block;
+    width:170px;
+    color:white;
+    margin:0 auto;
+    text-align:center;
+    background-color: #ff8205;
+    font-weight:bold;
+    padding:5px 10px;
+    margin-bottom:10px;
+
+}
+
+.create-new-group-button:hover{
+    text-decoration:none;
+    color:black;
 
 }
 
