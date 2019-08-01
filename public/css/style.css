@@ -183,5 +183,46 @@ body{
 
 }
 
+.total-card{
+    display:flex;
+    min-height:100px;
+    height:100px;
+    padding:10px;
+    display:flex;
+    width:700px;
+    margin: 0px auto;
+    margin-bottom:20px;
+    position:relative;
+    background-color: #e5e5e5;
+    padding-left:200px;
+}
+
+.total-card-img img{
+    width:70px;
+    border-radius:50%;
+    height:70px;
+    border:5px solid blue;
+
+}
+
+.total-card-img{
+    width:15%;
+}
+
+.total-card-word{
+    font-weight:bold;
+    font-size:30px;
+    margin-bottom:0;
+
+}
+
+.total-card-details{
+    padding-left:40px;
+}
+
+.total-card-details p{
+    font-weight:bold;
+}
+
 
 

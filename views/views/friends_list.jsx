@@ -1,6 +1,7 @@
 var React = require("react");
-var Default = require("./layout/default")
-var FriendCard = require("./components/friendcard")
+var Default = require("./layout/default");
+var FriendCard = require("./components/friendcard");
+var TotalCard = require("./components/totalcard");
 
 class Friend_List extends React.Component {
   render() {
@@ -25,7 +26,7 @@ class Friend_List extends React.Component {
         </ul>
         <div class="tab-content" id="myTabContent">
                 <div className="card-slot">
-
+                <TotalCard user_total = {this.props.user_total}/>
                     {friendList}
                 </div>
         </div>

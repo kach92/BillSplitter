@@ -91,7 +91,7 @@ module.exports = (db) => {
                         if (result2) {
 
                             friends_details = result2;
-
+                            let user_total = 0;
                             let resultObj = []
                             for (let i = 0; i < friends_details.length; i++) {
                                 let group_net = friends_owe_details.filter(x => x.pay_to_id === friends_details[i].pay_to_id).map(x => {
@@ -101,11 +101,13 @@ module.exports = (db) => {
                                     }
                                 });
                                 let user_net = group_net.reduce((total, obj) => obj.net * -1 + total, 0)
+                                user_total += user_net;
                                 let temp = {
                                     friend_name: friends_details[i].name,
                                     friend_id: friends_details[i].pay_to_id,
                                     group_net: group_net,
                                     user_net: user_net
+
                                 }
                                 resultObj.push(temp);
 
@@ -113,7 +115,8 @@ module.exports = (db) => {
                             let data = {
                                 title: "Friend List",
                                 cookieAvailable: cookieAvailable,
-                                result: resultObj
+                                result: resultObj,
+                                user_total:parseFloat(user_total).toFixed(2)
                             }
 
                             response.render('views/friends_list', data);

@@ -105,6 +105,7 @@ module.exports = (db) => {
                         if (result2) {
                             let groupDetails = result2
                             let resultObj = []
+                            let user_total = 0;
                             for (let i = 0; i < groupDetails.length; i++) {
                                 let members_net = netDetails.filter(x => x.group_id === groupDetails[i].id).map(x => {
                                     return {
@@ -113,6 +114,7 @@ module.exports = (db) => {
                                     }
                                 });
                                 let user_net = members_net.reduce((total, obj) => obj.net * -1 + total, 0)
+                                user_total += user_net;
                                 let temp = {
                                     group_name: groupDetails[i].name,
                                     group_id: groupDetails[i].id,
@@ -125,7 +127,8 @@ module.exports = (db) => {
                             let data = {
                                 title: "Group List",
                                 cookieAvailable: cookieAvailable,
-                                result: resultObj
+                                result: resultObj,
+                                user_total:parseFloat(user_total).toFixed(2)
                             }
 
                             response.render('views/group_list', data);

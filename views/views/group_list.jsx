@@ -1,6 +1,7 @@
 var React = require("react");
-var Default = require("./layout/default")
-var GroupCard = require("./components/groupcard")
+var Default = require("./layout/default");
+var GroupCard = require("./components/groupcard");
+var TotalCard = require("./components/totalcard");
 
 class Group_List extends React.Component {
   render() {
@@ -24,8 +25,9 @@ class Group_List extends React.Component {
               </li>
             </ul>
             <div class="tab-content" id="myTabContent">
-                <div className="card-slot">
 
+                <div className="card-slot">
+                <TotalCard user_total = {this.props.user_total}/>
                     {groupList}
                 </div>
             </div>
