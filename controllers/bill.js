@@ -5,6 +5,35 @@ var checkCookie = function(request) {
     return (sha256(request.cookies["user_id"] + 'logged_in' + SALT) === request.cookies["logged_in"]) ? true : false;
 }
 
+let timeConverted = function(time) {
+    let curretTime = new Date();
+    let timeAgo = curretTime - time;
+
+    var day, hour, minute, seconds;
+    seconds = Math.floor(timeAgo / 1000);
+    minute = Math.floor(seconds / 60);
+    seconds = seconds % 60;
+    hour = Math.floor(minute / 60);
+    minute = minute % 60;
+    day = Math.floor(hour / 24);
+    hour = hour % 24;
+
+    let date = time.getDate();
+    let monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+    let month = monthArray[time.getMonth()]
+    if (day > 0) {
+        return `${date} ${month}`
+    } else {
+        if (hour > 0) {
+            return `${hour} hours ago`;
+        } else {
+            return `${minute} mins ago`;
+        }
+    }
+
+
+}
+
 module.exports = (db) => {
 
     let newBillControllerCallback = (request, response) => {
@@ -18,7 +47,7 @@ module.exports = (db) => {
                         cookieAvailable: cookieAvailable,
                         result: result,
                         group_id: group_id,
-                        group_name:result[0].group_name
+                        group_name: result[0].group_name
                     }
                     response.render('views/create_bill', data);
                 }
@@ -44,10 +73,10 @@ module.exports = (db) => {
                     let payer_id = result.paid_by_user_id;
                     db.bill.createUserBillLink(bill_id, group_id, bill_information, (error, result2) => {
                         if (result2) {
-                            db.bill.updateNetTable(group_id,split_array,payer_id,(error,result3)=>{
-                                if(result3){
-                                    response.redirect("/blitt/groupList/"+group_id)
-                                }else{
+                            db.bill.updateNetTable(group_id, split_array, payer_id, (error, result3) => {
+                                if (result3) {
+                                    response.redirect("/blitt/groupList/" + group_id)
+                                } else {
                                     response.send("HABIS")
                                 }
                             })
@@ -66,9 +95,53 @@ module.exports = (db) => {
         }
     }
 
+    let singleBillControllerCallback = (request, response) => {
+        let cookieAvailable = checkCookie(request);
+        if (cookieAvailable) {
+            let user_id = request.cookies["user_id"];
+            let group_id = request.params.id;
+            let bill_id = request.params.billId;
+            db.bill.getSingleBillSplitDetail(group_id, bill_id, (error, result) => {
+                if (result) {
+
+
+
+                    let data = {
+                        cookieAvailable: cookieAvailable,
+                        splitDetails: result,
+                        group_id: group_id,
+                        bill_id: bill_id,
+                        user_id: user_id
+                    }
+
+                    db.bill.getSingleBillDetail(group_id, bill_id, (error, result2) => {
+                        if (result2) {
+                            result2.created_at = timeConverted(result2.created_at)
+                            data["title"] = result2.description
+                            data["billDetails"] = result2;
+                            response.render('views/single_bill', data);
+                        } else {
+                            response.send("CANT GET SINGLE BILL")
+                        }
+
+                    })
+
+
+
+                } else {
+                    response.send("CANT GET SINGLE BILL")
+                }
+
+            })
+        } else {
+            response.redirect('/blitt/login')
+        }
+    }
+
     return {
         newBill: newBillControllerCallback,
-        newBillPost: newBillPostControllerCallback
+        newBillPost: newBillPostControllerCallback,
+        singleBill: singleBillControllerCallback
 
     };
 

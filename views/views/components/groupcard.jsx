@@ -5,12 +5,14 @@ class GroupCard extends React.Component {
 
     let member_list = this.props.members_net.map(x=>{
 
-        return x.net>0? <p>You owe {x.name} <span style={{color:"red"}}>S${x.net}</span></p> : <p>{x.name} owes you <span style={{color:"green"}}>S${x.net*-1}</span></p>;
+        return x.net>0? <p>You owe {x.name} <span style={{color:"red"}}>S${x.net}</span></p> : (x.net===0? <p>{x.name} owes nothing</p> : <p>{x.name} owes you <span style={{color:"green"}}>S${x.net*-1}</span></p>);
     })
 
     let url = "/blitt/groupList/"+this.props.group_id
 
-    let user_owing = this.props.user_net>0?<p style={{color:"green"}}>You are owed <span className="group-card-amount-only">S${this.props.user_net}</span></p>:<p style={{color:"red"}}>You owe <span className="group-card-amount-only">S${this.props.user_net*-1}</span></p>;
+    let user_owing = this.props.user_net>0?<p style={{color:"green"}}>You are owed <span className="group-card-amount-only">S${this.props.user_net}</span></p>: (this.props.user_net === 0? <p style={{color:"grey"}}>You owe nothing</p>:<p style={{color:"red"}}>You owe <span className="group-card-amount-only">S${this.props.user_net*-1}</span></p>)
+
+
     return (
       <div className="group-card">
             <div className="group-card-img">

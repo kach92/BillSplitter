@@ -155,6 +155,7 @@ module.exports = (db) => {
         let cookieAvailable = checkCookie(request);
         if (cookieAvailable) {
             let user_id = request.cookies["user_id"];
+            let group_id = request.params.id;
 
             db.bill.getAllBillsByGroup(user_id, request.params.id, (error, result) => {
                 if (result) {
@@ -166,11 +167,19 @@ module.exports = (db) => {
                         title: "Group List",
                         cookieAvailable: cookieAvailable,
                         group_id: request.params.id,
-                        billList: result,
-                        group_name: result[0].group_name
-                    }
+                        billList: result
 
-                    response.render("views/single_group", data)
+                    }
+                    db.group.getSingleGroup(group_id,(error,result)=>{
+                        if(result){
+                            data["group_details"] = result[0];
+                            response.render("views/single_group", data)
+                        }else{
+                            response.send("CANT GET SINGLE GROUP")
+                        }
+
+                    })
+
                 } else {
                     response.send("QUERY FOR BILL LIST FAIL")
                 }

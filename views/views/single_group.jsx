@@ -6,7 +6,7 @@ var GroupHead = require("./components/grouphead")
 class Single_Group extends React.Component {
   render() {
     let user_total = 0;
-    let billList = this.props.billList.map(x=>{
+    let billList = this.props.billList.length === 0? <p className="no-bills-text">No Bills Available</p>:this.props.billList.map(x=>{
         if(x.user_id === x.payer_id){
             user_total+=parseFloat(x.amount)-parseFloat(x.split_amount)
         }else{
@@ -21,7 +21,7 @@ class Single_Group extends React.Component {
       <Default title={this.props.title} cookieAvailable={this.props.cookieAvailable}>
           <div className="card-slot">
 
-          <GroupHead user_total = {user_total} group_name={this.props.group_name} group_id={this.props.group_id}/>
+          <GroupHead user_total = {user_total} group_name={this.props.group_details.name} group_id={this.props.group_id}/>
 
                 {billList}
 

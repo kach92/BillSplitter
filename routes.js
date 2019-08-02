@@ -32,5 +32,5 @@ module.exports = (app, allModels) => {
   app.get('/blitt/groupList/:id',groupControllerCallbacks.singleGroup);
   app.get('/blitt/groupList/:id/newBill',billControllerCallbacks.newBill)
   app.post('/blitt/groupList/:id/addInBill',billControllerCallbacks.newBillPost);
-
+  app.get('/blitt/groupList/:id/:billId',billControllerCallbacks.singleBill);
 };

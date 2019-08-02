@@ -74,7 +74,7 @@ module.exports = (db) => {
 
                     }
                 } else {
-                    console.log("NO SUCH USER")
+                    response.send("NO SUCH USER")
                 }
             }
         })

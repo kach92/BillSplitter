@@ -107,6 +107,24 @@ module.exports = (dbPoolInstance) => {
         });
     }
 
+    let getSingleGroup = (group_id,callback)=>{
+        let query = 'SELECT * FROM groups WHERE id = $1';
+        let arr = [group_id]
+        dbPoolInstance.query(query,arr,(error, queryResult) => {
+            if (error) {
+                callback(error, null);
+
+            } else {
+                if (queryResult.rows.length > 0) {
+
+                    callback(null, queryResult.rows);
+                } else {
+                    callback(null, []);
+                }
+            }
+        });
+    }
+
 
 
     return {
@@ -115,6 +133,7 @@ module.exports = (dbPoolInstance) => {
         getAllGroupsWithBillDetails,
         getUsersInGroup,
         getAllGroups,
-        getGroupCount
+        getGroupCount,
+        getSingleGroup
     };
 };

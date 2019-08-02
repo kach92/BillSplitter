@@ -129,11 +129,53 @@ module.exports = (dbPoolInstance) => {
         });
     };
 
+    let getSingleBillSplitDetail = (group_id, bill_id, callback) => {
+
+        let query = 'SELECT bills.amount,bills.paid_by_user_id,users_bills.split_amount,users.name,users.id AS payee_id FROM bills INNER JOIN users_bills ON (users_bills.bill_id = bills.id) INNER JOIN users ON (users.id = users_bills.user_id) WHERE group_id = $1 AND bill_id = $2'
+        let arr = [group_id,bill_id];
+        dbPoolInstance.query(query, arr, (error, queryResult) => {
+            if (error) {
+                callback(error, null);
+            } else {
+                if (queryResult.rows.length > 0) {
+                    callback(null, queryResult.rows);
+
+                } else {
+                    callback(null, null);
+
+                }
+            }
+        });
+    };
+
+    let getSingleBillDetail = (group_id, bill_id, callback) => {
+
+        let query = 'SELECT * FROM bills WHERE group_id = $1 AND id = $2'
+        let arr = [group_id,bill_id];
+        dbPoolInstance.query(query, arr, (error, queryResult) => {
+            if (error) {
+                callback(error, null);
+            } else {
+                if (queryResult.rows.length > 0) {
+                    callback(null, queryResult.rows[0]);
+
+                } else {
+                    callback(null, null);
+
+                }
+            }
+        });
+    };
+
+
     return {
         createNewBillInGroup,
         createUserBillLink,
         getAllBillsByGroup,
-        updateNetTable
+        updateNetTable,
+        getSingleBillSplitDetail,
+        getSingleBillDetail
+
 
     };
 };

@@ -13,11 +13,12 @@ module.exports = (db) => {
     let indexControllerCallback = (request, response) => {
         let cookieAvailable = checkCookie(request);
         if (cookieAvailable) {
-            let data = {
-                title: "Home",
-                cookieAvailable:cookieAvailable
-            }
-            response.render("views/index",data)
+            // let data = {
+            //     title: "Home",
+            //     cookieAvailable:cookieAvailable
+            // }
+            // response.render("views/index",data)
+            response.redirect("/blitt/groupList")
         } else {
             response.redirect('/blitt/login')
         }
