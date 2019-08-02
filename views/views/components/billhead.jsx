@@ -15,15 +15,24 @@ class BillHead extends React.Component {
         let payee_id = x.payee_id
         if(user_id === payee_id){
             if(user_id === payer_id){
-                return <div className="bill-head-splitter-line"><img/><p>You paid <span style={{color:"green"}}>S${(parseFloat(x.amount)-parseFloat(x.split_amount))}</span> and owe <span style={{color:"red"}}>S${(parseFloat(x.split_amount))}</span></p></div>
+                return <div className="bill-head-splitter-line"><img/><p>You paid <span style={{color:"green"}}>S${(parseFloat(x.amount))}</span> </p></div>
+                // and owe <span style={{color:"red"}}>S${(parseFloat(x.split_amount))}</span>
             }else{
-                return <div className="bill-head-splitter-line"><img/><p>You owe <span style={{color:"red"}}>S${(parseFloat(x.split_amount))}</span></p></div>
+                if(x.paid){
+                    return <div className="bill-head-splitter-line"><img/><p>You have paid</p></div>
+                }else{
+                    return <div className="bill-head-splitter-line"><img/><p>You owe <span style={{color:"red"}}>S${(parseFloat(x.split_amount))}</span></p></div>
+                }
+
             }
 
         }else{
             if(payee_id===payer_id){
-                return <div className="bill-head-splitter-line"><img/><p>{x.name} paid <span style={{color:"green"}}>S${(parseFloat(x.amount)-parseFloat(x.split_amount))}</span> and owe <span style={{color:"red"}}>S${(parseFloat(x.split_amount))}</span></p></div>
+                return <div className="bill-head-splitter-line"><img/><p>{x.name} paid <span style={{color:"green"}}>S${(parseFloat(x.amount))}</span></p></div>
             }else{
+                if(x.paid){
+                    return <div className="bill-head-splitter-line"><img/><p>{x.name} has paid</p></div>
+                }
                 return <div className="bill-head-splitter-line"><img/><p>{x.name} owe <span style={{color:"red"}}>S${(parseFloat(x.split_amount))}</span></p></div>
             }
         }
