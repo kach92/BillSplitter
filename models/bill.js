@@ -274,6 +274,7 @@ module.exports = (dbPoolInstance) => {
     }
 
 
+
     return {
         createNewBillInGroup,
         createUserBillLink,

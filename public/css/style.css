@@ -536,3 +536,119 @@ body{
 .settled-word a:hover{
     text-decoration: none
 }
+
+.single-friend-card{
+    display:flex;
+    align-items: center;
+
+    height:auto;
+    width:500px;
+    margin:0 auto;
+    border:1px solid black;
+    padding:20px;
+    background-color: #e5e5e5;
+
+
+}
+
+.single-friend-card-img img{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    border:1px solid black;
+}
+
+.single-friend-card-main{
+    margin-left:20px;
+    color:black;
+    font-size:30px;
+
+}
+.single-friend-card-main p{
+    margin: 0 20px;
+
+
+}
+
+.single-friend-card-name{
+    font-weight:bold;
+}
+
+.single-friend-card-amount{
+    font-size:15px;
+}
+
+.single-friend-container{
+    display:flex;
+    flex-direction: column;
+    box-shadow:4px 4px 4px 0px;
+    width:500px;
+    margin:0 auto;
+
+}
+
+
+.single-friend-group-container{
+    border:1px solid black;
+    width:500px;
+    margin:0 auto;
+    display:flex;
+    padding:10px;
+
+    align-items: center;
+
+}
+
+.single-friend-group-container p{
+    margin-bottom:0;
+
+}
+
+.single-friend-group-img img{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+
+}
+
+.single-friend-group-img{
+    margin-left:20px;
+
+}
+
+.single-friend-group-name{
+    color:black;
+    font-size:20px;
+    font-weight:bold;
+    margin-left:20px;
+    width:50%;
+    text-align:left;
+}
+
+.single-friend-group-amount p{
+    text-align:right;
+    margin:0;
+}
+
+.single-friend-group-amount {
+    width:30%;
+}
+
+.single-user-button{
+    width:22%;
+    margin-left:40px;
+}
+
+.single-user-modifier a{
+
+}
+
+.single-user-modifier{
+    margin:0 auto;
+    display:block;
+}
+
+
+
+
+

@@ -116,7 +116,7 @@ module.exports = (db) => {
                                 title: "Friend List",
                                 cookieAvailable: cookieAvailable,
                                 result: resultObj,
-                                user_total:parseFloat(user_total).toFixed(2)
+                                user_total: parseFloat(user_total).toFixed(2)
                             }
 
                             response.render('views/friends_list', data);
@@ -133,6 +133,46 @@ module.exports = (db) => {
         }
     }
 
+
+    let getFriendBillsControllerCallback = (request, response) => {
+        let cookieAvailable = checkCookie(request);
+        if (cookieAvailable) {
+            let friend_id = request.params.friend_id;
+            let user_id = request.cookies["user_id"];
+            db.user.getAllFriend1to1Bills(user_id, friend_id, (error, result) => {
+                if (result) {
+
+                    let user_net = 0;
+                    for(let i =0;i<result.length;i++){
+                        user_net += parseFloat(result[i].net*-1)
+                    }
+                    let data = {
+                        title: "Friend Bill",
+                        cookieAvailable: cookieAvailable,
+                        result: result,
+                        user_id: user_id,
+                        friend_id: friend_id,
+                        user_net: parseFloat(user_net).toFixed(2)
+                    }
+
+                    db.user.getSingleUser(friend_id,(error,result)=>{
+                        if(result){
+                            data["friend_details"]=result;
+                            response.render('views/single_friend', data);
+                        }else{
+                            response.send("CANT GET FRIENDS DETAILS")
+                        }
+                    })
+
+                }else{
+                    response.send("CANT GET FRIENDS BILLS DETAILS")
+                }
+            })
+        } else {
+            response.send("YOU ARE NOT LOGGED IN")
+        }
+    }
+
     let logoutControllerCallback = (request, response) => {
         response.cookie("logged_in", "SALT")
         response.redirect("/blitt/login")
@@ -146,7 +186,8 @@ module.exports = (db) => {
         register: registerControllerCallback,
         registerPost: registerPostControllerCallback,
         logout: logoutControllerCallback,
-        listFriends: listFriendsControllerCallback
+        listFriends: listFriendsControllerCallback,
+        getFriendBills: getFriendBillsControllerCallback
 
     };
 

@@ -72,7 +72,7 @@ module.exports = (dbPoolInstance) => {
     }
 
     let getAllRelatedFriends = (user_id, callback) => {
-        let query = 'SELECT x.user_id,x.net,users.id AS pay_to_id,users.name,x.group_id,groups.name AS group_name FROM users INNER JOIN (SELECT user_id,SUM(net) AS net,pay_to_id,group_id FROM net_table GROUP BY user_id,pay_to_id,group_id HAVING user_id =$1 ORDER BY group_id) AS x ON (users.id = x.pay_to_id) INNER JOIN groups ON (groups.id = x.group_id) ORDER BY x.group_id,users.id'
+        let query = 'SELECT x.user_id,x.net,users.id AS pay_to_id,users.name,x.group_id,groups.name AS group_name FROM users INNER JOIN (SELECT user_id,SUM(net) AS net,pay_to_id,group_id FROM net_table WHERE paid =false GROUP BY user_id,pay_to_id,group_id HAVING user_id =$1 ORDER BY group_id) AS x ON (users.id = x.pay_to_id) INNER JOIN groups ON (groups.id = x.group_id) ORDER BY x.group_id,users.id'
         let arr = [user_id]
         dbPoolInstance.query(query, arr, (error, queryResult) => {
             if (error) {
@@ -105,12 +105,52 @@ module.exports = (dbPoolInstance) => {
         });
     }
 
+    let getAllFriend1to1Bills = (user_id,friend_id,callback)=>{
+        let query = "SELECT x.user_id,x.net,users.id AS pay_to_id,users.name,x.group_id,groups.name AS group_name FROM users INNER JOIN (SELECT user_id,SUM(net) AS net,pay_to_id,group_id FROM net_table WHERE paid =false GROUP BY user_id,pay_to_id,group_id HAVING user_id =$1 ORDER BY group_id) AS x ON (users.id = x.pay_to_id) INNER JOIN groups ON (groups.id = x.group_id) WHERE pay_to_id =$2 ORDER BY x.group_id,users.id"
+        let arr = [user_id,friend_id]
+        dbPoolInstance.query(query, arr, (error, queryResult) => {
+            if (error) {
+                callback(error, null);
+            } else {
+                if (queryResult.rows.length > 0) {
+
+                    callback(null, queryResult.rows);
+                } else {
+                    callback(null, []);
+                }
+            }
+        });
+    }
+
+    let getSingleUser = (friend_id,callback)=>{
+        let query = "SELECT * FROM users WHERE id = $1"
+        let arr = [friend_id];
+
+        dbPoolInstance.query(query, arr, (error, queryResult) => {
+            if (error) {
+                callback(error, null);
+
+            } else {
+                if (queryResult.rows.length > 0) {
+
+                    callback(null, queryResult.rows[0]);
+                } else {
+                    callback(null, null);
+                }
+            }
+        });
+    }
+
+
+
     return {
         registerPost,
         loginPost,
         getAllUsers,
         getSingleUserByName,
         getAllRelatedFriends,
-        getAllFriendsRelatedToUser
+        getAllFriendsRelatedToUser,
+        getAllFriend1to1Bills,
+        getSingleUser
     };
 };
