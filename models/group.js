@@ -38,7 +38,7 @@ module.exports = (dbPoolInstance) => {
     }
 
     let getAllGroupsWithBillDetails  = (user_id,callback) => {
-        let query = 'SELECT x.user_id,x.net,users.name,x.group_id FROM users INNER JOIN (SELECT user_id,SUM(net) AS net,pay_to_id,group_id FROM net_table GROUP BY user_id,pay_to_id,group_id HAVING user_id =$1 ORDER BY group_id) AS x ON (users.id = x.pay_to_id) ORDER BY x.group_id';
+        let query = 'SELECT x.user_id,x.net,users.name,x.group_id FROM users INNER JOIN (SELECT user_id,SUM(net) AS net,pay_to_id,group_id FROM net_table GROUP BY user_id,pay_to_id,group_id,paid HAVING user_id =$1 AND NOT paid=true ORDER BY group_id) AS x ON (users.id = x.pay_to_id) ORDER BY x.group_id';
 
         let arr = [user_id];
         dbPoolInstance.query(query, arr,(error, queryResult) => {
@@ -125,6 +125,25 @@ module.exports = (dbPoolInstance) => {
         });
     }
 
+    let getSingleGroupWithBillDetails = (group_id,user_id,callback)=>{
+        let query = 'SELECT x.user_id,x.net,users.name,users.id AS friend_id,x.group_id FROM users INNER JOIN (SELECT user_id,SUM(net) AS net,pay_to_id,group_id FROM net_table GROUP BY user_id,pay_to_id,group_id HAVING user_id =$1 AND group_id =$2 ORDER BY group_id) AS x ON (users.id = x.pay_to_id) ORDER BY x.group_id'
+        let arr = [user_id,group_id]
+        dbPoolInstance.query(query,arr,(error, queryResult) => {
+            if (error) {
+                callback(error, null);
+
+            } else {
+                if (queryResult.rows.length > 0) {
+                    console.log(queryResult.rows)
+                    console.log("FUCKKKK")
+                    callback(null, queryResult.rows);
+                } else {
+                    callback(null, []);
+                }
+            }
+        });
+    }
+
 
 
     return {
@@ -134,6 +153,7 @@ module.exports = (dbPoolInstance) => {
         getUsersInGroup,
         getAllGroups,
         getGroupCount,
-        getSingleGroup
+        getSingleGroup,
+        getSingleGroupWithBillDetails
     };
 };

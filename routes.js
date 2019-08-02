@@ -30,7 +30,9 @@ module.exports = (app, allModels) => {
   app.get('/blitt/groupList',groupControllerCallbacks.listAll);
   app.get('/blitt/friendList',userControllerCallbacks.listFriends);
   app.get('/blitt/groupList/:id',groupControllerCallbacks.singleGroup);
+  app.get('/blitt/groupList/:id/chooseWhoToSettleInGroup',groupControllerCallbacks.chooseSettleByGroup)
   app.get('/blitt/groupList/:id/newBill',billControllerCallbacks.newBill)
   app.post('/blitt/groupList/:id/addInBill',billControllerCallbacks.newBillPost);
+  app.post('/blitt/groupList/:group_id/chooseWhoToSettleInGroup/:settler_id',billControllerCallbacks.settleGroupBill);
   app.get('/blitt/groupList/:id/:billId',billControllerCallbacks.singleBill);
 };

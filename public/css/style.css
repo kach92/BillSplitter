@@ -1,5 +1,4 @@
 body{
-    background-image: linear-gradient(to bottom right, #ccffe1,white);
     height:663px;
 }
 
@@ -14,12 +13,6 @@ body{
     background-color: white;
     box-shadow:4px 4px 4px -1px;
 }
-
-
-.welcoming-msg{
-
-}
-
 
 .login-container a{
     text-transform: none;
@@ -352,23 +345,13 @@ body{
 }
 
 .create-new-group-button{
-    display:block;
-    width:170px;
-    color:white;
+
     margin:0 auto;
-    text-align:center;
-    background-color: #ff8205;
-    font-weight:bold;
-    padding:5px 10px;
+    display:block;
+    width:186px;
     margin-bottom:10px;
-
 }
 
-.create-new-group-button:hover{
-    text-decoration:none;
-    color:black;
-
-}
 
 .no-bills-text{
     text-align:center;
@@ -418,7 +401,6 @@ body{
     transform: translate(-50%,-50%);
 }
 
-
 .bill-head-details{
     width:40%;
     padding:5px;
@@ -450,10 +432,7 @@ body{
     height:auto;
     padding:20px;
 
-
-
 }
-
 .bill-head-split-container p{
     color:black;
     font-weight:normal;
@@ -474,27 +453,58 @@ body{
     border-radius:50%;
 }
 
-.bill-edit-button{
-    background-color: #ff8205;
-    color:white;
-    font-weight:bold;
-    padding:5px 20px;
-    margin-top:20px;
-    display:inline-block;
-    width:100px;
+.delete-button{
+
+    margin-left:10px;
+}
+
+.settle-bill-heading{
     text-align:center;
 }
 
-.bill-edit-button:hover{
-    text-decoration: none;
+.settle-bill-container{
+    display:flex;
+    align-items: center;1
+
+    height:auto;
+    width:500px;
+    margin:0 auto;
+    border:1px solid black;
+    padding:20px;
+    margin-bottom:10px;
+    box-shadow:4px 4px 4px 0px;
+    justify-content: space-between;
+}
+
+.settle-bill-container p{
+    margin:0;
     color:black;
+}
+
+.settle-bill-img img{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    border:1px solid black;
+}
+
+.settle-bill-detail{
+    margin-left:20px;
+    width:100%;
+    padding-left:20px;
+}
+
+.settle-bill-detail-name{
+    font-size:20px;
 
 }
 
-.delete-button{
-    width:120px;
-    background-color: red;
-    margin-left:10px;
+.settle-bill-detail-net{
+    font-size:20px;
+}
+
+.settle-bill-selectbutton{
+
 }
 
 

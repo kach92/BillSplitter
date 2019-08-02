@@ -132,7 +132,7 @@ module.exports = (dbPoolInstance) => {
     let getSingleBillSplitDetail = (group_id, bill_id, callback) => {
 
         let query = 'SELECT bills.amount,bills.paid_by_user_id,users_bills.split_amount,users.name,users.id AS payee_id FROM bills INNER JOIN users_bills ON (users_bills.bill_id = bills.id) INNER JOIN users ON (users.id = users_bills.user_id) WHERE group_id = $1 AND bill_id = $2'
-        let arr = [group_id,bill_id];
+        let arr = [group_id, bill_id];
         dbPoolInstance.query(query, arr, (error, queryResult) => {
             if (error) {
                 callback(error, null);
@@ -151,7 +151,7 @@ module.exports = (dbPoolInstance) => {
     let getSingleBillDetail = (group_id, bill_id, callback) => {
 
         let query = 'SELECT * FROM bills WHERE group_id = $1 AND id = $2'
-        let arr = [group_id,bill_id];
+        let arr = [group_id, bill_id];
         dbPoolInstance.query(query, arr, (error, queryResult) => {
             if (error) {
                 callback(error, null);
@@ -167,6 +167,94 @@ module.exports = (dbPoolInstance) => {
         });
     };
 
+    let settleNetTableForUserByGroup = (user_id, group_id, settler_id, callback) => {
+        let query = 'UPDATE net_table SET paid = true WHERE group_id = $1 AND user_id = $2 AND pay_to_id = $3 RETURNING *'
+        let arr = [group_id, user_id, settler_id]
+        dbPoolInstance.query(query, arr, (error, queryResult) => {
+            if (error) {
+                callback(error, null);
+            } else {
+                if (queryResult.rows.length > 0) {
+                    let query = 'UPDATE net_table SET paid = true WHERE group_id = $1 AND user_id = $3 AND pay_to_id = $2 RETURNING *'
+                    let arr = [group_id, user_id, settler_id]
+                    dbPoolInstance.query(query, arr, (error, queryResult) => {
+                        if (error) {
+                            callback(error, null);
+                        } else {
+                            if (queryResult.rows.length > 0) {
+                                callback(null, true);
+
+                            } else {
+                                callback(null, null);
+
+                            }
+                        }
+                    });
+
+                } else {
+                    callback(null, null);
+
+                }
+            }
+        });
+
+    }
+
+    let settleSplitAmountByGroup = (user_id, group_id, settler_id, callback) => {
+        let query = 'UPDATE users_bills SET paid = true WHERE id IN (SELECT users_bills.id FROM users_bills INNER JOIN bills ON (bills.id = users_bills.bill_id) WHERE bills.group_id = $1 AND NOT bills.paid_by_user_id = users_bills.user_id AND ((users_bills.user_id = $2 AND bills.paid_by_user_id = $3)OR(users_bills.user_id = $3 AND bills.paid_by_user_id = $2))) RETURNING *'
+        let arr = [group_id, user_id, settler_id]
+        dbPoolInstance.query(query, arr, (error, queryResult) => {
+            if (error) {
+                callback(error, null);
+            } else {
+                if (queryResult.rows.length > 0) {
+                    callback(null, true);
+
+                } else {
+                    callback(null, null);
+
+                }
+            }
+        });
+
+    }
+
+    let getPaidSplitAmountAsPayer = (group_id, user_id, callback) => {
+        let query = 'SELECT users_bills.split_amount FROM users_bills INNER JOIN bills ON (bills.id = users_bills.bill_id) WHERE bills.group_id = $1 AND users_bills.paid = true AND NOT bills.paid_by_user_id = users_bills.user_id AND bills.paid_by_user_id = $2'
+        let arr = [group_id, user_id];
+        dbPoolInstance.query(query, arr, (error, queryResult) => {
+            if (error) {
+                callback(error, null);
+            } else {
+                if (queryResult.rows.length > 0) {
+                    callback(null, queryResult.rows);
+
+                } else {
+                    callback(null, null);
+
+                }
+            }
+        });
+    }
+
+    let getPaidSplitAmountAsPayee = (group_id, user_id, callback) => {
+        let query = 'SELECT users_bills.split_amount FROM users_bills INNER JOIN bills ON (bills.id = users_bills.bill_id) WHERE bills.group_id = $1 AND users_bills.paid = true AND NOT bills.paid_by_user_id = users_bills.user_id AND users_bills.user_id = $2'
+        let arr = [group_id, user_id];
+        dbPoolInstance.query(query, arr, (error, queryResult) => {
+            if (error) {
+                callback(error, null);
+            } else {
+                if (queryResult.rows.length > 0) {
+                    callback(null, queryResult.rows);
+
+                } else {
+                    callback(null, null);
+
+                }
+            }
+        });
+    }
+
 
     return {
         createNewBillInGroup,
@@ -174,7 +262,11 @@ module.exports = (dbPoolInstance) => {
         getAllBillsByGroup,
         updateNetTable,
         getSingleBillSplitDetail,
-        getSingleBillDetail
+        getSingleBillDetail,
+        settleNetTableForUserByGroup,
+        settleSplitAmountByGroup,
+        getPaidSplitAmountAsPayer,
+        getPaidSplitAmountAsPayee
 
 
     };

@@ -23,8 +23,8 @@ class Create_Group extends React.Component {
                 </select>
               </div>
               <input name="selected_users" id="user-takein"readOnly/><br/>
-              <button type="submit" class="btn btn-outline-success">Create</button>
-              <a className="btn btn-outline-success"href="/blitt/">Cancel</a>
+              <button type="submit" class="btn btn-outline-danger">Create</button>
+              <a className="btn btn-outline-danger"href="/blitt/">Cancel</a>
 
 
             </form>

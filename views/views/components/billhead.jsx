@@ -48,8 +48,8 @@ class BillHead extends React.Component {
             </div>
             <div className="bill-head-split-container">
                 {split_details}
-                <a href="#" className="bill-edit-button">Edit Bill</a>
-                <a href="#" className="bill-edit-button delete-button">Delete Bill</a>
+                <a href="#" className="btn btn-danger">Edit Bill</a>
+                <a href="#" className="btn btn-danger delete-button">Delete Bill</a>
             </div>
 
 

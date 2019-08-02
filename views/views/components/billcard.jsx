@@ -8,12 +8,12 @@ class BillCard extends React.Component {
     let url = "/blitt/groupList/"+this.props.group_id+"/"+this.props.bill_id
     let payment = ""
     if(user_id === payer_id){
-        payment = <p className="amount-to-pay" style={{color:"green"}}>You lent <span>S${(parseFloat(this.props.amount)-parseFloat(this.props.split_amount))}</span></p>
+        payment = <p className="amount-to-pay" style={{color:"green"}}>You lent <span>S${((parseFloat(this.props.amount)-parseFloat(this.props.split_amount))).toFixed(2)}</span></p>
     }else{
         if(parseFloat(this.props.split_amount)===0){
             payment = <p className="amount-to-pay"style={{color:"grey"}}>You are not involved</p>
         }else{
-            payment = <p className="amount-to-pay"style={{color:"red"}}>You borrowed <span>S${this.props.split_amount}</span></p>
+            payment = <p className="amount-to-pay"style={{color:"red"}}>You borrowed <span>S${this.props.split_amount.toFixed(2)}</span></p>
         }
 
     }

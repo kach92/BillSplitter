@@ -5,7 +5,7 @@ var Categories = require("./components/categories.json");
 
 class Create_Bill extends React.Component {
   render() {
-    console.log(Categories)
+
     let category_list = Categories.categories.map(x=>{
         return <option>{x}</option>
     })

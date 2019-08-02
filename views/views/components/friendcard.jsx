@@ -6,11 +6,11 @@ class FriendCard extends React.Component {
     let url = "/blitt/friendList/"+this.props.friend_id
     let oweList = this.props.group_net.map(x=>{
 
-        return x.net>0? <p>You owe {this.props.friend_name} <span style={{color:"red"}}>S${x.net}</span> at <span style={{fontWeight:"bold"}}>{x.group_name}</span></p> : <p>{this.props.friend_name} owes you <span style={{color:"green"}}>S${parseFloat(x.net)*-1}</span> at <span style={{fontWeight:"bold"}}>{x.group_name}</span></p>;
+        return x.net>0? <p>You owe {this.props.friend_name} <span style={{color:"red"}}>S${x.net.toFixed(2)}</span> at <span style={{fontWeight:"bold"}}>{x.group_name}</span></p> : <p>{this.props.friend_name} owes you <span style={{color:"green"}}>S${(parseFloat(x.net)*-1).toFixed(2)}</span> at <span style={{fontWeight:"bold"}}>{x.group_name}</span></p>;
     })
 
 
-    let userStand = this.props.user_net>0?<p style={{color:"green"}}>You are owed <span className="group-card-amount-only">S${this.props.user_net}</span></p>:<p style={{color:"red"}}>You owe <span className="group-card-amount-only">S${this.props.user_net*-1}</span></p>;
+    let userStand = this.props.user_net>0?<p style={{color:"green"}}>You are owed <span className="group-card-amount-only">S${this.props.user_net.toFixed(2)}</span></p>:<p style={{color:"red"}}>You owe <span className="group-card-amount-only">S${(this.props.user_net*-1).toFixed(2)}</span></p>;
     return (
       <div className="group-card">
             <div className="group-card-img">

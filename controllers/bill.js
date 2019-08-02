@@ -66,7 +66,7 @@ module.exports = (db) => {
         let payer_id = request.body.payer;
         if (cookieAvailable) {
             let bill_information = request.body
-            console.log(bill_information);
+
             db.bill.createNewBillInGroup(group_id, bill_information, (error, result) => {
                 if (result) {
                     let bill_id = result.id;
@@ -138,10 +138,41 @@ module.exports = (db) => {
         }
     }
 
+    let settleGroupBillControllerCallback = (request,response)=>{
+        let cookieAvailable = checkCookie(request);
+        let group_id = request.params.group_id;
+        let settler_id = request.params.settler_id;
+        let user_id = request.cookies["user_id"];
+        if (cookieAvailable) {
+            db.bill.settleNetTableForUserByGroup(user_id,group_id,settler_id, (error, result) => {
+                if (result) {
+
+                    db.bill.settleSplitAmountByGroup(user_id,group_id,settler_id,(error,result)=>{
+                        if(result){
+                            console.log("UPDATE BY GROUP OK")
+                            response.redirect("/blitt/groupList");
+                        }else{
+                            response.send("CANNOT UPDATE USERS_BILLS PAID BOOL")
+                        }
+
+                    })
+
+
+                }else{
+                    response.send("CANNOT UPDATE NET TABLE BOOL")
+                }
+
+            })
+        } else {
+            response.redirect('/blitt/login')
+        }
+    }
+
     return {
         newBill: newBillControllerCallback,
         newBillPost: newBillPostControllerCallback,
-        singleBill: singleBillControllerCallback
+        singleBill: singleBillControllerCallback,
+        settleGroupBill: settleGroupBillControllerCallback
 
     };
 

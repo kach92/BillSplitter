@@ -10,7 +10,7 @@ class GroupCard extends React.Component {
 
     let url = "/blitt/groupList/"+this.props.group_id
 
-    let user_owing = this.props.user_net>0?<p style={{color:"green"}}>You are owed <span className="group-card-amount-only">S${this.props.user_net}</span></p>: (this.props.user_net === 0? <p style={{color:"grey"}}>You owe nothing</p>:<p style={{color:"red"}}>You owe <span className="group-card-amount-only">S${this.props.user_net*-1}</span></p>)
+    let user_owing = this.props.user_net>0?<p style={{color:"green"}}>You are owed <span className="group-card-amount-only">S${this.props.user_net.toFixed(2)}</span></p>: (this.props.user_net === 0? <p style={{color:"grey"}}>You owe nothing</p>:<p style={{color:"red"}}>You owe <span className="group-card-amount-only">S${(this.props.user_net*-1).toFixed(2)}</span></p>)
 
 
     return (
