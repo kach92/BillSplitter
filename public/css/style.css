@@ -213,10 +213,12 @@ body{
 .bill-card-description{
     font-weight:bold;
     font-size:27px;
+
 }
 
 .bill-card-description a{
     color:black;
+
 }
 
 .bill-card-description a:hover{
@@ -507,4 +509,30 @@ body{
 
 }
 
+.settled-sign{
+    position:absolute;
+    background-color: black;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    opacity:0.4;
+}
 
+.settled-word{
+    z-index:1;
+    width:180px;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%) rotate(20deg);
+    font-size:30px;
+}
+
+.settled-word a{
+    color:yellow;
+}
+
+.settled-word a:hover{
+    text-decoration: none
+}

@@ -20,6 +20,7 @@ class BillCard extends React.Component {
 
     let img_src = Categories.categories_img[this.props.category];
     let img_background = {backgroundColor:Categories.categories_color[this.props.category]}
+    let settle = this.props.settled?<div><div className="settled-sign"></div><p className="settled-word"><a href={url}>--SETTLED--</a></p></div> : "";
     return (
       <div className="bill-card">
             <div className="bill-card-img" style={img_background}>
@@ -37,6 +38,7 @@ class BillCard extends React.Component {
 
 
             <p className="time-of-bill">{this.props.created_at}</p>
+            {settle}
 
       </div>
     );

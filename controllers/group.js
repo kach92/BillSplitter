@@ -182,8 +182,24 @@ module.exports = (db) => {
                                     db.bill.getPaidSplitAmountAsPayee(group_id, user_id, (error, result) => {
                                         if (result) {
                                             data["settled_split_amount_as_payee"] = result;
+                                            db.bill.checkTrueCountOfBillsByGroup(group_id,(error,result)=>{
+                                                if(result){
+                                                    let trueTable = result
+                                                    for(let i =0;i<trueTable.length;i++){
+                                                        if((parseInt(trueTable[i].true_count)+1) === parseInt(trueTable[i].bill_count)){
+                                                            data.billList[i]["settled"] = true;
+                                                        }else{
+                                                            data.billList[i]["settled"] = false;
+                                                        }
+                                                    }
 
-                                            response.render("views/single_group", data)
+                                                    response.render("views/single_group", data)
+                                                }else{
+                                                    response.send("FAIL TO GET TRUE COUNT")
+                                                }
+                                            })
+
+
                                         } else {
                                             response.send("CANT GET SPLIT AMOUNT BY GROUP ID")
                                         }

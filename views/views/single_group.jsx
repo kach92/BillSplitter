@@ -13,7 +13,7 @@ class Single_Group extends React.Component {
             user_total-=parseFloat(x.split_amount)
         }
 
-        return <Billcard bill_id={x.bill_id} category={x.category} description={x.description} created_at={x.created_at} split_amount={x.split_amount} payer_id={x.payer_id} payer_name={x.payer_name} user_id={x.user_id} amount={x.amount} group_id = {this.props.group_id}/>
+        return <Billcard bill_id={x.bill_id} category={x.category} description={x.description} created_at={x.created_at} split_amount={x.split_amount} payer_id={x.payer_id} payer_name={x.payer_name} user_id={x.user_id} amount={x.amount} group_id = {this.props.group_id} settled={x.settled}/>
     })
     let url = "/blitt/groupList/"+this.props.group_id+"/newBill"
     for(let i=0;i<this.props.settled_split_amount_as_payer.length;i++){
