@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS users_bills(
     user_id INT,
     bill_id INT,
     split_amount FLOAT(8),
+    paid BOOLEAN DEFAULT false,
     FOREIGN KEY(user_id) REFERENCES users (id),
     FOREIGN KEY(bill_id) REFERENCES bills (id)
 
@@ -47,6 +48,7 @@ CREATE TABLE IF NOT EXISTS net_table(
     net FLOAT(8),
     pay_to_id INT,
     group_id INT,
+    paid BOOLEAN DEFAULT false,
     FOREIGN KEY(user_id) REFERENCES users (id),
     FOREIGN KEY(group_id) REFERENCES groups (id),
     FOREIGN KEY(pay_to_id) REFERENCES users (id)

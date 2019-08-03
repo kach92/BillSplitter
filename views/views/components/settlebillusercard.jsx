@@ -3,11 +3,12 @@ var React = require("react");
 
 class SettleBillUserCard extends React.Component {
   render() {
+
     let net = parseFloat(this.props.net).toFixed(2);
     let text = net>0? <p className="settle-bill-detail-net" style={{color:"red"}}>You owe S${net}</p> : <p className="settle-bill-detail-net" style={{color:"green"}}>Owes you S${net*-1}</p>
 
     let modaltext = net>0? <span style={{color:"red"}}>S${net}</span> : <span style={{color:"green"}}>S${net*-1}</span>
-    let datatarget = "#"+this.props.name
+    let datatarget = "#"+this.props.name.split(" ")[0];
     let submitUrl = "/blitt/groupList/"+this.props.group_id+"/chooseWhoToSettleInGroup/"+this.props.friend_id
     return (
         <div className="settle-bill-container">
@@ -26,7 +27,7 @@ class SettleBillUserCard extends React.Component {
 
 
 
-            <div class="modal fade" id={this.props.name} tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id={this.props.name.split(" ")[0]} tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">

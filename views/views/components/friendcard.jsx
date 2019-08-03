@@ -10,7 +10,7 @@ class FriendCard extends React.Component {
     })
 
 
-    let userStand = this.props.user_net>0?<p style={{color:"green"}}>You are owed <span className="group-card-amount-only">S${this.props.user_net.toFixed(2)}</span></p>:<p style={{color:"red"}}>You owe <span className="group-card-amount-only">S${(this.props.user_net*-1).toFixed(2)}</span></p>;
+    let userStand = this.props.user_net>0?<p style={{color:"green"}}>You are owed <span className="group-card-amount-only">S${this.props.user_net.toFixed(2)}</span></p>:(this.props.user_net === 0?<p style={{color:"grey"}}>Settled</p> : <p style={{color:"red"}}>You owe <span className="group-card-amount-only">S${(this.props.user_net*-1).toFixed(2)}</span></p>);
     return (
       <div className="group-card">
             <div className="group-card-img">

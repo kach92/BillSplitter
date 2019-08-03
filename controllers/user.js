@@ -173,6 +173,31 @@ module.exports = (db) => {
         }
     }
 
+    let settleByUserControllerCallback = (request,response)=>{
+        let cookieAvailable = checkCookie(request);
+        if (cookieAvailable) {
+            let friend_id = request.params.friend_id;
+            let user_id = request.cookies["user_id"];
+            db.bill.settleNetTableForUserOnly(user_id,friend_id,(error,result)=>{
+                if(result){
+                    db.bill.settleSplitAmountByUser(user_id,friend_id,(error,result)=>{
+                        if(result){
+                            response.redirect("/blitt/friendList")
+                        }else{
+                            response.send("UNABLE TO UPDATE SPLIT TABLE")
+                        }
+
+                    })
+                }else{
+                    response.send("UNABLE TO UPDATE NET TABLE")
+                }
+
+            })
+        } else {
+            response.send("YOU ARE NOT LOGGED IN")
+        }
+    }
+
     let logoutControllerCallback = (request, response) => {
         response.cookie("logged_in", "SALT")
         response.redirect("/blitt/login")
@@ -187,7 +212,8 @@ module.exports = (db) => {
         registerPost: registerPostControllerCallback,
         logout: logoutControllerCallback,
         listFriends: listFriendsControllerCallback,
-        getFriendBills: getFriendBillsControllerCallback
+        getFriendBills: getFriendBillsControllerCallback,
+        settleByUser:settleByUserControllerCallback
 
     };
 

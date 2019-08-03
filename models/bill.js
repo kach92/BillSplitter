@@ -273,6 +273,45 @@ module.exports = (dbPoolInstance) => {
         });
     }
 
+    let settleNetTableForUserOnly = (user_id,friend_id,callback)=>{
+        let query = "UPDATE net_table SET paid = true WHERE (user_id = $1 AND pay_to_id = $2) OR (user_id = $2 AND pay_to_id = $1) RETURNING *"
+        let arr = [user_id,friend_id];
+        dbPoolInstance.query(query, arr, (error, queryResult) => {
+            if (error) {
+                callback(error, null);
+            } else {
+                if (queryResult.rows.length > 0) {
+
+                    callback(null, true);
+
+                } else {
+                    callback(null, null);
+
+                }
+            }
+        });
+    }
+
+    let settleSplitAmountByUser = (user_id,friend_id,callback)=>{
+        let query = "UPDATE users_bills SET paid = true WHERE id IN (SELECT users_bills.id FROM users_bills INNER JOIN bills ON (bills.id = users_bills.bill_id) WHERE NOT bills.paid_by_user_id = users_bills.user_id AND ((users_bills.user_id = $1 AND bills.paid_by_user_id = $2)OR(users_bills.user_id = $2 AND bills.paid_by_user_id = $1))) RETURNING *"
+        let arr = [user_id,friend_id];
+         dbPoolInstance.query(query, arr, (error, queryResult) => {
+            if (error) {
+                callback(error, null);
+            } else {
+                if (queryResult.rows.length > 0) {
+
+                    callback(null, true);
+
+                } else {
+                    callback(null, null);
+
+                }
+            }
+        });
+
+    }
+
 
 
     return {
@@ -286,7 +325,9 @@ module.exports = (dbPoolInstance) => {
         settleSplitAmountByGroup,
         getPaidSplitAmountAsPayer,
         getPaidSplitAmountAsPayee,
-        checkTrueCountOfBillsByGroup
+        checkTrueCountOfBillsByGroup,
+        settleNetTableForUserOnly,
+        settleSplitAmountByUser
 
 
     };
