@@ -27,7 +27,7 @@ class Group_List extends React.Component {
 
                 <div className="card-slot">
                 <TotalCard user_total = {this.props.user_total} user_details={this.props.user_details}/>
-                <a href={url}className="btn btn-danger create-new-group-button">Create New Group</a>
+                <a href={url}className="btn btn-outline-danger create-new-group-button">Create New Group</a>
                     {groupList}
                 </div>
             </div>

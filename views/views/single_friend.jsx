@@ -45,7 +45,7 @@ class Single_Friend extends React.Component {
                         </div>
                         <div className="single-user-button">
                            <div className="settle-bill-selectbutton single-user-modifier ">
-                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target={datatarget}>
+                                <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target={datatarget}>
                                   Settle Up
                                 </button>
                             </div>

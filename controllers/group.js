@@ -46,14 +46,16 @@ module.exports = (db) => {
 
     let createGroupControllerCallback = (request, response) => {
         let cookieAvailable = checkCookie(request);
-        let user_name = request.cookies["user_name"]
+        let user_name = request.cookies["user_name"];
+        let user_id = request.cookies["user_id"]
         if (cookieAvailable) {
             db.user.getAllUsers((error, result) => {
                 let data = {
                     title: "Create Group",
                     cookieAvailable: cookieAvailable,
                     allUsers: result,
-                    user_name: user_name
+                    user_name: user_name,
+                    user_id:user_id
                 }
                 response.render('views/create_group', data);
             })
@@ -92,7 +94,7 @@ module.exports = (db) => {
                 }
 
                 setTimeout(function() {
-                    response.redirect("/blitt")
+                    response.redirect("/blitt/groupList")
                 }, 1000)
 
             } else {
