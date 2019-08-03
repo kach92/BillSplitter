@@ -97,9 +97,6 @@ window.onload = function() {
 
     })
 
-    console.log(barColor);
-    console.log(barColorBorder)
-
     var myBarChart = new Chart(bar, {
         type: 'bar',
         data: {
