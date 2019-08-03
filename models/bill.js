@@ -255,7 +255,7 @@ module.exports = (dbPoolInstance) => {
         });
     }
 
-    let checkTrueCountOfBillsByGroup = (group_id,callback)=>{
+    let checkTrueCountOfBillsByGroup = (group_id, callback) => {
         let query = 'SELECT x.bill_id,x.count AS true_count,y.count AS bill_count,y.group_id FROM (SELECT bill_id,COUNT(paid) FROM users_bills WHERE paid=true GROUP BY bill_id)AS x INNER JOIN(SELECT x.bill_id,x.count,bills.group_id FROM (SELECT bill_id,COUNT(1) FROM users_bills GROUP BY bill_id ORDER BY bill_id) AS x INNER JOIN bills ON (x.bill_id = bills.id) WHERE bills.group_id = $1) AS y ON (x.bill_id = y.bill_id)ORDER BY x.bill_id DESC'
         let arr = [group_id];
         dbPoolInstance.query(query, arr, (error, queryResult) => {
@@ -273,9 +273,9 @@ module.exports = (dbPoolInstance) => {
         });
     }
 
-    let settleNetTableForUserOnly = (user_id,friend_id,callback)=>{
+    let settleNetTableForUserOnly = (user_id, friend_id, callback) => {
         let query = "UPDATE net_table SET paid = true WHERE (user_id = $1 AND pay_to_id = $2) OR (user_id = $2 AND pay_to_id = $1) RETURNING *"
-        let arr = [user_id,friend_id];
+        let arr = [user_id, friend_id];
         dbPoolInstance.query(query, arr, (error, queryResult) => {
             if (error) {
                 callback(error, null);
@@ -292,10 +292,10 @@ module.exports = (dbPoolInstance) => {
         });
     }
 
-    let settleSplitAmountByUser = (user_id,friend_id,callback)=>{
+    let settleSplitAmountByUser = (user_id, friend_id, callback) => {
         let query = "UPDATE users_bills SET paid = true WHERE id IN (SELECT users_bills.id FROM users_bills INNER JOIN bills ON (bills.id = users_bills.bill_id) WHERE NOT bills.paid_by_user_id = users_bills.user_id AND ((users_bills.user_id = $1 AND bills.paid_by_user_id = $2)OR(users_bills.user_id = $2 AND bills.paid_by_user_id = $1))) RETURNING *"
-        let arr = [user_id,friend_id];
-         dbPoolInstance.query(query, arr, (error, queryResult) => {
+        let arr = [user_id, friend_id];
+        dbPoolInstance.query(query, arr, (error, queryResult) => {
             if (error) {
                 callback(error, null);
             } else {
@@ -304,6 +304,95 @@ module.exports = (dbPoolInstance) => {
                     callback(null, true);
 
                 } else {
+                    callback(null, null);
+
+                }
+            }
+        });
+
+    }
+
+    let getBillFromBillTable = (bill_id, callback) => {
+        let query = "SELECT * FROM bills WHERE id = $1"
+        let arr = [bill_id];
+        dbPoolInstance.query(query, arr, (error, queryResult) => {
+            if (error) {
+                callback(error, null);
+
+            } else {
+                if (queryResult.rows.length > 0) {
+
+                    callback(null, queryResult.rows[0]);
+
+                } else {
+                    callback(null, null);
+
+                }
+            }
+        });
+    }
+
+    let getSplitDetailsByBill = (bill_id, callback) => {
+        let query = "SELECT users.id AS user_id,users.name,users_bills.bill_id,users_bills.split_amount FROM users INNER JOIN users_bills ON(users.id = users_bills.user_id) WHERE users_bills.bill_id = $1 ORDER BY users.id ASC";
+        let arr = [bill_id];
+
+
+        dbPoolInstance.query(query, arr, (error, queryResult) => {
+            if (error) {
+                callback(error, null);
+
+            } else {
+                if (queryResult.rows.length > 0) {
+
+                    callback(null, queryResult.rows);
+
+                } else {
+
+                    callback(null, null);
+
+                }
+            }
+        });
+    }
+
+    let updateSingleBill = (bill_id,bill_details, callback)=>{
+        let query = "UPDATE bills SET description=$1,amount=$2,paid_by_user_id=$3,category=$4 WHERE id = $5 RETURNING *"
+        let arr = [bill_details.bill_description,bill_details.bill_amount,bill_details.payer,bill_details.bill_category,bill_id];
+        dbPoolInstance.query(query, arr, (error, queryResult) => {
+            if (error) {
+                callback(error, null);
+
+            } else {
+                if (queryResult.rows.length > 0) {
+
+                    callback(null, true);
+
+                } else {
+
+                    callback(null, null);
+
+                }
+            }
+        });
+
+    }
+
+    let updateSplitAmount = (user_id,bill_id,split_amount, callback)=>{
+
+
+        let query = "UPDATE users_bills SET split_amount = $1 WHERE user_id = $2 and bill_id = $3"
+        let arr = [split_amount,user_id,bill_id]
+        dbPoolInstance.query(query, arr,(error, queryResult) => {
+            if (error) {
+                callback(error, null);
+
+            } else {
+                if (queryResult.rows.length > 0) {
+
+                    callback(null, true);
+
+                } else {
+
                     callback(null, null);
 
                 }
@@ -327,7 +416,11 @@ module.exports = (dbPoolInstance) => {
         getPaidSplitAmountAsPayee,
         checkTrueCountOfBillsByGroup,
         settleNetTableForUserOnly,
-        settleSplitAmountByUser
+        settleSplitAmountByUser,
+        getBillFromBillTable,
+        getSplitDetailsByBill,
+        updateSingleBill,
+        updateSplitAmount
 
 
     };

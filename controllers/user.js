@@ -28,7 +28,7 @@ module.exports = (db) => {
         if (checkCookie(request)) {
             response.send("YOU ARE ALREADY LOGGED IN")
         } else {
-            console.log(request.query.exists)
+
             data = {
                 title: "Register",
                 exists:false,

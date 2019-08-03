@@ -134,8 +134,7 @@ module.exports = (dbPoolInstance) => {
 
             } else {
                 if (queryResult.rows.length > 0) {
-                    console.log(queryResult.rows)
-                    console.log("FUCKKKK")
+
                     callback(null, queryResult.rows);
                 } else {
                     callback(null, []);

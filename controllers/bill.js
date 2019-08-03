@@ -49,7 +49,7 @@ module.exports = (db) => {
                         result: result,
                         group_id: group_id,
                         group_name: result[0].group_name,
-                        user_name :user_name
+                        user_name: user_name
                     }
                     response.render('views/create_bill', data);
                 }
@@ -116,7 +116,7 @@ module.exports = (db) => {
                         group_id: group_id,
                         bill_id: bill_id,
                         user_id: user_id,
-                        user_name :user_name
+                        user_name: user_name
                     }
 
                     db.bill.getSingleBillDetail(group_id, bill_id, (error, result2) => {
@@ -143,27 +143,27 @@ module.exports = (db) => {
         }
     }
 
-    let settleGroupBillControllerCallback = (request,response)=>{
+    let settleGroupBillControllerCallback = (request, response) => {
         let cookieAvailable = checkCookie(request);
         let group_id = request.params.group_id;
         let settler_id = request.params.settler_id;
         let user_id = request.cookies["user_id"];
         if (cookieAvailable) {
-            db.bill.settleNetTableForUserByGroup(user_id,group_id,settler_id, (error, result) => {
+            db.bill.settleNetTableForUserByGroup(user_id, group_id, settler_id, (error, result) => {
                 if (result) {
 
-                    db.bill.settleSplitAmountByGroup(user_id,group_id,settler_id,(error,result)=>{
-                        if(result){
-                            console.log("UPDATE BY GROUP OK")
+                    db.bill.settleSplitAmountByGroup(user_id, group_id, settler_id, (error, result) => {
+                        if (result) {
+
                             response.redirect("/blitt/groupList");
-                        }else{
+                        } else {
                             response.send("CANNOT UPDATE USERS_BILLS PAID BOOL")
                         }
 
                     })
 
 
-                }else{
+                } else {
                     response.send("CANNOT UPDATE NET TABLE BOOL")
                 }
 
@@ -173,11 +173,92 @@ module.exports = (db) => {
         }
     }
 
+    let editBillControllerCallback = (request, response) => {
+        let cookieAvailable = checkCookie(request);
+        if (cookieAvailable) {
+            let user_id = request.cookies["user_id"];
+            let group_id = request.params.id;
+            let bill_id = request.params.billId;
+            let user_name = request.cookies["user_name"];
+
+            db.bill.getBillFromBillTable(bill_id, (error, result) => {
+                if (result) {
+
+                    let data = {
+                        cookieAvailable: cookieAvailable,
+                        group_id: group_id,
+                        bill_id: bill_id,
+                        title: "Edit Bill",
+                        user_id: user_id,
+                        user_name: user_name,
+                        singleBill: result
+                    }
+                    db.bill.getSplitDetailsByBill(bill_id, (error, result) => {
+                        if (result) {
+                            data["split_details"] = result;
+                            response.render('views/edit_bill', data)
+                        } else {
+                            response.send("UNABLE TO GET SPLIT DETAILS")
+                        }
+                    })
+
+                } else {
+                    response.send("UNABLE TO GET SINGLE BILL")
+                }
+            })
+
+
+
+        } else {
+            response.redirect('/blitt/login')
+        }
+    }
+
+    let editBillPostControllerCallback = (request, response) => {
+
+        let user_id = request.cookies["user_id"];
+        let group_id = request.params.id;
+        let bill_id = request.params.billId;
+        let billDetails = request.body
+
+        db.bill.updateSingleBill(bill_id, billDetails, (error, result) => {
+            if (result) {
+
+                async function update1by1() {
+                    for (let i = 0; i < billDetails.split_amount.length; i++) {
+                        let waiter = await db.bill.updateSplitAmount(billDetails.user_id[i], bill_id, billDetails.split_amount[i], (error, result) => {
+                            if (result) {
+
+                            } else {
+
+                            }
+                        })
+
+                    }
+                    setTimeout(function(){response.redirect("/blitt/groupList/"+group_id+"/"+bill_id)},2000);
+                }
+
+                update1by1();
+
+
+
+
+            } else {
+                response.send("UNABLE TO UPDATE SINGLE BILL")
+            }
+        })
+
+
+
+    }
+
     return {
         newBill: newBillControllerCallback,
         newBillPost: newBillPostControllerCallback,
         singleBill: singleBillControllerCallback,
-        settleGroupBill: settleGroupBillControllerCallback
+        settleGroupBill: settleGroupBillControllerCallback,
+        editBill: editBillControllerCallback,
+        editBillPost: editBillPostControllerCallback
 
     };
 

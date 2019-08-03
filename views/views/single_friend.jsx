@@ -6,7 +6,7 @@ class Single_Friend extends React.Component {
   render() {
     let datatarget = "#test"
     let amount = this.props.user_net>0?<span style={{color:"green"}}>{this.props.friend_details.name} owe you S${this.props.user_net}</span> : (this.props.user_net === 0? <span style={{color:"grey"}}>All cleared</span> : <span style={{color:"red"}}>You owe {this.props.friend_details.name} S${this.props.user_net*-1}</span>)
-    console.log(this.props.result)
+
     let group_details = this.props.result.map(x=>{
 
         let amount = x.net>0?<p style={{color:"red"}}>You borrowed <span className="group-card-amount-only">S${x.net.toFixed(2)}</span></p>: (x.net === 0? <p style={{color:"grey"}}>You owe nothing</p>:<p style={{color:"green"}}>You lent <span className="group-card-amount-only">S${(x.net*-1).toFixed(2)}</span></p>)
@@ -34,7 +34,7 @@ class Single_Friend extends React.Component {
                 <div className="single-friend-container">
 
                     <div className="single-friend-card">
-                    <a href="/blitt"className="back-to-main-page-button"><img src="https://www.pinclipart.com/picdir/middle/214-2147603_free-returns-return-icon-vector-clipart.png"/></a>
+                    <a href="/blitt/friendList"className="back-to-main-page-button"><img src="https://www.pinclipart.com/picdir/middle/214-2147603_free-returns-return-icon-vector-clipart.png"/></a>
                         <div className="single-friend-card-img">
                             <img src="http://pcm.um.edu.my/wp-content/uploads/2017/11/empty-avatar-700x480.png"/>
                         </div>
