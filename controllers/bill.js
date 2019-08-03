@@ -108,8 +108,6 @@ module.exports = (db) => {
             db.bill.getSingleBillSplitDetail(group_id, bill_id, (error, result) => {
                 if (result) {
 
-
-
                     let data = {
                         cookieAvailable: cookieAvailable,
                         splitDetails: result,
@@ -118,7 +116,6 @@ module.exports = (db) => {
                         user_id: user_id,
                         user_name: user_name
                     }
-
                     db.bill.getSingleBillDetail(group_id, bill_id, (error, result2) => {
                         if (result2) {
                             result2.created_at = timeConverted(result2.created_at)

@@ -24,6 +24,15 @@ app.set('view engine', 'jsx');
 app.engine('jsx', reactEngine);
 const format = require('pg-format');
 
+var multer = require('multer');
+var upload = multer({
+    dest: './uploads/'
+});
+var cloudinary = require('cloudinary');
+var configForCloudinary = require("./config.json");
+cloudinary.config(configForCloudinary);
+
+
 
 /**
  * ===================================

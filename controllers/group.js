@@ -1,5 +1,13 @@
 var sha256 = require('js-sha256');
 var SALT = "whosyourdaddy";
+var multer = require('multer');
+var upload = multer({
+    dest: './uploads/'
+});
+var cloudinary = require('cloudinary');
+var configForCloudinary = require("../config.json");
+cloudinary.config(configForCloudinary);
+
 
 var checkCookie = function(request) {
     return (sha256(request.cookies["user_id"] + 'logged_in' + SALT) === request.cookies["logged_in"]) ? true : false;
@@ -103,9 +111,10 @@ module.exports = (db) => {
 
             db.group.getAllGroupsWithBillDetails(user_id, (error, result) => {
                 if (result) {
-                    let netDetails = result
+                    let netDetails = result;
                     db.group.getGroupCount(user_id, (error, result2) => {
                         if (result2) {
+
                             let groupDetails = result2
                             let resultObj = []
                             let user_total = 0;
@@ -122,10 +131,14 @@ module.exports = (db) => {
                                     group_name: groupDetails[i].name,
                                     group_id: groupDetails[i].id,
                                     members_net: members_net,
-                                    user_net: user_net
+                                    user_net: user_net,
+                                    group_image: groupDetails[i].image
                                 }
                                 resultObj.push(temp);
                             }
+
+                            resultObj.sort((b,a)=>Math.abs(parseFloat(a.user_net))-Math.abs(parseFloat(b.user_net)));
+
 
                             let data = {
                                 title: "Group List",
@@ -135,7 +148,14 @@ module.exports = (db) => {
                                 user_name: user_name
                             }
 
-                            response.render('views/group_list', data);
+                            db.user.getUserDetail(user_id, (error, result) => {
+                                if (result) {
+                                    data["user_details"] = result;
+                                    response.render('views/group_list', data);
+                                } else {
+                                    response.send("CANT GET USERT")
+                                }
+                            })
 
 
 
@@ -269,13 +289,60 @@ module.exports = (db) => {
         }
     }
 
+    let groupProfileControllerCallback = (request, response) => {
+        let cookieAvailable = checkCookie(request);
+        if (cookieAvailable) {
+            let user_id = request.cookies["user_id"];
+            let group_id = request.params.id;
+            let user_name = request.cookies["user_name"];
+
+            db.group.getSingleGroup(group_id,(error, result) => {
+                if (result) {
+                    let data = {
+                        title: "Group Profile",
+                        cookieAvailable: cookieAvailable,
+                        result: result,
+                        user_id: user_id,
+                        group_id: group_id,
+                        user_name: user_name
+                    }
+
+                    response.render('views/group_profile', data);
+
+                } else {
+                    response.send("QUERY FOR BILL LIST FAIL")
+                }
+
+
+            })
+
+        } else {
+            response.redirect('/blitt/login')
+        }
+    }
+
+    let groupProfilePostControllerCallback = (request,response)=>{
+        let group_id = request.params.id
+        cloudinary.uploader.upload(request.file.path, function(result) {
+            db.group.updateGroupProfilePic(group_id,result.url,(error,result)=>{
+                if(result){
+                    response.redirect("/blitt/groupList/"+group_id+"/group_profile")
+                }else{
+                    response.send("FAIL TO UPDATE IMAGE")
+                }
+            })
+        });
+    }
+
 
     return {
         createGroup: createGroupControllerCallback,
         createGroupPost: createGroupPostControllerCallback,
         listAll: listAllGroupControllerCallback,
         singleGroup: singleGroupControllerCallback,
-        chooseSettleByGroup: chooseSettleByGroupControllerCallback
+        chooseSettleByGroup: chooseSettleByGroupControllerCallback,
+        groupProfile: groupProfileControllerCallback,
+        groupProfilePost:groupProfilePostControllerCallback
 
     };
 

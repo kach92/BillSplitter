@@ -5,11 +5,12 @@ class GroupHead extends React.Component {
 
     let text = parseFloat(this.props.user_total).toFixed(2) > 0? <p className="group-head-amount">You get back S${this.props.user_total}</p> : (parseFloat(this.props.user_total).toFixed(2) === 0?<p className="group-head-amount">No owings</p>: <p className="group-head-amount">You owe S${parseFloat(this.props.user_total*-1).toFixed(2)}</p>)
     let url = "/blitt/groupList/"+this.props.group_id+"/newBill"
-    let settleUrl = "/blitt/groupList/"+this.props.group_id+"/chooseWhoToSettleInGroup"
+    let settleUrl = "/blitt/groupList/"+this.props.group_id+"/chooseWhoToSettleInGroup";
+    let photoUrl = "/blitt/groupList/"+this.props.group_id+"/group_profile";
     return (
       <div className="group-head">
             <div className="group-head-img">
-                <img src="https://cdn1.iconfinder.com/data/icons/social-messaging-ui-black-round/254000/26-512.png"/>
+                <a href={photoUrl}><img src={this.props.group_image}/></a>
             </div>
             <div className="group-head-name">
                 {this.props.group_name}

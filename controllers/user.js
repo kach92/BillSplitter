@@ -1,5 +1,12 @@
 var sha256 = require('js-sha256');
 var SALT = "whosyourdaddy";
+var multer = require('multer');
+var upload = multer({
+    dest: './uploads/'
+});
+var cloudinary = require('cloudinary');
+var configForCloudinary = require("../config.json");
+cloudinary.config(configForCloudinary);
 
 var checkCookie = function(request) {
     return (sha256(request.cookies["user_id"] + 'logged_in' + SALT) === request.cookies["logged_in"]) ? true : false;
@@ -13,10 +20,10 @@ module.exports = (db) => {
         } else {
             data = {
                 title: "Login",
-                failLogin:false
+                failLogin: false
 
             }
-            if(request.query.failLogin === "true"){
+            if (request.query.failLogin === "true") {
                 data.failLogin = true
             }
             response.render('views/login', data);
@@ -31,8 +38,8 @@ module.exports = (db) => {
 
             data = {
                 title: "Register",
-                exists:false,
-                password:false
+                exists: false,
+                password: false
             }
 
             if (request.query.exists === "true") {
@@ -129,7 +136,8 @@ module.exports = (db) => {
                                 let group_net = friends_owe_details.filter(x => x.pay_to_id === friends_details[i].pay_to_id).map(x => {
                                     return {
                                         group_name: x.group_name,
-                                        net: x.net
+                                        net: x.net,
+                                        group_id: x.group_id
                                     }
                                 });
                                 let user_net = group_net.reduce((total, obj) => obj.net * -1 + total, 0)
@@ -138,21 +146,33 @@ module.exports = (db) => {
                                     friend_name: friends_details[i].name,
                                     friend_id: friends_details[i].pay_to_id,
                                     group_net: group_net,
-                                    user_net: user_net
+                                    user_net: user_net,
+                                    friend_image: friends_details[i].image
 
                                 }
                                 resultObj.push(temp);
 
+
                             }
+
+                            resultObj.sort((b,a)=>Math.abs(parseFloat(a.user_net))-Math.abs(parseFloat(b.user_net)));
+
                             let data = {
                                 title: "Friend List",
                                 cookieAvailable: cookieAvailable,
                                 result: resultObj,
                                 user_total: parseFloat(user_total).toFixed(2),
-                                user_name :user_name
+                                user_name: user_name
                             }
+                            db.user.getUserDetail(user_id, (error, result) => {
+                                if (result) {
+                                    data["user_details"] = result;
+                                    response.render('views/friends_list', data);
+                                } else {
+                                    response.send("CANT GET USER DETAIL")
+                                }
+                            })
 
-                            response.render('views/friends_list', data);
                         } else {
                             response.send("CANT GET ALL FRIENDS RELATED TO")
                         }
@@ -187,7 +207,7 @@ module.exports = (db) => {
                         user_id: user_id,
                         friend_id: friend_id,
                         user_net: parseFloat(user_net).toFixed(2),
-                        user_name :user_name
+                        user_name: user_name
                     }
 
                     db.user.getSingleUser(friend_id, (error, result) => {
@@ -234,6 +254,44 @@ module.exports = (db) => {
         }
     }
 
+    let userProfileControllerCallback = (request, response) => {
+        let cookieAvailable = checkCookie(request);
+        if (cookieAvailable) {
+            let user_id = request.cookies["user_id"];
+            let user_name = request.cookies["user_name"]
+            db.user.getUserDetail(user_id, (error, result) => {
+                if (result) {
+                    let data = {
+                        title: "User Profile",
+                        cookieAvailable: cookieAvailable,
+                        result: result,
+                        user_id: user_id,
+                        user_name: user_name
+                    }
+                    response.render('views/user_profile', data)
+                } else {
+                    response.send("CANT GET USER DETAILS");
+                }
+            })
+        } else {
+            response.send("YOU ARE NOT LOGGED IN")
+        }
+    }
+
+    let postProfilePicControllerCallback = (request, response) => {
+        let user_id = request.cookies["user_id"]
+        cloudinary.uploader.upload(request.file.path, function(result) {
+            db.user.updateProfilePic(user_id,result.url,(error,result)=>{
+                if(result){
+                    response.redirect("/blitt/user_profile")
+                }else{
+                    response.send("FAIL TO UPDATE IMAGE")
+                }
+            })
+        });
+
+    }
+
     let logoutControllerCallback = (request, response) => {
         response.cookie("logged_in", "SALT")
         response.redirect("/blitt/login")
@@ -249,7 +307,9 @@ module.exports = (db) => {
         logout: logoutControllerCallback,
         listFriends: listFriendsControllerCallback,
         getFriendBills: getFriendBillsControllerCallback,
-        settleByUser: settleByUserControllerCallback
+        settleByUser: settleByUserControllerCallback,
+        userProfile: userProfileControllerCallback,
+        postProfilePic: postProfilePicControllerCallback
 
     };
 

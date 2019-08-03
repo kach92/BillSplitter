@@ -131,7 +131,7 @@ module.exports = (dbPoolInstance) => {
 
     let getSingleBillSplitDetail = (group_id, bill_id, callback) => {
 
-        let query = 'SELECT bills.amount,bills.paid_by_user_id,users_bills.split_amount,users.name,users.id AS payee_id,users_bills.paid FROM bills INNER JOIN users_bills ON (users_bills.bill_id = bills.id) INNER JOIN users ON (users.id = users_bills.user_id) WHERE group_id = $1 AND bill_id = $2'
+        let query = 'SELECT bills.amount,bills.paid_by_user_id,users_bills.split_amount,users.name,users.id AS payee_id,users_bills.paid,users.image FROM bills INNER JOIN users_bills ON (users_bills.bill_id = bills.id) INNER JOIN users ON (users.id = users_bills.user_id) WHERE group_id = $1 AND bill_id = $2'
         let arr = [group_id, bill_id];
         dbPoolInstance.query(query, arr, (error, queryResult) => {
             if (error) {

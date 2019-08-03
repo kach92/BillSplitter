@@ -90,7 +90,7 @@ module.exports = (dbPoolInstance) => {
     }
 
     let getGroupCount = (user_id,callback)=>{
-        let query = 'SELECT * FROM groups WHERE id IN (SELECT group_id FROM users_groups WHERE user_id=$1)';
+        let query = 'SELECT * FROM groups WHERE id IN (SELECT group_id FROM users_groups WHERE user_id=$1 )ORDER BY id DESC';
         let arr = [user_id]
         dbPoolInstance.query(query,arr,(error, queryResult) => {
             if (error) {
@@ -143,6 +143,25 @@ module.exports = (dbPoolInstance) => {
         });
     }
 
+    let updateGroupProfilePic = (group_id,image_url,callback)=>{
+        let query = "UPDATE groups SET image=$1 WHERE id=$2 RETURNING *"
+        let arr = [image_url,group_id];
+
+        dbPoolInstance.query(query, arr, (error, queryResult) => {
+            if (error) {
+                callback(error, null);
+
+            } else {
+                if (queryResult.rows.length > 0) {
+
+                    callback(null, true);
+                } else {
+                    callback(null, null);
+                }
+            }
+        });
+    }
+
 
 
     return {
@@ -153,6 +172,7 @@ module.exports = (dbPoolInstance) => {
         getAllGroups,
         getGroupCount,
         getSingleGroup,
-        getSingleGroupWithBillDetails
+        getSingleGroupWithBillDetails,
+        updateGroupProfilePic
     };
 };

@@ -10,13 +10,13 @@ class Single_Friend extends React.Component {
     let group_details = this.props.result.map(x=>{
 
         let amount = x.net>0?<p style={{color:"red"}}>You borrowed <span className="group-card-amount-only">S${x.net.toFixed(2)}</span></p>: (x.net === 0? <p style={{color:"grey"}}>You owe nothing</p>:<p style={{color:"green"}}>You lent <span className="group-card-amount-only">S${(x.net*-1).toFixed(2)}</span></p>)
-
+        let groupUrl = "/blitt/groupList/"+x.group_id
             return <div className="single-friend-group-container">
                 <div className="single-friend-group-img">
-                    <img src="http://pcm.um.edu.my/wp-content/uploads/2017/11/empty-avatar-700x480.png"/>
+                    <img src={x.image}/>
                 </div>
                 <div className="single-friend-group-name">
-                    {x.group_name}
+                    <a href={groupUrl} className="group-link">{x.group_name}</a>
                 </div>
                 <div className="single-friend-group-amount">
                     {amount}
@@ -36,7 +36,7 @@ class Single_Friend extends React.Component {
                     <div className="single-friend-card">
                     <a href="/blitt/friendList"className="back-to-main-page-button"><img src="https://www.pinclipart.com/picdir/middle/214-2147603_free-returns-return-icon-vector-clipart.png"/></a>
                         <div className="single-friend-card-img">
-                            <img src="http://pcm.um.edu.my/wp-content/uploads/2017/11/empty-avatar-700x480.png"/>
+                            <img src={this.props.friend_details.image}/>
                         </div>
                         <div className="single-friend-card-main">
                             <p className="single-friend-card-name">{this.props.friend_details.name}</p>

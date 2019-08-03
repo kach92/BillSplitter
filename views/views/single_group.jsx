@@ -23,13 +23,13 @@ class Single_Group extends React.Component {
     for(let i=0;i<this.props.settled_split_amount_as_payee.length;i++){
         user_total += this.props.settled_split_amount_as_payee[i].split_amount;
     }
-
+    billList.sort((b,a)=>Math.abs(parseFloat(a.user_net))-Math.abs(parseFloat(b.user_net)));
     user_total = user_total.toFixed(2);
     return (
       <Default title={this.props.title} cookieAvailable={this.props.cookieAvailable} user_name={this.props.user_name}>
           <div className="card-slot">
 
-          <GroupHead user_total = {user_total} group_name={this.props.group_details.name} group_id={this.props.group_id} />
+          <GroupHead user_total = {user_total} group_name={this.props.group_details.name} group_id={this.props.group_id} group_image={this.props.group_details.image}/>
 
                 {billList}
 

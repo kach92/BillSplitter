@@ -5,8 +5,8 @@ class FriendCard extends React.Component {
 
     let url = "/blitt/friendList/"+this.props.friend_id
     let oweList = this.props.group_net.map(x=>{
-
-        return x.net>0? <p>You owe {this.props.friend_name} <span style={{color:"red"}}>S${x.net.toFixed(2)}</span> at <span style={{fontWeight:"bold"}}>{x.group_name}</span></p> : <p>{this.props.friend_name} owes you <span style={{color:"green"}}>S${(parseFloat(x.net)*-1).toFixed(2)}</span> at <span style={{fontWeight:"bold"}}>{x.group_name}</span></p>;
+        let groupUrl = "/blitt/groupList/"+x.group_id
+        return x.net>0? <p>You owe {this.props.friend_name} <span style={{color:"red"}}>S${x.net.toFixed(2)}</span> at <span style={{fontWeight:"bold"}}><a href={groupUrl}className="group-link">{x.group_name}</a></span></p> : <p>{this.props.friend_name} owes you <span style={{color:"green"}}>S${(parseFloat(x.net)*-1).toFixed(2)}</span> at <span style={{fontWeight:"bold"}}><a href={groupUrl}className="group-link">{x.group_name}</a></span></p>;
     })
 
 
@@ -14,7 +14,7 @@ class FriendCard extends React.Component {
     return (
       <div className="group-card">
             <div className="group-card-img">
-                <img src="http://pcm.um.edu.my/wp-content/uploads/2017/11/empty-avatar-700x480.png"/>
+                <img src={this.props.friend_image}/>
             </div>
             <div className="group-card-main">
                 <p className="group-name"><a href={url}>{this.props.friend_name}</a></p>

@@ -1,7 +1,8 @@
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     name TEXT,
-    password TEXT
+    password TEXT,
+    image TEXT
 
 );
 
@@ -31,7 +32,8 @@ CREATE TABLE IF NOT EXISTS users_bills(
 
 CREATE TABLE IF NOT EXISTS groups(
     id SERIAL PRIMARY KEY,
-    name TEXT
+    name TEXT,
+    image TEXT
 );
 
 CREATE TABLE IF NOT EXISTS users_groups(

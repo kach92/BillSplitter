@@ -8,7 +8,7 @@ class Friend_List extends React.Component {
 
     let friendList = this.props.result.map(x=>{
 
-        return <FriendCard friend_name={x.friend_name} friend_id={x.friend_id} group_net={x.group_net} user_net={x.user_net}/>
+        return <FriendCard friend_name={x.friend_name} friend_id={x.friend_id} group_net={x.group_net} user_net={x.user_net} friend_image={x.friend_image}/>
     })
 
     return (
@@ -26,7 +26,7 @@ class Friend_List extends React.Component {
         </ul>
         <div class="tab-content" id="myTabContent">
                 <div className="card-slot">
-                <TotalCard user_total = {this.props.user_total}/>
+                <TotalCard user_total = {this.props.user_total} user_details={this.props.user_details}/>
                     {friendList}
                 </div>
         </div>

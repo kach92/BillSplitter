@@ -16,7 +16,7 @@ class GroupCard extends React.Component {
     return (
       <div className="group-card">
             <div className="group-card-img">
-                <img src="http://pcm.um.edu.my/wp-content/uploads/2017/11/empty-avatar-700x480.png"/>
+                <img src={this.props.group_image}/>
             </div>
             <div className="group-card-main">
                 <p className="group-name"><a href={url}>{this.props.group_name}</a></p>

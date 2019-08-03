@@ -7,8 +7,7 @@ class Group_List extends React.Component {
   render() {
 
     let groupList = this.props.result.map(x=>{
-
-        return <GroupCard group_name={x.group_name} group_id={x.group_id} members_net={x.members_net} user_net={x.user_net}/>
+        return <GroupCard group_name={x.group_name} group_id={x.group_id} members_net={x.members_net} user_net={x.user_net} group_image = {x.group_image}/>
     })
     let url = "/blitt/create_group"
     return (
@@ -27,7 +26,7 @@ class Group_List extends React.Component {
             <div class="tab-content" id="myTabContent">
 
                 <div className="card-slot">
-                <TotalCard user_total = {this.props.user_total}/>
+                <TotalCard user_total = {this.props.user_total} user_details={this.props.user_details}/>
                 <a href={url}className="btn btn-danger create-new-group-button">Create New Group</a>
                     {groupList}
                 </div>
