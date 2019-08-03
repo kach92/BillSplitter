@@ -401,6 +401,74 @@ module.exports = (dbPoolInstance) => {
 
     }
 
+    let getExpensesByUser = (user_id,callback)=>{
+        let query = "SELECT DATE_TRUNC ('day', x.created_at) AS date, SUM(x.split_amount) FROM (SELECT users_bills.user_id,users_bills.split_amount,bills.created_at FROM users_bills INNER JOIN bills ON (users_bills.bill_id = bills.id) WHERE users_bills.user_id = $1 AND bills.created_at>$2)AS x GROUP BY date ORDER BY date ASC"
+        let d = new Date();
+        d.setDate(d.getDate()-5);
+        let arr = [user_id,d];
+         dbPoolInstance.query(query, arr,(error, queryResult) => {
+            if (error) {
+                callback(error, null);
+
+            } else {
+                if (queryResult.rows.length > 0) {
+
+                    callback(null, queryResult.rows);
+
+                } else {
+
+                    callback(null, null);
+
+                }
+            }
+        });
+    }
+
+    let getExpensesByCategory = (user_id,callback)=>{
+        let query = 'SELECT x.category, SUM(x.split_amount) FROM (SELECT users_bills.split_amount,bills.category FROM users_bills INNER JOIN bills ON (users_bills.bill_id = bills.id) WHERE users_bills.user_id = $1 AND bills.created_at>$2)AS x GROUP BY category'
+        let d = new Date();
+        d.setDate(d.getDate()-5);
+        let arr = [user_id,d];
+         dbPoolInstance.query(query, arr,(error, queryResult) => {
+            if (error) {
+                callback(error, null);
+
+            } else {
+                if (queryResult.rows.length > 0) {
+
+                    callback(null, queryResult.rows);
+
+                } else {
+
+                    callback(null, null);
+
+                }
+            }
+        });
+    }
+
+    let get3TypesOfExpenses = (user_id,callback)=>{
+        let query = "SELECT users_bills.user_id, users_bills.split_amount,bills.paid_by_user_id,bills.amount  FROM users_bills INNER JOIN bills ON (users_bills.bill_id = bills.id) WHERE users_bills.user_id = $1;"
+        let arr = [user_id];
+         dbPoolInstance.query(query, arr,(error, queryResult) => {
+            if (error) {
+                callback(error, null);
+
+            } else {
+                if (queryResult.rows.length > 0) {
+
+                    callback(null, queryResult.rows);
+
+                } else {
+
+                    callback(null, null);
+
+                }
+            }
+        });
+
+    }
+
 
 
     return {
@@ -420,7 +488,10 @@ module.exports = (dbPoolInstance) => {
         getBillFromBillTable,
         getSplitDetailsByBill,
         updateSingleBill,
-        updateSplitAmount
+        updateSplitAmount,
+        getExpensesByUser,
+        getExpensesByCategory,
+        get3TypesOfExpenses
 
 
     };

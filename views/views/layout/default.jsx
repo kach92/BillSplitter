@@ -15,6 +15,8 @@ class Default extends React.Component {
               <link rel="stylesheet" type="text/css" href="/css/bootstrap.css"></link>
               <link rel="stylesheet" type="text/css" href="/css/style.css"></link>
 
+              <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js"></script>
+              <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
           </head>
         <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-success">

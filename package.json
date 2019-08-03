@@ -10,6 +10,7 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "chart.js": "^2.8.0",
     "cloudinary": "^1.14.0",
     "cookie-parser": "^1.4.4",
     "express": "^4.16.3",
