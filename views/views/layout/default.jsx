@@ -31,6 +31,7 @@ class Default extends React.Component {
           </div>
 
         </nav>
+        <div className="user-banner">Welcome {this.props.user_name}</div>
         <div className="main-container">
 
             <div className="main-content">{this.props.children}</div>

@@ -4,7 +4,7 @@ var Default = require("./layout/default")
 class Home extends React.Component {
   render() {
     return (
-      <Default title={this.props.title} cookieAvailable={this.props.cookieAvailable}>
+      <Default title={this.props.title} cookieAvailable={this.props.cookieAvailable} user_name={this.props.user_name} user_name={this.props.user_name}>
 
           <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
               <li class="nav-item ">

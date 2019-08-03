@@ -29,10 +29,12 @@ class Single_Friend extends React.Component {
 
     let submitUrl = "/blitt/friendList/"+this.props.friend_id+"/settleByUser"
     return (
-      <Default title={this.props.title} cookieAvailable={this.props.cookieAvailable}>
+      <Default title={this.props.title} cookieAvailable={this.props.cookieAvailable} user_name={this.props.user_name}>
           <div className="card-slot">
                 <div className="single-friend-container">
+
                     <div className="single-friend-card">
+                    <a href="/blitt"className="back-to-main-page-button"><img src="https://www.pinclipart.com/picdir/middle/214-2147603_free-returns-return-icon-vector-clipart.png"/></a>
                         <div className="single-friend-card-img">
                             <img src="http://pcm.um.edu.my/wp-content/uploads/2017/11/empty-avatar-700x480.png"/>
                         </div>

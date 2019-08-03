@@ -43,7 +43,8 @@ module.exports = (db) => {
                 let data = {
                     title: "Create Group",
                     cookieAvailable: cookieAvailable,
-                    allUsers: result
+                    allUsers: result,
+                    user_name: user_name
                 }
                 response.render('views/create_group', data);
             })
@@ -97,6 +98,7 @@ module.exports = (db) => {
         let cookieAvailable = checkCookie(request);
         let user_id = request.cookies["user_id"];
         let group_id = request.params.id;
+        let user_name = request.cookies["user_name"];
         if (cookieAvailable) {
 
             db.group.getAllGroupsWithBillDetails(user_id, (error, result) => {
@@ -129,7 +131,8 @@ module.exports = (db) => {
                                 title: "Group List",
                                 cookieAvailable: cookieAvailable,
                                 result: resultObj,
-                                user_total: parseFloat(user_total).toFixed(2)
+                                user_total: parseFloat(user_total).toFixed(2),
+                                user_name: user_name
                             }
 
                             response.render('views/group_list', data);
@@ -157,6 +160,7 @@ module.exports = (db) => {
         if (cookieAvailable) {
             let user_id = request.cookies["user_id"];
             let group_id = request.params.id;
+            let user_name = request.cookies["user_name"];
 
             db.bill.getAllBillsByGroup(user_id, request.params.id, (error, result) => {
                 if (result) {
@@ -168,7 +172,8 @@ module.exports = (db) => {
                         title: "Group List",
                         cookieAvailable: cookieAvailable,
                         group_id: request.params.id,
-                        billList: result
+                        billList: result,
+                        user_name: user_name
 
                     }
                     db.group.getSingleGroup(group_id, (error, result) => {
@@ -182,19 +187,24 @@ module.exports = (db) => {
                                     db.bill.getPaidSplitAmountAsPayee(group_id, user_id, (error, result) => {
                                         if (result) {
                                             data["settled_split_amount_as_payee"] = result;
-                                            db.bill.checkTrueCountOfBillsByGroup(group_id,(error,result)=>{
-                                                if(result){
+                                            db.bill.checkTrueCountOfBillsByGroup(group_id, (error, result) => {
+                                                if (result) {
                                                     let trueTable = result
-                                                    for(let i =0;i<trueTable.length;i++){
-                                                        if((parseInt(trueTable[i].true_count)+1) === parseInt(trueTable[i].bill_count)){
-                                                            data.billList[i]["settled"] = true;
-                                                        }else{
-                                                            data.billList[i]["settled"] = false;
+
+                                                    for (let i = 0; i < data.billList.length; i++) {
+                                                        for (let j = 0; j < trueTable.length; j++) {
+                                                            if (data.billList[i].bill_id === trueTable[j].bill_id) {
+                                                                if ((parseInt(trueTable[j].true_count) + 1) === parseInt(trueTable[j].bill_count)) {
+                                                                    data.billList[i]["settled"] = true;
+                                                                }
+                                                                break;
+
+                                                            }
                                                         }
                                                     }
 
                                                     response.render("views/single_group", data)
-                                                }else{
+                                                } else {
                                                     response.send("FAIL TO GET TRUE COUNT")
                                                 }
                                             })
@@ -232,6 +242,7 @@ module.exports = (db) => {
         if (cookieAvailable) {
             let user_id = request.cookies["user_id"];
             let group_id = request.params.id;
+            let user_name = request.cookies["user_name"];
 
             db.group.getSingleGroupWithBillDetails(group_id, user_id, (error, result) => {
                 if (result) {
@@ -240,7 +251,8 @@ module.exports = (db) => {
                         cookieAvailable: cookieAvailable,
                         result: result,
                         user_id: user_id,
-                        group_id: group_id
+                        group_id: group_id,
+                        user_name: user_name
                     }
 
                     response.render('views/settlebill_select', data);

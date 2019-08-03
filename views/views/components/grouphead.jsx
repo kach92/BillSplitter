@@ -19,7 +19,7 @@ class GroupHead extends React.Component {
             <a className="btn btn-danger" href={settleUrl}>Settle Up</a>
             <a className="btn btn-danger delete-button" href={url}>Add Bill</a>
         </div>
-
+        <a href="/blitt"className="back-to-main-page-button"><img src="https://www.pinclipart.com/picdir/middle/214-2147603_free-returns-return-icon-vector-clipart.png"/></a>
       </div>
     );
   }

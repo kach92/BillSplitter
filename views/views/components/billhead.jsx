@@ -18,7 +18,9 @@ class BillHead extends React.Component {
                 return <div className="bill-head-splitter-line"><img/><p>You paid <span style={{color:"green"}}>S${(parseFloat(x.amount))}</span> </p></div>
                 // and owe <span style={{color:"red"}}>S${(parseFloat(x.split_amount))}</span>
             }else{
-                if(x.paid){
+                if(x.split_amount === 0){
+                    return <div className="bill-head-splitter-line"><img/><p>You are not involved</p></div>
+                }else if(x.paid){
                     return <div className="bill-head-splitter-line"><img/><p>You owe <span style={{color:"red"}}>S${(parseFloat(x.split_amount))}</span> (paid)</p></div>
                 }else{
                     return <div className="bill-head-splitter-line"><img/><p>You owe <span style={{color:"red"}}>S${(parseFloat(x.split_amount))}</span></p></div>
@@ -30,7 +32,10 @@ class BillHead extends React.Component {
             if(payee_id===payer_id){
                 return <div className="bill-head-splitter-line"><img/><p>{x.name} paid <span style={{color:"green"}}>S${(parseFloat(x.amount))}</span></p></div>
             }else{
-                if(x.paid){
+                if(x.split_amount===0){
+                    return <div className="bill-head-splitter-line"><img/><p>{x.name} is not involved</p></div>
+                }
+                else if(x.paid){
                     return <div className="bill-head-splitter-line"><img/><p>{x.name} owe <span style={{color:"red"}}>S${(parseFloat(x.split_amount))}</span> (paid)</p></div>
                 }else{
                     return <div className="bill-head-splitter-line"><img/><p>{x.name} owe <span style={{color:"red"}}>S${(parseFloat(x.split_amount))}</span></p></div>

@@ -141,6 +141,25 @@ module.exports = (dbPoolInstance) => {
         });
     }
 
+    let checkIfUserExist = (register_details,callback)=>{
+        let query = "SELECT EXISTS (SELECT * FROM users WHERE name=$1)"
+        let arr = [register_details.name];
+
+        dbPoolInstance.query(query, arr, (error, queryResult) => {
+            if (error) {
+                callback(error, null);
+
+            } else {
+                if (queryResult.rows.length > 0) {
+
+                    callback(null, queryResult.rows[0]);
+                } else {
+                    callback(null, null);
+                }
+            }
+        });
+    }
+
 
 
     return {
@@ -151,6 +170,7 @@ module.exports = (dbPoolInstance) => {
         getAllRelatedFriends,
         getAllFriendsRelatedToUser,
         getAllFriend1to1Bills,
-        getSingleUser
+        getSingleUser,
+        checkIfUserExist
     };
 };

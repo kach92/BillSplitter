@@ -38,7 +38,8 @@ module.exports = (db) => {
 
     let newBillControllerCallback = (request, response) => {
         let cookieAvailable = checkCookie(request);
-        let group_id = request.params.id
+        let group_id = request.params.id;
+        let user_name = request.cookies["user_name"];
         if (cookieAvailable) {
             db.group.getUsersInGroup(group_id, (error, result) => {
                 if (result) {
@@ -47,7 +48,8 @@ module.exports = (db) => {
                         cookieAvailable: cookieAvailable,
                         result: result,
                         group_id: group_id,
-                        group_name: result[0].group_name
+                        group_name: result[0].group_name,
+                        user_name :user_name
                     }
                     response.render('views/create_bill', data);
                 }
@@ -64,6 +66,7 @@ module.exports = (db) => {
         let group_id = request.params.id;
         let split_array = request.body.split_amount;
         let payer_id = request.body.payer;
+        let user_name = request.cookies["user_name"];
         if (cookieAvailable) {
             let bill_information = request.body
 
@@ -101,6 +104,7 @@ module.exports = (db) => {
             let user_id = request.cookies["user_id"];
             let group_id = request.params.id;
             let bill_id = request.params.billId;
+            let user_name = request.cookies["user_name"];
             db.bill.getSingleBillSplitDetail(group_id, bill_id, (error, result) => {
                 if (result) {
 
@@ -111,7 +115,8 @@ module.exports = (db) => {
                         splitDetails: result,
                         group_id: group_id,
                         bill_id: bill_id,
-                        user_id: user_id
+                        user_id: user_id,
+                        user_name :user_name
                     }
 
                     db.bill.getSingleBillDetail(group_id, bill_id, (error, result2) => {

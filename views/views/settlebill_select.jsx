@@ -11,7 +11,7 @@ class Settlebill_Select extends React.Component {
 
 
     return (
-      <Default title={this.props.title} cookieAvailable={this.props.cookieAvailable}>
+      <Default title={this.props.title} cookieAvailable={this.props.cookieAvailable} user_name={this.props.user_name}>
           <div className="card-slot">
             <h3 className="settle-bill-heading">Who do you want to settle with?</h3>
             {listOfPeopleToPay}

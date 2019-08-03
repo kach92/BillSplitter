@@ -12,7 +12,7 @@ class Group_List extends React.Component {
     })
     let url = "/blitt/create_group"
     return (
-      <Default title={this.props.title} cookieAvailable={this.props.cookieAvailable}>
+      <Default title={this.props.title} cookieAvailable={this.props.cookieAvailable} user_name={this.props.user_name}>
             <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
               <li class="nav-item ">
                 <a class="nav-link" id="home-tab"  href="/blitt" role="tab" >Personal</a>
@@ -32,6 +32,7 @@ class Group_List extends React.Component {
                     {groupList}
                 </div>
             </div>
+
 
 
 

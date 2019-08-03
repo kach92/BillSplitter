@@ -3,10 +3,19 @@ var Default = require("./layout/default")
 
 class Register extends React.Component {
   render() {
+    if(this.props.exists){
+
+    }
+
+    let existAlert = this.props.exists? <div class="alert alert-secondary" role="alert">User already exist!</div>:""
+    let passwordAlert = this.props.password? <div class="alert alert-secondary" role="alert">Password not match!</div>:""
+
     return (
       <Default title={this.props.title}>
       <div className="login-container">
             <h2>Register</h2>
+            {existAlert}
+            {passwordAlert}
             <form method="POST" action="/blitt/register">
               <div class="form-group">
                 <label for="testInput1">User Name</label>

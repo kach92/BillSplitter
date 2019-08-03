@@ -8,7 +8,7 @@ class Create_Group extends React.Component {
     })
 
     return (
-      <Default title={this.props.title} cookieAvailable={this.props.cookieAvailable}>
+      <Default title={this.props.title} cookieAvailable={this.props.cookieAvailable} user_name={this.props.user_name}>
           <div className="login-container">
             <h2>Create Group</h2>
             <form method="POST" action="/blitt/create_group">

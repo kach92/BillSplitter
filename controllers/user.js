@@ -12,7 +12,12 @@ module.exports = (db) => {
             response.send("YOU ARE ALREADY LOGGED IN")
         } else {
             data = {
-                title: "Login"
+                title: "Login",
+                failLogin:false
+
+            }
+            if(request.query.failLogin === "true"){
+                data.failLogin = true
             }
             response.render('views/login', data);
         }
@@ -23,10 +28,22 @@ module.exports = (db) => {
         if (checkCookie(request)) {
             response.send("YOU ARE ALREADY LOGGED IN")
         } else {
+            console.log(request.query.exists)
             data = {
-                title: "Register"
+                title: "Register",
+                exists:false,
+                password:false
+            }
+
+            if (request.query.exists === "true") {
+                data.exists = true
+            }
+
+            if (request.query.password === "false") {
+                data.password = true
             }
             response.render('views/register', data);
+
         }
 
     }
@@ -34,21 +51,35 @@ module.exports = (db) => {
     let registerPostControllerCallback = (request, response) => {
         if (request.body.password === request.body.confirmPassword) {
             request.body.password = sha256(request.body.password);
-            db.user.registerPost(request.body, (error, result) => {
-                if (error) {
-                    console.log(error)
-                    console.log("REGISTER UNSUCCESSFUL")
-                } else {
-                    if (result) {
-                        console.log("register successful");
-                        response.redirect("/blitt/login");
+
+            db.user.checkIfUserExist(request.body, (error, result) => {
+                if (result) {
+                    if (result.exists) {
+                        response.redirect("/blitt/register?exists=true")
                     } else {
-                        console.log("register null")
+                        db.user.registerPost(request.body, (error, result) => {
+                            if (error) {
+                                console.log(error)
+                                console.log("REGISTER UNSUCCESSFUL")
+                            } else {
+                                if (result) {
+                                    console.log("register successful");
+                                    response.redirect("/blitt/login");
+                                } else {
+                                    console.log("register null")
+                                }
+                            }
+                        })
                     }
+                } else {
+                    response.send("CANT CHECK EXISTS")
                 }
             })
+
+
+
         } else {
-            response.redirect("/blitt/register")
+            response.redirect("/blitt/register?password=false")
         }
 
 
@@ -60,7 +91,7 @@ module.exports = (db) => {
         db.user.loginPost(request.body, (error, result) => {
             if (error) {
                 console.log(error)
-                console.log("LOGIN UNSUCCESSFUL")
+                response.redirect("/blitt/login?failLogin=true");
             } else {
                 if (result) {
 
@@ -70,11 +101,11 @@ module.exports = (db) => {
                         response.cookie("logged_in", sha256(result.id + "logged_in" + SALT));
                         response.redirect("/blitt");
                     } else {
-                        response.redirect("/blitt/login");
+                        response.redirect("/blitt/login?failLogin=true");
 
                     }
                 } else {
-                    response.send("NO SUCH USER")
+                    response.redirect("/blitt/login?failLogin=true");
                 }
             }
         })
@@ -84,6 +115,7 @@ module.exports = (db) => {
         let cookieAvailable = checkCookie(request);
         if (cookieAvailable) {
             let user_id = request.cookies["user_id"];
+            let user_name = request.cookies["user_name"];
             db.user.getAllRelatedFriends(user_id, (error, result) => {
                 if (result) {
                     let friends_owe_details = result
@@ -116,7 +148,8 @@ module.exports = (db) => {
                                 title: "Friend List",
                                 cookieAvailable: cookieAvailable,
                                 result: resultObj,
-                                user_total: parseFloat(user_total).toFixed(2)
+                                user_total: parseFloat(user_total).toFixed(2),
+                                user_name :user_name
                             }
 
                             response.render('views/friends_list', data);
@@ -139,12 +172,13 @@ module.exports = (db) => {
         if (cookieAvailable) {
             let friend_id = request.params.friend_id;
             let user_id = request.cookies["user_id"];
+            let user_name = request.cookies["user_name"];
             db.user.getAllFriend1to1Bills(user_id, friend_id, (error, result) => {
                 if (result) {
 
                     let user_net = 0;
-                    for(let i =0;i<result.length;i++){
-                        user_net += parseFloat(result[i].net*-1)
+                    for (let i = 0; i < result.length; i++) {
+                        user_net += parseFloat(result[i].net * -1)
                     }
                     let data = {
                         title: "Friend Bill",
@@ -152,19 +186,20 @@ module.exports = (db) => {
                         result: result,
                         user_id: user_id,
                         friend_id: friend_id,
-                        user_net: parseFloat(user_net).toFixed(2)
+                        user_net: parseFloat(user_net).toFixed(2),
+                        user_name :user_name
                     }
 
-                    db.user.getSingleUser(friend_id,(error,result)=>{
-                        if(result){
-                            data["friend_details"]=result;
+                    db.user.getSingleUser(friend_id, (error, result) => {
+                        if (result) {
+                            data["friend_details"] = result;
                             response.render('views/single_friend', data);
-                        }else{
+                        } else {
                             response.send("CANT GET FRIENDS DETAILS")
                         }
                     })
 
-                }else{
+                } else {
                     response.send("CANT GET FRIENDS BILLS DETAILS")
                 }
             })
@@ -173,22 +208,23 @@ module.exports = (db) => {
         }
     }
 
-    let settleByUserControllerCallback = (request,response)=>{
+    let settleByUserControllerCallback = (request, response) => {
         let cookieAvailable = checkCookie(request);
         if (cookieAvailable) {
             let friend_id = request.params.friend_id;
             let user_id = request.cookies["user_id"];
-            db.bill.settleNetTableForUserOnly(user_id,friend_id,(error,result)=>{
-                if(result){
-                    db.bill.settleSplitAmountByUser(user_id,friend_id,(error,result)=>{
-                        if(result){
+
+            db.bill.settleNetTableForUserOnly(user_id, friend_id, (error, result) => {
+                if (result) {
+                    db.bill.settleSplitAmountByUser(user_id, friend_id, (error, result) => {
+                        if (result) {
                             response.redirect("/blitt/friendList")
-                        }else{
+                        } else {
                             response.send("UNABLE TO UPDATE SPLIT TABLE")
                         }
 
                     })
-                }else{
+                } else {
                     response.send("UNABLE TO UPDATE NET TABLE")
                 }
 
@@ -213,7 +249,7 @@ module.exports = (db) => {
         logout: logoutControllerCallback,
         listFriends: listFriendsControllerCallback,
         getFriendBills: getFriendBillsControllerCallback,
-        settleByUser:settleByUserControllerCallback
+        settleByUser: settleByUserControllerCallback
 
     };
 

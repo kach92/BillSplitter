@@ -3,7 +3,11 @@ var Default = require("./layout/default")
 
 class Login extends React.Component {
   render() {
+    let loginAlert = this.props.failLogin? <div class="alert alert-secondary" role="alert">Username or password invalid.</div>:""
+    let loginOrLogout = this.props.cookieAvailable?"Log Out":"Login";
+    let url = this.props.cookieAvailable? "/blitt/logout":"/blitt/login";
     return (
+
     <html>
         <head>
             <title>Blitt Login</title>
@@ -13,9 +17,28 @@ class Login extends React.Component {
         </head>
 
         <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+          <a class="navbar-brand" href="/blitt">Blitt</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse " id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto ">
+              <li class="nav-item active ">
+                <a class="nav-link" href={url}>{loginOrLogout}<span class="sr-only">(current)</span></a>
+              </li>
+            </ul>
+          </div>
+
+        </nav>
+        <div className="main-container">
+
+            <div className="main-content">{this.props.children}</div>
+        </div>
 
             <div className="login-container">
                 <h2>Login</h2>
+                {loginAlert}
                 <form method="POST" action="/blitt/login">
                   <div class="form-group">
                     <label for="testInput1">User Name</label>
