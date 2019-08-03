@@ -12,6 +12,7 @@ class Create_Group extends React.Component {
           <div className="login-container">
             <h2>Create Group</h2>
             <form method="POST" action="/blitt/create_group">
+            <input value="https://cdn1.iconfinder.com/data/icons/social-messaging-ui-black-round/254000/26-512.png"hidden name="image"/>
               <div class="form-group">
                 <label for="group_name">Group Name</label>
                 <input type="test" class="form-control" id="group_name" placeholder="Enter Username" name="group_name" required/>

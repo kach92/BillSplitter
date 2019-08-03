@@ -4,8 +4,8 @@ var SALT = "whosyourdaddy";
 module.exports = (dbPoolInstance) => {
 
     let newGroup = (group_info, callback) => {
-        let query = 'INSERT INTO groups (name) VALUES ($1) RETURNING *';
-        let arr = [group_info.group_name];
+        let query = 'INSERT INTO groups (name,image) VALUES ($1,$2) RETURNING *';
+        let arr = [group_info.group_name,group_info.image];
         dbPoolInstance.query(query, arr, (error, queryResult) => {
             if (error) {
                 callback(error, null);

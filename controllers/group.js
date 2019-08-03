@@ -46,6 +46,7 @@ module.exports = (db) => {
 
     let createGroupControllerCallback = (request, response) => {
         let cookieAvailable = checkCookie(request);
+        let user_name = request.cookies["user_name"]
         if (cookieAvailable) {
             db.user.getAllUsers((error, result) => {
                 let data = {
