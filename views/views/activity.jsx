@@ -83,6 +83,22 @@ class Activity extends React.Component {
                   </div>
                 </div>
             }
+        }else if(x.category === "edited"){
+            let persona = "";
+            let url = "/blitt/groupList/"+x.group_id
+            let billUrl = "/blitt/groupList/"+x.group_id+"/"+x.bill_id
+            if(parseInt(this.props.user_id) === parseInt(x.user_id)){
+                persona = "You"
+            }else{
+                persona = x.user_name
+            }
+            return <div class="card border-primary mb-3 activity-card-modifier">
+              <div class="card-header activity-card-header-modifier">{x.created_at}</div>
+              <div class="card-body activity-card-body-modifier">
+
+                <p class="card-text activity-card-text-modifier"><span>{persona}</span> {x.category} <span className="activity-strong-text">"<a href={billUrl}>{x.bill_name}</a>"</span> in <span className="activity-strong-text">"<a href={url}>{x.activity}</a>"</span> group.</p>
+              </div>
+            </div>
         }
     })
 

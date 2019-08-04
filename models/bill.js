@@ -66,7 +66,7 @@ module.exports = (dbPoolInstance) => {
         });
     };
 
-    let updateNetTable = (bill_id,group_id, split_array, payer_id, callback) => {
+    let updateNetTable = (bill_id, group_id, split_array, payer_id, callback) => {
         let query = 'SELECT user_id FROM users_groups WHERE group_id = $1 ORDER BY user_id ASC';
         let arr = [group_id];
         dbPoolInstance.query(query, arr, (error, queryResult) => {
@@ -81,8 +81,8 @@ module.exports = (dbPoolInstance) => {
                     let valuesArr = [];
                     for (let i = 0; i < user_id_arrObj.length; i++) {
                         if (parseInt(payer_id) !== parseInt(user_id_arrObj[i].user_id)) {
-                            valuesArr.push([user_id_arrObj[i].user_id, split_array[i], payer_id, group_id,bill_id]);
-                            valuesArr.push([payer_id, parseFloat(split_array[i]) * -1, user_id_arrObj[i].user_id, group_id,bill_id]);
+                            valuesArr.push([user_id_arrObj[i].user_id, split_array[i], payer_id, group_id, bill_id]);
+                            valuesArr.push([payer_id, parseFloat(split_array[i]) * -1, user_id_arrObj[i].user_id, group_id, bill_id]);
                         }
 
                     }
@@ -355,9 +355,9 @@ module.exports = (dbPoolInstance) => {
         });
     }
 
-    let updateSingleBill = (bill_id,bill_details, callback)=>{
+    let updateSingleBill = (bill_id, bill_details, callback) => {
         let query = "UPDATE bills SET description=$1,amount=$2,paid_by_user_id=$3,category=$4 WHERE id = $5 RETURNING *"
-        let arr = [bill_details.bill_description,bill_details.bill_amount,bill_details.payer,bill_details.bill_category,bill_id];
+        let arr = [bill_details.bill_description, bill_details.bill_amount, bill_details.payer, bill_details.bill_category, bill_id];
         dbPoolInstance.query(query, arr, (error, queryResult) => {
             if (error) {
                 callback(error, null);
@@ -377,12 +377,12 @@ module.exports = (dbPoolInstance) => {
 
     }
 
-    let updateSplitAmount = (user_id,bill_id,split_amount, callback)=>{
+    let updateSplitAmount = (user_id, bill_id, split_amount, callback) => {
 
 
-        let query = "UPDATE users_bills SET split_amount = $1 WHERE user_id = $2 and bill_id = $3"
-        let arr = [split_amount,user_id,bill_id]
-        dbPoolInstance.query(query, arr,(error, queryResult) => {
+        let query = "UPDATE users_bills SET split_amount = $1 WHERE user_id = $2 and bill_id = $3 RETURNING *"
+        let arr = [split_amount, user_id, bill_id]
+        dbPoolInstance.query(query, arr, (error, queryResult) => {
             if (error) {
                 callback(error, null);
 
@@ -401,12 +401,12 @@ module.exports = (dbPoolInstance) => {
 
     }
 
-    let getExpensesByUser = (user_id,callback)=>{
+    let getExpensesByUser = (user_id, callback) => {
         let query = "SELECT DATE_TRUNC ('day', x.created_at) AS date, SUM(x.split_amount) FROM (SELECT users_bills.user_id,users_bills.split_amount,bills.created_at FROM users_bills INNER JOIN bills ON (users_bills.bill_id = bills.id) WHERE users_bills.user_id = $1 AND bills.created_at>$2)AS x GROUP BY date ORDER BY date ASC"
         let d = new Date();
-        d.setDate(d.getDate()-5);
-        let arr = [user_id,d];
-         dbPoolInstance.query(query, arr,(error, queryResult) => {
+        d.setDate(d.getDate() - 5);
+        let arr = [user_id, d];
+        dbPoolInstance.query(query, arr, (error, queryResult) => {
             if (error) {
                 callback(error, null);
 
@@ -424,12 +424,12 @@ module.exports = (dbPoolInstance) => {
         });
     }
 
-    let getExpensesByCategory = (user_id,callback)=>{
+    let getExpensesByCategory = (user_id, callback) => {
         let query = 'SELECT x.category, SUM(x.split_amount) FROM (SELECT users_bills.split_amount,bills.category FROM users_bills INNER JOIN bills ON (users_bills.bill_id = bills.id) WHERE users_bills.user_id = $1 AND bills.created_at>$2)AS x GROUP BY category'
         let d = new Date();
-        d.setDate(d.getDate()-5);
-        let arr = [user_id,d];
-         dbPoolInstance.query(query, arr,(error, queryResult) => {
+        d.setDate(d.getDate() - 5);
+        let arr = [user_id, d];
+        dbPoolInstance.query(query, arr, (error, queryResult) => {
             if (error) {
                 callback(error, null);
 
@@ -447,10 +447,10 @@ module.exports = (dbPoolInstance) => {
         });
     }
 
-    let get3TypesOfExpenses = (user_id,callback)=>{
+    let get3TypesOfExpenses = (user_id, callback) => {
         let query = "SELECT users_bills.user_id, users_bills.split_amount,bills.paid_by_user_id,bills.amount  FROM users_bills INNER JOIN bills ON (users_bills.bill_id = bills.id) WHERE users_bills.user_id = $1;"
         let arr = [user_id];
-        dbPoolInstance.query(query, arr,(error, queryResult) => {
+        dbPoolInstance.query(query, arr, (error, queryResult) => {
             if (error) {
                 callback(error, null);
 
@@ -469,10 +469,10 @@ module.exports = (dbPoolInstance) => {
 
     }
 
-    let deleteSingleBill = (bill_id,callback)=>{
+    let deleteSingleBill = (bill_id, callback) => {
         let query = "DELETE FROM bills WHERE id = $1 RETURNING *"
         let arr = [bill_id];
-        dbPoolInstance.query(query, arr,(error, queryResult) => {
+        dbPoolInstance.query(query, arr, (error, queryResult) => {
             if (error) {
                 callback(error, null);
 
@@ -491,7 +491,29 @@ module.exports = (dbPoolInstance) => {
 
     }
 
+    let updateNetTableForEdit = (user_id, net,pay_to_id,group_id, bill_id, callback) => {
+        console.log(bill_id)
+        let query = "UPDATE net_table SET net = $1 WHERE bill_id = $2 AND group_id = $3 AND user_id = $4 AND pay_to_id = $5 RETURNING *"
+        let arr = [net,bill_id,group_id,user_id,pay_to_id];
+        dbPoolInstance.query(query, arr,(error, queryResult) => {
+            if (error) {
+                console.log(error);
+                callback(error, null);
 
+            } else {
+                if (queryResult.rows.length > 0) {
+                    callback(null, true);
+
+                } else {
+                    callback(null, null);
+
+
+                }
+            }
+        });
+
+
+    }
 
     return {
         createNewBillInGroup,
@@ -514,7 +536,8 @@ module.exports = (dbPoolInstance) => {
         getExpensesByUser,
         getExpensesByCategory,
         get3TypesOfExpenses,
-        deleteSingleBill
+        deleteSingleBill,
+        updateNetTableForEdit
 
 
     };

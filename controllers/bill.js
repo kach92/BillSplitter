@@ -78,13 +78,13 @@ module.exports = (db) => {
                     let payer_id = result.paid_by_user_id;
                     db.bill.createUserBillLink(bill_id, group_id, bill_information, (error, result2) => {
                         if (result2) {
-                            db.bill.updateNetTable(bill_id,group_id, split_array, payer_id, (error, result3) => {
+                            db.bill.updateNetTable(bill_id, group_id, split_array, payer_id, (error, result3) => {
                                 if (result3) {
 
-                                    db.main.updateActivity(user_id,user_name,bill_id,"added",group_id,bill_name,(error,result4)=>{
-                                        if(result4){
+                                    db.main.updateActivity(user_id, user_name, bill_id, "added", group_id, bill_name, (error, result4) => {
+                                        if (result4) {
                                             response.redirect("/blitt/groupList/" + group_id)
-                                        }else{
+                                        } else {
                                             response.send("UNABLE TO UPDATE ACTIVITY")
                                         }
 
@@ -164,10 +164,10 @@ module.exports = (db) => {
 
                     db.bill.settleSplitAmountByGroup(user_id, group_id, settler_id, (error, result) => {
                         if (result) {
-                            db.main.updateActivityForSettleByGroup(user_id,user_name,settler_id,"settled",group_id,amountToShow,(error,result)=>{
-                                if(result){
-                                    response.redirect("/blitt/groupList/"+group_id);
-                                }else{
+                            db.main.updateActivityForSettleByGroup(user_id, user_name, settler_id, "settled", group_id, amountToShow, (error, result) => {
+                                if (result) {
+                                    response.redirect("/blitt/groupList/" + group_id);
+                                } else {
                                     response.send("UNABLE TO UPDATE ACTIVITY FOR SETTLING DEBT BY GROUP")
                                 }
                             })
@@ -235,7 +235,10 @@ module.exports = (db) => {
         let user_id = request.cookies["user_id"];
         let group_id = request.params.id;
         let bill_id = request.params.billId;
-        let billDetails = request.body
+        let billDetails = request.body;
+        let bill_name = request.body.bill_description;
+        let user_name = request.cookies["user_name"];
+        let payer_id = parseInt(request.body.payer)
 
         db.bill.updateSingleBill(bill_id, billDetails, (error, result) => {
             if (result) {
@@ -244,17 +247,51 @@ module.exports = (db) => {
                     for (let i = 0; i < billDetails.split_amount.length; i++) {
                         let waiter = await db.bill.updateSplitAmount(billDetails.user_id[i], bill_id, billDetails.split_amount[i], (error, result) => {
                             if (result) {
-
+                                console.log("UPDATE EDIT SPLIT OK")
                             } else {
-
+                                console.log("UPDATE EDIT SPLIT NOT OK")
                             }
                         })
+                    }
+
+                }
+
+                async function updateNetTable() {
+                    for (let i = 0; i < billDetails.split_amount.length; i++) {
+                        if (payer_id !== parseInt(billDetails.user_id[i])) {
+                            let waiter2 = await db.bill.updateNetTableForEdit(billDetails.user_id[i], billDetails.split_amount[i],payer_id, group_id, bill_id, (error, result) => {
+                                if (result) {
+                                    console.log("UPDATE NETTABLE FOR EDIT OK")
+                                } else {
+                                    console.log("UPDATE NETTABLE FOR EDIT NOT OK")
+                                }
+                            })
+                            let negativeNet = billDetails.split_amount[i]*-1
+                            let waiter3 = await db.bill.updateNetTableForEdit(payer_id, negativeNet,billDetails.user_id[i], group_id, bill_id, (error, result) => {
+                                if (result) {
+                                    console.log("UPDATE NETTABLE FOR EDIT OK")
+                                } else {
+                                    console.log("UPDATE NETTABLE FOR EDIT NOT OK")
+                                }
+                            })
+                        }
 
                     }
-                    setTimeout(function(){response.redirect("/blitt/groupList/"+group_id+"/"+bill_id)},2000);
+
                 }
 
                 update1by1();
+                updateNetTable();
+                db.main.updateActivityForEdit(user_id, user_name, "edited", group_id, bill_id,bill_name, (error, result) => {
+                    if (result) {
+
+                        setTimeout(function() {
+                            response.redirect("/blitt/groupList/" + group_id + "/" + bill_id)
+                        }, 2000);
+                    } else {
+                        console.log("UPDATE ACTIVITY FOR EDIT FAIL")
+                    }
+                })
 
 
             } else {

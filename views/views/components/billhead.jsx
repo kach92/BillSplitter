@@ -8,13 +8,14 @@ class BillHead extends React.Component {
     let img_background = {backgroundColor:Categories.categories_color[this.props.bill_details.category]}
     let backUrl = "/blitt/groupList/"+this.props.group_id
 
-    let canEdit = true;
 
+    let paidWithTrue = this.props.split_details.filter(x=>{return x.paid===true})
+    let canEdit = paidWithTrue.length>0? false:true
     let user_id = parseInt(this.props.user_id);
     let split_details = this.props.split_details.map(x=>{
         let payer_id = x.paid_by_user_id
         let payee_id = x.payee_id
-        canEdit = x.paid? false:true;
+
         if(user_id === payee_id){
             if(user_id === payer_id){
                 return <div className="bill-head-splitter-line"><img src={x.image}/><p>You paid <span style={{color:"green"}}>S${(parseFloat(x.amount))}</span> </p></div>

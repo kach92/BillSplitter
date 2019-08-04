@@ -801,3 +801,8 @@ body{
 .activity-strong-text a:hover{
     text-decoration: none;
 }
+
+.edit-bill-dollar-sign{
+    font-size:15px;
+    color:black;
+}

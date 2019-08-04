@@ -17,7 +17,7 @@ class Create_Bill extends React.Component {
     let count = -1;
     let user_to_pay_list = this.props.split_details.map(x=>{
         count++;
-        return <div><input value={count} className="checkBox"type="checkbox" checked/><span className="split-user-name">{x.name}</span><span>$S </span><input name="split_amount" className="user-split-amount"value={x.split_amount} readOnly/><input value={x.user_id} name="user_id"hidden/></div>
+        return <div><input value={count} className="checkBox"type="checkbox" checked/><span className="split-user-name">{x.name}</span><span className="edit-bill-dollar-sign">$S </span><input name="split_amount" className="user-split-amount"value={x.split_amount} readOnly/><input value={x.user_id} name="user_id"hidden/></div>
 
     })
 
