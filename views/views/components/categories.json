@@ -1,12 +1,13 @@
 {
-    "categories":["Food","Entertainment","Rental","Transport","Health"],
+    "categories":["Food","Entertainment","Rental","Transport","Health","Others"],
     "split":["Split Equally","Split Unequally"],
     "categories_img":{
         "Food":"https://cdn4.iconfinder.com/data/icons/eldorado-mobile/40/food_2-512.png",
         "Entertainment": "https://cdn0.iconfinder.com/data/icons/leisure-and-entertainment-1/64/entertainment-reel-camera-cinema-film-movies-512.png",
         "Rental":"https://cdn2.iconfinder.com/data/icons/miscellaneous-7-solid/128/rent_key_rental_leasing-512.png",
         "Transport":"https://cdn0.iconfinder.com/data/icons/vehicle-1/48/11-512.png",
-        "Health":"https://cdn3.iconfinder.com/data/icons/glypho-science-and-medicine/64/heart-cross-medical-512.png"
+        "Health":"https://cdn3.iconfinder.com/data/icons/glypho-science-and-medicine/64/heart-cross-medical-512.png",
+        "Others":"https://cdn1.iconfinder.com/data/icons/smoothline-action/30/action_028-detail-more-info-others-512.png"
 
     },
     "categories_color":{
@@ -14,6 +15,7 @@
         "Rental":"#ff7070",
         "Entertainment":"#5b6eff",
         "Transport":"#ffcc00",
-        "Health":"#ff3838"
+        "Health":"#ff3838",
+        "Others":"#aaaaaa"
     }
 }

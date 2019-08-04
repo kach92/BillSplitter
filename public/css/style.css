@@ -788,6 +788,7 @@ body{
     text-align:left;
     padding:10px;
     font-size:12px;
+    color:white;
 }
 
 .activity-card-body-modifier{
@@ -805,4 +806,44 @@ body{
 .edit-bill-dollar-sign{
     font-size:15px;
     color:black;
+}
+
+.mark{
+    float:right;
+    background-color: transparent;
+}
+
+.activity-card-header-modifier span{
+    background-color: none;
+}
+
+.nav-bar-modifier{
+    display:flex;
+    justify-content: space-between;
+}
+
+.login-page-container{
+    display:flex;
+    width:1000px;
+    justify-content: space-between;
+    margin:-0 auto;
+    margin-top:20px;
+    align-items:center;
+
+}
+
+.login-container-modifier{
+    top:0;
+    width:350px;
+    height:330px;
+}
+
+.bd-example{
+    width:600px;
+    height:300px;
+}
+
+.bd-example img{
+    width:600px;
+    height:300px;
 }

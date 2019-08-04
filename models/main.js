@@ -222,7 +222,40 @@ module.exports = (dbPoolInstance) => {
             }
         });
 
+    }
 
+    let updateActivityForDelete = (user_id, user_name, category, group_id, bill_id,bill_name, callback) => {
+
+        let query2 = "SELECT name FROM groups WHERE id = $1";
+        let arr2 = [group_id];
+        dbPoolInstance.query(query2, arr2, (error, queryResult2) => {
+            if (error) {
+                callback(error, null);
+            } else {
+
+                if (queryResult2.rows.length > 0) {
+                    group_name = queryResult2.rows[0].name
+                    let query3 = "INSERT INTO activity (user_id,user_name,activity,category,group_id,bill_id,bill_name) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *";
+                    let arr3 = [user_id, user_name,group_name,category, group_id,bill_id,bill_name];
+                    dbPoolInstance.query(query3, arr3, (error, queryResult3) => {
+                        if (error) {
+                            callback(error, null);
+                        } else {
+
+                            if (queryResult3.rows.length > 0) {
+                                callback(null, true)
+                            } else {
+                                callback(null, null)
+                            }
+
+                        }
+                    });
+                } else {
+                    callback(null, null)
+                }
+
+            }
+        });
 
     }
 
@@ -234,7 +267,8 @@ module.exports = (dbPoolInstance) => {
         updateActivityForCreateGroup,
         updateActivityForSettleByGroup,
         updateActivityForSettle,
-        updateActivityForEdit
+        updateActivityForEdit,
+        updateActivityForDelete
 
     };
 };

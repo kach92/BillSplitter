@@ -91,6 +91,7 @@ class BillHead extends React.Component {
                         </div>
                         <div class="modal-footer">
                             <form action={delteUrl} class="yes-button-modifier"method="POST">
+                                <input name="bill_name" value={this.props.bill_details.description} hidden/>
                                 <input type ="submit"class="btn btn-primary" value="Yes"/>
                             </form>
 
@@ -99,9 +100,6 @@ class BillHead extends React.Component {
                     </div>
                 </div>
             </div>
-
-
-
 
 
       </div>

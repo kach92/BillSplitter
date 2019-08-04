@@ -15,11 +15,11 @@ class Activity extends React.Component {
             }else{
                 persona = x.user_name
             }
-            return <div class="card border-primary mb-3 activity-card-modifier">
-              <div class="card-header activity-card-header-modifier">{x.created_at}</div>
+            return <div class="card  mb-3 activity-card-modifier">
+              <div class="card-header bg-success activity-card-header-modifier">{x.created_at}<span className="mark">Add Bill</span></div>
               <div class="card-body activity-card-body-modifier">
 
-                <p class="card-text activity-card-text-modifier"><span>{persona}</span> {x.category} "<span className="activity-strong-text"><a href={url}>{x.bill_name}</a></span>" into "<span className="activity-strong-text"><a href={groupUrl}>{x.activity}</a></span>" group.</p>
+                <p class="card-text activity-card-text-modifier"><span>{persona}</span> {x.category} "<span className="activity-strong-text"><a href={url}>{x.bill_name}</a></span>" bill into "<span className="activity-strong-text"><a href={groupUrl}>{x.activity}</a></span>" group.</p>
               </div>
             </div>
 
@@ -32,8 +32,8 @@ class Activity extends React.Component {
             }else{
                 persona = x.user_name
             }
-            return <div class="card border-primary mb-3 activity-card-modifier">
-              <div class="card-header activity-card-header-modifier">{x.created_at}</div>
+            return <div class="card  mb-3 activity-card-modifier">
+              <div class="card-header bg primary activity-card-header-modifier">{x.created_at}<span className="mark">Create Group</span></div>
               <div class="card-body activity-card-body-modifier">
 
                 <p class="card-text activity-card-text-modifier"><span>{persona}</span> {x.category} <span className="activity-strong-text">"<a href={url}>{x.activity}</a>"</span> group.</p>
@@ -54,8 +54,8 @@ class Activity extends React.Component {
                     persona = x.user_name;
                     secondPersona = x.other_user_name;
                 }
-                return <div class="card border-primary mb-3 activity-card-modifier">
-                  <div class="card-header activity-card-header-modifier">{x.created_at}</div>
+                return <div class="card  mb-3 activity-card-modifier">
+                  <div class="card-header bg-warning activity-card-header-modifier">{x.created_at}<span className="mark">Settle Bill</span></div>
                   <div class="card-body activity-card-body-modifier">
 
                     <p class="card-text activity-card-text-modifier"><span>{persona}</span> {x.category} owings with {secondPersona} worth S${x.amount}</p>
@@ -75,8 +75,8 @@ class Activity extends React.Component {
                     persona = x.user_name;
                     secondPersona = x.other_user_name;
                 }
-                return <div class="card border-primary mb-3 activity-card-modifier">
-                  <div class="card-header activity-card-header-modifier">{x.created_at}</div>
+                return <div class="card  mb-3 activity-card-modifier">
+                  <div class="card-header bg-warning activity-card-header-modifier">{x.created_at}<span className="mark">Settle Bill</span></div>
                   <div class="card-body activity-card-body-modifier">
 
                     <p class="card-text activity-card-text-modifier"><span>{persona}</span> {x.category} owings with {secondPersona} in <span className="activity-strong-text">"<a href={url}>{x.activity}</a>"</span> group worth S${x.amount}</p>
@@ -92,11 +92,26 @@ class Activity extends React.Component {
             }else{
                 persona = x.user_name
             }
-            return <div class="card border-primary mb-3 activity-card-modifier">
-              <div class="card-header activity-card-header-modifier">{x.created_at}</div>
+            return <div class="card  mb-3 activity-card-modifier">
+              <div class="card-header bg-info activity-card-header-modifier">{x.created_at}<span className="mark">Edit Bill</span></div>
               <div class="card-body activity-card-body-modifier">
 
-                <p class="card-text activity-card-text-modifier"><span>{persona}</span> {x.category} <span className="activity-strong-text">"<a href={billUrl}>{x.bill_name}</a>"</span> in <span className="activity-strong-text">"<a href={url}>{x.activity}</a>"</span> group.</p>
+                <p class="card-text activity-card-text-modifier"><span>{persona}</span> {x.category} <span className="activity-strong-text">"<a href={billUrl}>{x.bill_name}</a>"</span> bill in <span className="activity-strong-text">"<a href={url}>{x.activity}</a>"</span> group.</p>
+              </div>
+            </div>
+        }else if(x.category === "deleted"){
+            let persona = "";
+            let url = "/blitt/groupList/"+this.props.group_id
+            if(parseInt(this.props.user_id) === parseInt(x.user_id)){
+                persona = "You"
+            }else{
+                persona = x.user_name
+            }
+            return <div class="card  mb-3 activity-card-modifier">
+              <div class="card-header bg-secondary activity-card-header-modifier">{x.created_at}<span className="mark">Delete Bill</span></div>
+              <div class="card-body activity-card-body-modifier">
+
+                <p class="card-text activity-card-text-modifier"><span>{persona}</span> {x.category} <span className="activity-strong-text">"{x.bill_name}"</span> bill from <span className="activity-strong-text">"<a href={url}>{x.activity}</a>"</span> group.</p>
               </div>
             </div>
         }

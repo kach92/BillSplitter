@@ -308,11 +308,20 @@ module.exports = (db) => {
         let user_id = request.cookies["user_id"];
         let group_id = request.params.id;
         let bill_id = request.params.billId;
+        let user_name = request.cookies["user_name"];
+        let bill_name = request.body.bill_name
 
         db.bill.deleteSingleBill(bill_id, (error, result) => {
             if (result) {
                 console.log("DELETE OK");
-                response.redirect(`/blitt/groupList/${group_id}`)
+
+                db.main.updateActivityForDelete(user_id,user_name,"deleted",group_id,bill_id,bill_name,(error,result)=>{
+                    if(result){
+                        response.redirect(`/blitt/groupList/${group_id}`);
+                    }else{
+                        response.send("UNABLE TO UPDATE ACTIVTY FOR DELETE")
+                    }
+                })
             } else {
                 response.send("UNABLE TO UPDATE SINGLE BILL")
             }

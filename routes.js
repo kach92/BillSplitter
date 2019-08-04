@@ -51,7 +51,7 @@ module.exports = (app, allModels) => {
 
   app.get('/blitt/groupList/:id/:billId/editBill',billControllerCallbacks.editBill);
   app.post('/blitt/groupList/:id/:billId/editBill',billControllerCallbacks.editBillPost);
-   app.post('/blitt/groupList/:id/:billId/deleteBill',billControllerCallbacks.deleteBill)
+  app.post('/blitt/groupList/:id/:billId/deleteBill',billControllerCallbacks.deleteBill)
   app.get('/blitt/user_profile',userControllerCallbacks.userProfile);
   app.post('/blitt/user_profile/postProfilePic',upload.single('myFile'),userControllerCallbacks.postProfilePic),
   app.get('/blitt/activityList',mainControllerCallbacks.getAllActivities)
