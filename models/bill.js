@@ -66,7 +66,7 @@ module.exports = (dbPoolInstance) => {
         });
     };
 
-    let updateNetTable = (group_id, split_array, payer_id, callback) => {
+    let updateNetTable = (bill_id,group_id, split_array, payer_id, callback) => {
         let query = 'SELECT user_id FROM users_groups WHERE group_id = $1 ORDER BY user_id ASC';
         let arr = [group_id];
         dbPoolInstance.query(query, arr, (error, queryResult) => {
@@ -81,12 +81,12 @@ module.exports = (dbPoolInstance) => {
                     let valuesArr = [];
                     for (let i = 0; i < user_id_arrObj.length; i++) {
                         if (parseInt(payer_id) !== parseInt(user_id_arrObj[i].user_id)) {
-                            valuesArr.push([user_id_arrObj[i].user_id, split_array[i], payer_id, group_id]);
-                            valuesArr.push([payer_id, parseFloat(split_array[i]) * -1, user_id_arrObj[i].user_id, group_id]);
+                            valuesArr.push([user_id_arrObj[i].user_id, split_array[i], payer_id, group_id,bill_id]);
+                            valuesArr.push([payer_id, parseFloat(split_array[i]) * -1, user_id_arrObj[i].user_id, group_id,bill_id]);
                         }
 
                     }
-                    let query = format('INSERT INTO net_table (user_id,net,pay_to_id,group_id) VALUES %L RETURNING *', valuesArr);
+                    let query = format('INSERT INTO net_table (user_id,net,pay_to_id,group_id,bill_id) VALUES %L RETURNING *', valuesArr);
                     dbPoolInstance.query(query, (error, queryResult) => {
                         if (error) {
                             console.log(error);
@@ -417,7 +417,7 @@ module.exports = (dbPoolInstance) => {
 
                 } else {
 
-                    callback(null, null);
+                    callback(null, []);
 
                 }
             }
@@ -440,7 +440,7 @@ module.exports = (dbPoolInstance) => {
 
                 } else {
 
-                    callback(null, null);
+                    callback(null, []);
 
                 }
             }
@@ -450,7 +450,7 @@ module.exports = (dbPoolInstance) => {
     let get3TypesOfExpenses = (user_id,callback)=>{
         let query = "SELECT users_bills.user_id, users_bills.split_amount,bills.paid_by_user_id,bills.amount  FROM users_bills INNER JOIN bills ON (users_bills.bill_id = bills.id) WHERE users_bills.user_id = $1;"
         let arr = [user_id];
-         dbPoolInstance.query(query, arr,(error, queryResult) => {
+        dbPoolInstance.query(query, arr,(error, queryResult) => {
             if (error) {
                 callback(error, null);
 
@@ -458,6 +458,28 @@ module.exports = (dbPoolInstance) => {
                 if (queryResult.rows.length > 0) {
 
                     callback(null, queryResult.rows);
+
+                } else {
+
+                    callback(null, []);
+
+                }
+            }
+        });
+
+    }
+
+    let deleteSingleBill = (bill_id,callback)=>{
+        let query = "DELETE FROM bills WHERE id = $1 RETURNING *"
+        let arr = [bill_id];
+        dbPoolInstance.query(query, arr,(error, queryResult) => {
+            if (error) {
+                callback(error, null);
+
+            } else {
+                if (queryResult.rows.length > 0) {
+
+                    callback(null, true);
 
                 } else {
 
@@ -491,7 +513,8 @@ module.exports = (dbPoolInstance) => {
         updateSplitAmount,
         getExpensesByUser,
         getExpensesByCategory,
-        get3TypesOfExpenses
+        get3TypesOfExpenses,
+        deleteSingleBill
 
 
     };

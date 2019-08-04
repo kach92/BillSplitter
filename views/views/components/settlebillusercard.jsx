@@ -8,6 +8,7 @@ class SettleBillUserCard extends React.Component {
     let text = net>0? <p className="settle-bill-detail-net" style={{color:"red"}}>You owe S${net}</p> : <p className="settle-bill-detail-net" style={{color:"green"}}>Owes you S${net*-1}</p>
 
     let modaltext = net>0? <span style={{color:"red"}}>S${net}</span> : <span style={{color:"green"}}>S${net*-1}</span>
+    let justAmount = net>0? parseFloat(net).toFixed(2):(parseFloat(net)*-1).toFixed(2);
     let datatarget = "#"+this.props.name.split(" ")[0];
     let submitUrl = "/blitt/groupList/"+this.props.group_id+"/chooseWhoToSettleInGroup/"+this.props.friend_id
     return (
@@ -42,7 +43,9 @@ class SettleBillUserCard extends React.Component {
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <form method="POST" action={submitUrl}>
+                        <input name="amount" type="number" step="0.01"value={justAmount}hidden/>
                         <input type="submit"class="btn btn-primary" value="Settle"/>
+
                     </form>
 
                   </div>

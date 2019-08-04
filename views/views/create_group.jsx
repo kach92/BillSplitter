@@ -34,7 +34,7 @@ class Create_Group extends React.Component {
                 </select>
               </div>
               <div className="add-user-into-group-container">
-                    <div className={randomClass[Math.floor(Math.random()*8)]}>{this.props.user_name}</div>
+                    <div className={randomClass[Math.floor(Math.random()*7)]}>{this.props.user_name}</div>
               </div>
               <input name="selected_users" id="user-takein" value={this.props.user_name}readOnly hidden/><br/>
               <button type="submit" class="btn btn-outline-danger">Create</button>

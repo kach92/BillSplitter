@@ -26,7 +26,8 @@ CREATE TABLE IF NOT EXISTS users_bills(
     split_amount FLOAT(8),
     paid BOOLEAN DEFAULT false,
     FOREIGN KEY(user_id) REFERENCES users (id),
-    FOREIGN KEY(bill_id) REFERENCES bills (id)
+    FOREIGN KEY(bill_id) REFERENCES bills (id) ON DELETE CASCADE
+
 
 );
 
@@ -50,8 +51,24 @@ CREATE TABLE IF NOT EXISTS net_table(
     net FLOAT(8),
     pay_to_id INT,
     group_id INT,
+    bill_id INT,
     paid BOOLEAN DEFAULT false,
     FOREIGN KEY(user_id) REFERENCES users (id),
     FOREIGN KEY(group_id) REFERENCES groups (id),
-    FOREIGN KEY(pay_to_id) REFERENCES users (id)
+    FOREIGN KEY(pay_to_id) REFERENCES users (id),
+    FOREIGN KEY(bill_id) REFERENCES bills (id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS activity(
+    id SERIAL PRIMARY KEY,
+    user_id INT,
+    user_name TEXT,
+    other_user_id INT,
+    other_user_name TEXT,
+    activity TEXT,
+    category TEXT,
+    bill_id INT,
+    group_id INT,
+    amount FLOAT(8),
+    created_at TIMESTAMP DEFAULT now()
 );

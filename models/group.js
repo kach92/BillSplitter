@@ -20,16 +20,16 @@ module.exports = (dbPoolInstance) => {
         });
     };
 
-    let userGroupLink = (group_id, user_id, callback) => {
-        let query = 'INSERT INTO users_groups (user_id,group_id) VALUES ($1,$2) RETURNING *';
-        let arr = [user_id, group_id];
-        dbPoolInstance.query(query, arr, (error, queryResult) => {
+    let userGroupLink = (arrayOfId, callback) => {
+        let query = `INSERT INTO users_groups (user_id,group_id) VALUES ${arrayOfId} RETURNING user_id`;
+
+        dbPoolInstance.query(query, (error, queryResult) => {
             if (error) {
                 callback(error, null);
             } else {
                 if (queryResult.rows.length > 0) {
 
-                    callback(null, true);
+                    callback(null, queryResult.rows);
                 } else {
                     callback(null, null);
                 }
@@ -126,7 +126,7 @@ module.exports = (dbPoolInstance) => {
     }
 
     let getSingleGroupWithBillDetails = (group_id,user_id,callback)=>{
-        let query = 'SELECT x.user_id,x.net,users.name,users.id AS friend_id,x.group_id FROM users INNER JOIN (SELECT user_id,SUM(net) AS net,pay_to_id,group_id FROM net_table GROUP BY user_id,pay_to_id,group_id HAVING user_id =$1 AND group_id =$2 ORDER BY group_id) AS x ON (users.id = x.pay_to_id) ORDER BY x.group_id'
+        let query = 'SELECT x.user_id,x.net,users.name,users.id AS friend_id,x.group_id FROM users INNER JOIN (SELECT user_id,SUM(net) AS net,pay_to_id,group_id FROM net_table WHERE paid = false GROUP BY user_id,pay_to_id,group_id HAVING user_id =$1 AND group_id =$2 ORDER BY group_id) AS x ON (users.id = x.pay_to_id) ORDER BY x.group_id'
         let arr = [user_id,group_id]
         dbPoolInstance.query(query,arr,(error, queryResult) => {
             if (error) {

@@ -7,6 +7,7 @@ var upload = multer({
 var cloudinary = require('cloudinary');
 var configForCloudinary = require("../config.json");
 cloudinary.config(configForCloudinary);
+const format = require('pg-format');
 
 var checkCookie = function(request) {
     return (sha256(request.cookies["user_id"] + 'logged_in' + SALT) === request.cookies["logged_in"]) ? true : false;
@@ -155,7 +156,7 @@ module.exports = (db) => {
 
                             }
 
-                            resultObj.sort((b,a)=>Math.abs(parseFloat(a.user_net))-Math.abs(parseFloat(b.user_net)));
+                            resultObj.sort((b, a) => Math.abs(parseFloat(a.user_net)) - Math.abs(parseFloat(b.user_net)));
 
                             let data = {
                                 title: "Friend List",
@@ -233,12 +234,22 @@ module.exports = (db) => {
         if (cookieAvailable) {
             let friend_id = request.params.friend_id;
             let user_id = request.cookies["user_id"];
-
+            let amountToShow = request.body.amount;
+            let user_name = request.cookies["user_name"]
             db.bill.settleNetTableForUserOnly(user_id, friend_id, (error, result) => {
                 if (result) {
                     db.bill.settleSplitAmountByUser(user_id, friend_id, (error, result) => {
                         if (result) {
-                            response.redirect("/blitt/friendList")
+                            db.main.updateActivityForSettle(user_id, user_name, friend_id, "settled", amountToShow, (error, result) => {
+
+                                if (result) {
+                                    response.redirect("/blitt/friendList")
+                                } else {
+                                    response.send("UNABLE TO UPDATE ACTIVITY FOR SETTLING DEBT")
+                                }
+                            })
+
+
                         } else {
                             response.send("UNABLE TO UPDATE SPLIT TABLE")
                         }
@@ -281,10 +292,10 @@ module.exports = (db) => {
     let postProfilePicControllerCallback = (request, response) => {
         let user_id = request.cookies["user_id"]
         cloudinary.uploader.upload(request.file.path, function(result) {
-            db.user.updateProfilePic(user_id,result.url,(error,result)=>{
-                if(result){
+            db.user.updateProfilePic(user_id, result.url, (error, result) => {
+                if (result) {
                     response.redirect("/blitt/user_profile")
-                }else{
+                } else {
                     response.send("FAIL TO UPDATE IMAGE")
                 }
             })

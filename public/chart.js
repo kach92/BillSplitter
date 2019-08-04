@@ -48,6 +48,11 @@ window.onload = function() {
                         },
                         distribution: 'series'
                     }
+                }],
+                yAxes:[{
+                    ticks:{
+                        beginAtZero:true
+                    }
                 }]
             }
         }
@@ -108,6 +113,15 @@ window.onload = function() {
                 borderWidth:2,
                 data: barDataData,
             }]
+        },
+        options:{
+            scales:{
+                yAxes:[{
+                    ticks:{
+                        beginAtZero:true
+                    }
+                }]
+            }
         }
 
 

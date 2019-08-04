@@ -23,6 +23,9 @@ class Friend_List extends React.Component {
           <li class="nav-item">
             <a class="nav-link active" id="contact-tab"  href="/blitt/friendList" role="tab" >Friends</a>
           </li>
+          <li class="nav-item">
+                <a class="nav-link" id="activity-tab"  href="/blitt/activityList" role="tab" >Activty</a>
+              </li>
         </ul>
         <div class="tab-content" id="myTabContent">
                 <div className="card-slot">

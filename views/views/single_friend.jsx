@@ -26,6 +26,7 @@ class Single_Friend extends React.Component {
     })
 
     let modaltext = this.props.user_net>0? <span style={{color:"green"}}>S${this.props.user_net}</span> : <span style={{color:"red"}}>S${this.props.user_net*-1}</span>
+    let justAmount = this.props.user_net>0? parseFloat(this.props.user_net).toFixed(2):parseFloat(this.props.user_net*-1).toFixed(2);
 
     let submitUrl = "/blitt/friendList/"+this.props.friend_id+"/settleByUser"
     return (
@@ -67,6 +68,7 @@ class Single_Friend extends React.Component {
                                   <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     <form method="POST" action={submitUrl}>
+                                        <input name="amount" type="number" step="0.01"value={justAmount}hidden/>
                                         <input type="submit"class="btn btn-primary" value="Settle"/>
                                     </form>
 

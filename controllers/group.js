@@ -7,6 +7,7 @@ var upload = multer({
 var cloudinary = require('cloudinary');
 var configForCloudinary = require("../config.json");
 cloudinary.config(configForCloudinary);
+const format = require('pg-format');
 
 
 var checkCookie = function(request) {
@@ -55,7 +56,7 @@ module.exports = (db) => {
                     cookieAvailable: cookieAvailable,
                     allUsers: result,
                     user_name: user_name,
-                    user_id:user_id
+                    user_id: user_id
                 }
                 response.render('views/create_group', data);
             })
@@ -70,32 +71,53 @@ module.exports = (db) => {
             if (result) {
                 let group_id = result.id;
                 let user_array = request.body.selected_users.split(",")
-
-                for (let i = 0; i < user_array.length; i++) {
-                    db.user.getSingleUserByName(user_array[i], (error, result2) => {
-
-                        if (result2) {
-                            let user_id = result2.id
-                            db.group.userGroupLink(group_id, user_id, (error, result3) => {
-
-                                if (result3) {
-                                    console.log("OK")
-
-                                } else {
-                                    response.send("SOMETHING WRONG");
-                                }
-                            })
-                        } else {
-                            response.send("SOMETHING WRONG")
-                        }
-                    })
+                let group_name = result.name;
+                let user_id = request.cookies["user_id"];
+                let user_name = request.cookies["user_name"]
+                let valuesArr = [user_array]
+                let valuesInBracs = format("%L", valuesArr);
 
 
-                }
 
-                setTimeout(function() {
-                    response.redirect("/blitt/groupList")
-                }, 1000)
+                db.user.getSingleUserByName(valuesInBracs, (error, result2) => {
+                    if(error){
+                        console.log(error)
+                    }
+                    if (result2) {
+
+                        let arrayOfId = []
+                        result2.forEach(x=>{
+                            let value = `(${x.id},${group_id})`
+                            arrayOfId.push(value)
+                        });
+                        arrayOfId = arrayOfId.join(",")
+
+                        db.group.userGroupLink(arrayOfId, (error, result3) => {
+
+                            if (result3) {
+
+                                db.main.updateActivityForCreateGroup(user_id,user_name,"created",group_id,group_name,(error,result4)=>{
+                                    if(error){
+                                        console.log(error)
+                                    }
+                                    if(result4){
+                                        response.redirect("/blitt/groupList")
+                                    }else{
+                                        response.send("CANNOT UPDATE CREATE GROUP ACTIVITY")
+                                    }
+                                })
+
+                            } else {
+                                response.send("SOMETHING WRONG");
+                            }
+                        })
+                    } else {
+                        response.send("SOMETHING WRONG")
+                    }
+                })
+
+
+
 
             } else {
                 response.send("ATTEND LATER");
@@ -140,7 +162,7 @@ module.exports = (db) => {
                                 resultObj.push(temp);
                             }
 
-                            resultObj.sort((b,a)=>Math.abs(parseFloat(a.user_net))-Math.abs(parseFloat(b.user_net)));
+                            resultObj.sort((b, a) => Math.abs(parseFloat(a.user_net)) - Math.abs(parseFloat(b.user_net)));
 
 
                             let data = {
@@ -192,7 +214,6 @@ module.exports = (db) => {
                     }
 
                     let data = {
-                        title: "Group List",
                         cookieAvailable: cookieAvailable,
                         group_id: request.params.id,
                         billList: result,
@@ -202,6 +223,7 @@ module.exports = (db) => {
                     db.group.getSingleGroup(group_id, (error, result) => {
                         if (result) {
                             data["group_details"] = result[0];
+                            data["title"] = result[0].name;
 
                             db.bill.getPaidSplitAmountAsPayer(group_id, user_id, (error, result) => {
                                 if (result) {
@@ -299,7 +321,7 @@ module.exports = (db) => {
             let group_id = request.params.id;
             let user_name = request.cookies["user_name"];
 
-            db.group.getSingleGroup(group_id,(error, result) => {
+            db.group.getSingleGroup(group_id, (error, result) => {
                 if (result) {
                     let data = {
                         title: "Group Profile",
@@ -324,13 +346,13 @@ module.exports = (db) => {
         }
     }
 
-    let groupProfilePostControllerCallback = (request,response)=>{
+    let groupProfilePostControllerCallback = (request, response) => {
         let group_id = request.params.id
         cloudinary.uploader.upload(request.file.path, function(result) {
-            db.group.updateGroupProfilePic(group_id,result.url,(error,result)=>{
-                if(result){
-                    response.redirect("/blitt/groupList/"+group_id+"/group_profile")
-                }else{
+            db.group.updateGroupProfilePic(group_id, result.url, (error, result) => {
+                if (result) {
+                    response.redirect("/blitt/groupList/" + group_id + "/group_profile")
+                } else {
                     response.send("FAIL TO UPDATE IMAGE")
                 }
             })
@@ -345,7 +367,7 @@ module.exports = (db) => {
         singleGroup: singleGroupControllerCallback,
         chooseSettleByGroup: chooseSettleByGroupControllerCallback,
         groupProfile: groupProfileControllerCallback,
-        groupProfilePost:groupProfilePostControllerCallback
+        groupProfilePost: groupProfilePostControllerCallback
 
     };
 

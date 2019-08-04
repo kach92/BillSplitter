@@ -311,12 +311,15 @@ body{
 }
 
 .group-head-img{
-
+    width:70px;
+    margin:0 auto;
 }
 .group-head-img img{
     width:70px;
+    height:70px;
     display:block;
     margin:0 auto;
+    border-radius:50%;
 
 }
 
@@ -759,3 +762,42 @@ body{
 
 }
 
+.yes-button-modifier input{
+    width:100px;
+}
+
+.no-button-modifier {
+    width:100px;
+}
+
+.activity-card-modifier{
+    width:500px;
+    margin:0 auto;
+    height:auto;
+    margin-bottom:5px !important;
+    margin-top:5px !important;
+}
+
+.activity-card-text-modifier{
+    text-align:left;
+    font-size:15px;
+}
+
+.activity-card-header-modifier{
+    height:35px;
+    text-align:left;
+    padding:10px;
+    font-size:12px;
+}
+
+.activity-card-body-modifier{
+    padding:10px;
+}
+
+.activity-strong-text{
+    font-weight:bold;
+}
+
+.activity-strong-text a:hover{
+    text-decoration: none;
+}

@@ -44,7 +44,7 @@ module.exports = (db) => {
             db.group.getUsersInGroup(group_id, (error, result) => {
                 if (result) {
                     let data = {
-                        title: "Group List",
+                        title: "New Bill",
                         cookieAvailable: cookieAvailable,
                         result: result,
                         group_id: group_id,
@@ -67,18 +67,29 @@ module.exports = (db) => {
         let split_array = request.body.split_amount;
         let payer_id = request.body.payer;
         let user_name = request.cookies["user_name"];
+        let user_id = request.cookies["user_id"];
         if (cookieAvailable) {
             let bill_information = request.body
 
             db.bill.createNewBillInGroup(group_id, bill_information, (error, result) => {
                 if (result) {
                     let bill_id = result.id;
+                    let bill_name = result.description;
                     let payer_id = result.paid_by_user_id;
                     db.bill.createUserBillLink(bill_id, group_id, bill_information, (error, result2) => {
                         if (result2) {
-                            db.bill.updateNetTable(group_id, split_array, payer_id, (error, result3) => {
+                            db.bill.updateNetTable(bill_id,group_id, split_array, payer_id, (error, result3) => {
                                 if (result3) {
-                                    response.redirect("/blitt/groupList/" + group_id)
+
+                                    db.main.updateActivity(user_id,user_name,bill_id,"added",group_id,bill_name,(error,result4)=>{
+                                        if(result4){
+                                            response.redirect("/blitt/groupList/" + group_id)
+                                        }else{
+                                            response.send("UNABLE TO UPDATE ACTIVITY")
+                                        }
+
+                                    })
+
                                 } else {
                                     response.send("HABIS")
                                 }
@@ -145,14 +156,22 @@ module.exports = (db) => {
         let group_id = request.params.group_id;
         let settler_id = request.params.settler_id;
         let user_id = request.cookies["user_id"];
+        let amountToShow = request.body.amount;
+        let user_name = request.cookies["user_name"];
         if (cookieAvailable) {
             db.bill.settleNetTableForUserByGroup(user_id, group_id, settler_id, (error, result) => {
                 if (result) {
 
                     db.bill.settleSplitAmountByGroup(user_id, group_id, settler_id, (error, result) => {
                         if (result) {
+                            db.main.updateActivityForSettleByGroup(user_id,user_name,settler_id,"settled",group_id,amountToShow,(error,result)=>{
+                                if(result){
+                                    response.redirect("/blitt/groupList/"+group_id);
+                                }else{
+                                    response.send("UNABLE TO UPDATE ACTIVITY FOR SETTLING DEBT BY GROUP")
+                                }
+                            })
 
-                            response.redirect("/blitt/groupList");
                         } else {
                             response.send("CANNOT UPDATE USERS_BILLS PAID BOOL")
                         }
@@ -238,8 +257,6 @@ module.exports = (db) => {
                 update1by1();
 
 
-
-
             } else {
                 response.send("UNABLE TO UPDATE SINGLE BILL")
             }
@@ -249,13 +266,30 @@ module.exports = (db) => {
 
     }
 
+    let deleteBillControllerCallback = (request, response) => {
+
+        let user_id = request.cookies["user_id"];
+        let group_id = request.params.id;
+        let bill_id = request.params.billId;
+
+        db.bill.deleteSingleBill(bill_id, (error, result) => {
+            if (result) {
+                console.log("DELETE OK");
+                response.redirect(`/blitt/groupList/${group_id}`)
+            } else {
+                response.send("UNABLE TO UPDATE SINGLE BILL")
+            }
+        })
+    }
+
     return {
         newBill: newBillControllerCallback,
         newBillPost: newBillPostControllerCallback,
         singleBill: singleBillControllerCallback,
         settleGroupBill: settleGroupBillControllerCallback,
         editBill: editBillControllerCallback,
-        editBillPost: editBillPostControllerCallback
+        editBillPost: editBillPostControllerCallback,
+        deleteBill: deleteBillControllerCallback
 
     };
 

@@ -50,7 +50,10 @@ class BillHead extends React.Component {
     let group_id = this.props.group_id;
     let bill_id = this.props.bill_id;
     let editUrl = "/blitt/groupList/"+group_id+"/"+bill_id+"/editBill"
-    let editDeleteButton = canEdit? <div className="edit-delete-button"><a href={editUrl} className="btn btn-danger">Edit Bill</a><a href="#" className="btn btn-secondary delete-button">Delete Bill</a></div>:"";
+    let delteUrl = "/blitt/groupList/"+group_id+"/"+bill_id+"/deleteBill"
+    let editDeleteButton = canEdit? <div className="edit-delete-button"><a href={editUrl} className="btn btn-danger">Edit Bill</a><button data-toggle="modal" data-target="#delete-bill" className="btn btn-secondary delete-button">Delete Bill</button></div>:"";
+
+
 
 
     return (
@@ -72,6 +75,28 @@ class BillHead extends React.Component {
                 {split_details}
                 {editDeleteButton}
 
+            </div>
+            <div class="modal fade" id="delete-bill" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Delete Bill</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to delete this bill?
+                        </div>
+                        <div class="modal-footer">
+                            <form action={delteUrl} class="yes-button-modifier"method="POST">
+                                <input type ="submit"class="btn btn-primary" value="Yes"/>
+                            </form>
+
+                            <button type="button" data-dismiss="modal" class="btn btn-secondary no-button-modifier">No</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
 

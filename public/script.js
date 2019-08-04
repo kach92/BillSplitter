@@ -22,7 +22,7 @@ selections.addEventListener("change", function(event) {
 
 let createButtons = function(name){
     let button = document.createElement("div");
-    button.setAttribute("class",randomClass[Math.floor(Math.random()*8)])
+    button.setAttribute("class",randomClass[Math.floor(Math.random()*7)])
     button.innerText=name;
     buttonContainer.appendChild(button);
 }

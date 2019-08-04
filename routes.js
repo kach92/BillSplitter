@@ -48,8 +48,12 @@ module.exports = (app, allModels) => {
   app.post('/blitt/groupList/:id/addInBill',billControllerCallbacks.newBillPost);
   app.post('/blitt/groupList/:group_id/chooseWhoToSettleInGroup/:settler_id',billControllerCallbacks.settleGroupBill);
   app.get('/blitt/groupList/:id/:billId',billControllerCallbacks.singleBill);
+
   app.get('/blitt/groupList/:id/:billId/editBill',billControllerCallbacks.editBill);
   app.post('/blitt/groupList/:id/:billId/editBill',billControllerCallbacks.editBillPost);
+   app.post('/blitt/groupList/:id/:billId/deleteBill',billControllerCallbacks.deleteBill)
   app.get('/blitt/user_profile',userControllerCallbacks.userProfile);
-  app.post('/blitt/user_profile/postProfilePic',upload.single('myFile'),userControllerCallbacks.postProfilePic)
+  app.post('/blitt/user_profile/postProfilePic',upload.single('myFile'),userControllerCallbacks.postProfilePic),
+  app.get('/blitt/activityList',mainControllerCallbacks.getAllActivities)
 };
+

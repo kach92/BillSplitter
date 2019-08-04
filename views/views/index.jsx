@@ -22,6 +22,9 @@ class Home extends React.Component {
             <li class="nav-item">
                 <a class="nav-link" id="contact-tab"  href="/blitt/friendList" role="tab" >Friends</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" id="activity-tab"  href="/blitt/activityList" role="tab" >Activty</a>
+              </li>
         </ul>
             <div class="tab-content tab-modifier" id="myTabContent">
 
@@ -50,21 +53,21 @@ class Home extends React.Component {
                 <div class="card border-success mb-3" style={{width: "230px"}}>
                     <div class="card-header">Total Expenses</div>
                     <div class="card-body">
-                        <p class="card-text">S$ {this.props.totalExpenses}</p>
+                        <p class="card-text">S$ {this.props.totalExpenses.toFixed(2)}</p>
                     </div>
                 </div>
                 <div class="card border-secondary mb-3" style={{width: "230px"}}>
                     <div class="card-header">Total Borrowed</div>
                     <div class="card-body">
 
-                        <p class="card-text" style={{color:"#ff7751"}}>S$ {this.props.totalBorrowed}</p>
+                        <p class="card-text" style={{color:"#ff7751"}}>S$ {this.props.totalBorrowed.toFixed(2)}</p>
                     </div>
                 </div>
                 <div class="card border-info mb-3" style={{width: "230px"}}>
                     <div class="card-header">Total Lent</div>
                     <div class="card-body">
 
-                    <p class="card-text" style={{color:"#55cc9d"}}>S$ {this.props.totalLent}</p>
+                    <p class="card-text" style={{color:"#55cc9d"}}>S$ {this.props.totalLent.toFixed(2)}</p>
                     </div>
                 </div>
                 </div>
