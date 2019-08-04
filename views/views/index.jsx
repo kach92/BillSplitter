@@ -30,19 +30,20 @@ class Home extends React.Component {
 
                 <ul class="nav nav-tabs justify-content-center">
                     <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#home">Daily</a>
+                        <a class="nav-link active" data-toggle="tab" href="#home">Category</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#profile">Category</a>
+                        <a class="nav-link" data-toggle="tab" href="#profile">Daily</a>
                     </li>
 
                 </ul>
                 <div id="anotherTabContent" class="tab-content">
                     <div class="tab-pane fade active show" id="home">
-                        <canvas id="myChart" width="400" height="200"></canvas>
+
+                        <canvas id="categoryChart" width="400" height="200"></canvas>
                     </div>
                     <div class="tab-pane fade" id="profile">
-                        <canvas id="categoryChart" width="400" height="200"></canvas>
+                        <canvas id="myChart" width="400" height="200"></canvas>
                     </div>
 
                 </div>

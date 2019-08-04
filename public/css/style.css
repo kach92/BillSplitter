@@ -484,8 +484,8 @@ body{
 
 .settle-bill-container{
     display:flex;
-    align-items: center;1
-
+    align-items: center;
+    position:relative;
     height:auto;
     width:500px;
     margin:0 auto;
@@ -505,12 +505,12 @@ body{
     width:50px;
     height:50px;
     border-radius:50%;
-    border:1px solid black;
+
 }
 
 .settle-bill-detail{
     margin-left:20px;
-    width:100%;
+    width:280px;
     padding-left:20px;
 }
 
@@ -524,8 +524,17 @@ body{
 }
 
 .settle-bill-selectbutton{
-
+    display:flex;
+    flex-direction: column;
+    width:100px;
+    justify-content: space-between;
 }
+
+.settle-bill-selectbutton button{
+    height:35px;
+    margin-bottom:5px;
+}
+
 
 .settled-sign{
     position:absolute;
@@ -789,6 +798,7 @@ body{
     padding:10px;
     font-size:12px;
     color:white;
+    position:relative;
 }
 
 .activity-card-body-modifier{
@@ -809,7 +819,10 @@ body{
 }
 
 .mark{
-    float:right;
+    position:absolute;
+    right:5px;
+    top:50%;
+    transform:translateY(-50%);
     background-color: transparent;
 }
 
@@ -846,4 +859,13 @@ body{
 .bd-example img{
     width:600px;
     height:300px;
+}
+
+.qr-image{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    right:-130px;
+    border: 1px solid black;
+    padding: 10px;
 }

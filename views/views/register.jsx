@@ -44,6 +44,10 @@ class Register extends React.Component {
                     <input type="test" class="form-control" id="testInput1" placeholder="Enter Username" name="name"required/>
                 </div>
                 <div class="form-group">
+                    <label for="phone">Phone Number (+65)</label>
+                    <input type="text" class="form-control"  placeholder="Enter Phone Number (8 digit number)" name="mobile" pattern="[0-9]{8}"required/>
+                </div>
+                <div class="form-group">
                     <label for="exampleInputPassword1">Password</label>
                     <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password" required/>
                 </div>

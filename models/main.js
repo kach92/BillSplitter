@@ -72,7 +72,7 @@ module.exports = (dbPoolInstance) => {
                     callback(null, queryResult.rows)
 
                 } else {
-                    callback(null, null);
+                    callback(null, []);
 
                 }
             }

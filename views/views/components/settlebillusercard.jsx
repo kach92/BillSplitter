@@ -14,7 +14,7 @@ class SettleBillUserCard extends React.Component {
     return (
         <div className="settle-bill-container">
             <div className="settle-bill-img">
-                <img src="https://kempenfeltplayers.com/wp-content/uploads/2015/07/profile-icon-empty.png"/>
+                <img src={this.props.image}/>
             </div>
             <div className="settle-bill-detail">
                 <p className="settle-bill-detail-name">{this.props.name}</p>
@@ -24,6 +24,13 @@ class SettleBillUserCard extends React.Component {
                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target={datatarget}>
                   Submit
                 </button>
+                <button type="button" class="btn btn-danger qr-button">
+                    QR Code
+                </button>
+            </div>
+            <div className="qr-container">
+                <input class="qr-phone"value={this.props.mobile} hidden/>
+                {/*<img className="qr-image" hidden/>*/}
             </div>
 
 

@@ -6,7 +6,7 @@ class Settlebill_Select extends React.Component {
   render() {
     let listOfPeopleToPay = this.props.result.map(x=>{
 
-        return <SettleBillUserCard user_id ={this.props.user_id} group_id = {this.props.group_id} net={x.net} name={x.name} friend_id = {x.friend_id}/>
+        return <SettleBillUserCard user_id ={this.props.user_id} group_id = {this.props.group_id} net={x.net} name={x.name} friend_id = {x.friend_id} image={x.image} mobile={x.mobile}/>
     })
 
 
@@ -17,7 +17,7 @@ class Settlebill_Select extends React.Component {
             {listOfPeopleToPay}
 
           </div>
-
+          <script src="/qrscript.js"></script>
       </Default>
     );
   }
