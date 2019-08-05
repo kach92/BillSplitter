@@ -62,7 +62,7 @@ module.exports = (dbPoolInstance) => {
     }
 
     let getAllActivities = (user_id, callback) => {
-        let query = "SELECT * FROM activity WHERE group_id IN (SELECT group_id FROM users_groups WHERE user_id = $1) OR user_id = $1 OR other_user_id = $1 ORDER BY id DESC"
+        let query = "SELECT * FROM activity WHERE group_id IN (SELECT group_id FROM users_groups WHERE user_id = $1) OR user_id = $1 OR other_user_id = $1 ORDER BY id DESC LIMIT 50"
         let arr = [user_id]
         dbPoolInstance.query(query, arr, (error, queryResult) => {
             if (error) {
