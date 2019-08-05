@@ -144,7 +144,7 @@ class Activity extends React.Component {
                 <div className="card-slot">
                     {warning}
                     {activity_list}
-                    }
+
                 </div>
 
             </div>
