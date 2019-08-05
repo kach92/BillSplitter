@@ -491,10 +491,10 @@ module.exports = (dbPoolInstance) => {
 
     }
 
-    let updateNetTableForEdit = (user_id, net,pay_to_id,group_id, bill_id, callback) => {
-        console.log(bill_id)
-        let query = "UPDATE net_table SET net = $1 WHERE bill_id = $2 AND group_id = $3 AND user_id = $4 AND pay_to_id = $5 RETURNING *"
-        let arr = [net,bill_id,group_id,user_id,pay_to_id];
+    let updateNetTableForEdit = (user_id, net,pay_to_id,net_table_id, callback) => {
+
+        let query = "UPDATE net_table SET net = $1,user_id = $2,pay_to_id = $3 WHERE id = $4 RETURNING *"
+        let arr = [net,user_id,pay_to_id,net_table_id];
         dbPoolInstance.query(query, arr,(error, queryResult) => {
             if (error) {
                 console.log(error);
@@ -512,6 +512,28 @@ module.exports = (dbPoolInstance) => {
             }
         });
 
+
+    }
+
+    let getBillListInNetTable = (bill_id,callback)=>{
+        let query = "SELECT id FROM net_Table WHERE bill_id = $1"
+        let arr = [bill_id];
+        dbPoolInstance.query(query, arr,(error, queryResult) => {
+            if (error) {
+                console.log(error);
+                callback(error, null);
+
+            } else {
+                if (queryResult.rows.length > 0) {
+                    callback(null, queryResult.rows);
+
+                } else {
+                    callback(null, []);
+
+
+                }
+            }
+        });
 
     }
 
@@ -537,7 +559,8 @@ module.exports = (dbPoolInstance) => {
         getExpensesByCategory,
         get3TypesOfExpenses,
         deleteSingleBill,
-        updateNetTableForEdit
+        updateNetTableForEdit,
+        getBillListInNetTable
 
 
     };
