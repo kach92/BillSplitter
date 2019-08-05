@@ -244,7 +244,7 @@ module.exports = (db) => {
         db.bill.updateSingleBill(bill_id, billDetails, (error, result) => {
             if (result) {
                 db.bill.getBillListInNetTable(bill_id, (error, result) => {
-                    if (result){
+                    if (result) {
                         let net_table_id = result
                         let count = 0
                         async function update1by1() {
@@ -261,32 +261,35 @@ module.exports = (db) => {
                         }
 
                         async function updateNetTable() {
-                            console.log(billDetails.user_id)
-                            console.log(billDetails.split_amount)
+                            for(let i=0;i<billDetails.split_amount.length;i++){
+                                if (payer_id === billDetails.user_id[i]){
+                                    billDetails.split_amount.splice(i,1);
+                                    billDetails.user_id.splice(i,1);
+                                }
+                            }
 
                             for (let i = 0; i < billDetails.split_amount.length; i++) {
+                                if (payer_id !== billDetails.user_id[i]) {
+                                    let waiter2 = await db.bill.updateNetTableForEdit(billDetails.user_id[i], billDetails.split_amount[i], payer_id, net_table_id[count].id, (error, result) => {
 
-                                let waiter2 = await db.bill.updateNetTableForEdit(billDetails.user_id[i], billDetails.split_amount[i], payer_id, net_table_id[count].id, (error, result) => {
+                                        if (result) {
+                                            console.log("UPDATE NETTABLE FOR EDIT OK")
+                                        } else {
+                                            console.log("UPDATE NETTABLE FOR EDIT NOT OK")
+                                        }
+                                    })
+                                    count++;
+                                    let negativeNet = billDetails.split_amount[i] * -1
+                                    let waiter3 = await db.bill.updateNetTableForEdit(payer_id, negativeNet, billDetails.user_id[i], net_table_id[count].id, (error, result) => {
 
-                                    if (result) {
-                                        console.log("UPDATE NETTABLE FOR EDIT OK")
-                                    } else {
-                                        console.log("UPDATE NETTABLE FOR EDIT NOT OK")
-                                    }
-                                })
-                                count++;
-                                let negativeNet = billDetails.split_amount[i] * -1
-                                let waiter3 = await db.bill.updateNetTableForEdit(payer_id, negativeNet, billDetails.user_id[i], net_table_id[count].id, (error, result) => {
-
-                                    if (result) {
-                                        console.log("UPDATE NETTABLE FOR EDIT OK")
-                                    } else {
-                                        console.log("UPDATE NETTABLE FOR EDIT NOT OK")
-                                    }
-                                })
-                                count++;
-
-
+                                        if (result) {
+                                            console.log("UPDATE NETTABLE FOR EDIT OK")
+                                        } else {
+                                            console.log("UPDATE NETTABLE FOR EDIT NOT OK")
+                                        }
+                                    })
+                                    count++;
+                                }
                             }
 
                         }
