@@ -6,6 +6,10 @@ class Login extends React.Component {
     let loginAlert = this.props.failLogin? <div class="alert alert-secondary" role="alert">Username or password invalid.</div>:""
     let loginOrLogout = this.props.cookieAvailable?"Log Out":"Login";
     let url = this.props.cookieAvailable? "/blitt/logout":"/blitt/login";
+    let register = this.props.register? <div class="alert alert-dismissible alert-success">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  Register Successful!
+</div>:""
     return (
 
     <html>
@@ -39,6 +43,7 @@ class Login extends React.Component {
                 <div className="login-container login-container-modifier">
                     <h2>Login</h2>
                     {loginAlert}
+                    {register}
                     <form method="POST" action="/blitt/login">
                       <div class="form-group">
                         <label for="testInput1">User Name</label>

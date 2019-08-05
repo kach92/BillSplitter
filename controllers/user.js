@@ -27,11 +27,16 @@ module.exports = (db) => {
             data = {
                 title: "Login",
                 failLogin: false
-
             }
+
             if (request.query.failLogin === "true") {
                 data.failLogin = true
             }
+
+            if(request.query.register){
+                data["register"] = true
+            }
+
             response.render('views/login', data);
         }
 
@@ -77,7 +82,7 @@ module.exports = (db) => {
                             } else {
                                 if (result) {
                                     console.log("register successful");
-                                    response.redirect("/blitt/login");
+                                    response.redirect("/blitt/login?register=true");
                                 } else {
                                     console.log("register null")
                                 }

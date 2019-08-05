@@ -25,7 +25,7 @@ class Create_Bill extends React.Component {
         return <option value={x.user_id}>{x.user_name}</option>
     })
     return (
-      <Default title={this.props.title} user_name={this.props.user_name}>
+      <Default title={this.props.title} user_name={this.props.user_name} cookieAvailable={this.props.cookieAvailable}>
       <div className="login-container adjust-login-container">
             <h2>Add bill</h2>
             <h4>into {this.props.group_name}</h4>
