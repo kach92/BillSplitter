@@ -56,7 +56,7 @@ class Activity extends React.Component {
                     secondPersona = x.other_user_name;
                 }
                 return <div class="card  mb-3 activity-card-modifier">
-                  <div class="card-header bg-warning activity-card-header-modifier">{x.created_at}<span className="mark">Settle Bill</span></div>
+                  <div class="card-header bg-danger activity-card-header-modifier">{x.created_at}<span className="mark">Settle Bill</span></div>
                   <div class="card-body activity-card-body-modifier">
 
                     <p class="card-text activity-card-text-modifier"><span>{persona}</span> {x.category} owings with {secondPersona} worth S${x.amount}</p>
@@ -77,7 +77,7 @@ class Activity extends React.Component {
                     secondPersona = x.other_user_name;
                 }
                 return <div class="card  mb-3 activity-card-modifier">
-                  <div class="card-header bg-warning activity-card-header-modifier">{x.created_at}<span className="mark">Settle Bill</span></div>
+                  <div class="card-header bg-danger activity-card-header-modifier">{x.created_at}<span className="mark">Settle Bill</span></div>
                   <div class="card-body activity-card-body-modifier">
 
                     <p class="card-text activity-card-text-modifier"><span>{persona}</span> {x.category} owings with {secondPersona} in <span className="activity-strong-text">"<a href={url}>{x.activity}</a>"</span> group worth S${x.amount}</p>

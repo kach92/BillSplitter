@@ -48,7 +48,7 @@ let update = function() {
         if (billInput.value === "") {
             tempAmount = 0
         } else {
-            tempAmount = parseInt(billInput.value)
+            tempAmount = parseFloat(billInput.value).toFixed(2)
         }
 
 
@@ -56,7 +56,7 @@ let update = function() {
             if (boolTable[i]) {
                 userSplitAmount[i].readOnly = false;
                 userSplitAmount[i].style.border = "1px solid black"
-                tempAccumulateAmount+=parseInt(userSplitAmount[i].value);
+                tempAccumulateAmount+=parseFloat(userSplitAmount[i].value);
 
             } else {
                 userSplitAmount[i].value = 0
@@ -66,7 +66,7 @@ let update = function() {
 
         }
 
-        amountLeftP.innerText = `S$${tempAccumulateAmount} of S$${tempAmount}`
+        amountLeftP.innerText = `S$${tempAccumulateAmount.toFixed(2)} of S$${tempAmount}`
         if((tempAccumulateAmount-tempAmount)===0){
             document.getElementById("add-bill-button").disabled = false;
         }
