@@ -10,6 +10,7 @@ class Activity extends React.Component {
             let persona = "";
             let url = "/blitt/groupList/"+x.group_id+"/"+x.bill_id;
             let groupUrl = "/blitt/groupList"+x.group_id;
+            console.log(x.bill_id)
             if(parseInt(this.props.user_id) === parseInt(x.user_id)){
                 persona = "You"
             }else{
@@ -33,7 +34,7 @@ class Activity extends React.Component {
                 persona = x.user_name
             }
             return <div class="card  mb-3 activity-card-modifier">
-              <div class="card-header bg primary activity-card-header-modifier">{x.created_at}<span className="mark">Create Group</span></div>
+              <div class="card-header bg-warning activity-card-header-modifier">{x.created_at}<span className="mark">Create Group</span></div>
               <div class="card-body activity-card-body-modifier">
 
                 <p class="card-text activity-card-text-modifier"><span>{persona}</span> {x.category} <span className="activity-strong-text">"<a href={url}>{x.activity}</a>"</span> group.</p>
@@ -111,11 +112,16 @@ class Activity extends React.Component {
               <div class="card-header bg-secondary activity-card-header-modifier">{x.created_at}<span className="mark">Delete Bill</span></div>
               <div class="card-body activity-card-body-modifier">
 
-                <p class="card-text activity-card-text-modifier"><span>{persona}</span> {x.category} <span className="activity-strong-text">"{x.bill_name}"</span> bill from <span className="activity-strong-text">"<a href={url}>{x.activity}</a>"</span> group.</p>
+                <p class="card-text activity-card-text-modifier"><span>{persona}</span> {x.category} <span className="activity-strong-text"><del>"{x.bill_name}"</del></span> bill from <span className="activity-strong-text">"<a href={url}>{x.activity}</a>"</span> group.</p>
               </div>
             </div>
         }
     })
+
+    let warning = this.props.billErr? <div class="alert alert-dismissible alert-secondary activity-alert">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  Bill has already been deleted!
+</div>:""
 
     return (
       <Default title={this.props.title} cookieAvailable={this.props.cookieAvailable} user_name={this.props.user_name}>
@@ -136,7 +142,9 @@ class Activity extends React.Component {
             <div class="tab-content" id="myTabContent">
 
                 <div className="card-slot">
+                    {warning}
                     {activity_list}
+                    }
                 </div>
 
             </div>

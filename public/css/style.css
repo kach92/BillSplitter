@@ -837,11 +837,11 @@ body{
 
 .login-page-container{
     display:flex;
-    width:1000px;
-    justify-content: space-between;
+    width:1385px;
+
     margin:-0 auto;
-    margin-top:20px;
-    align-items:center;
+
+
 
 }
 
@@ -849,16 +849,20 @@ body{
     top:0;
     width:350px;
     height:330px;
+    border:none;
+    box-shadow: none;
+    margin-top:150px;
 }
 
 .bd-example{
-    width:600px;
-    height:300px;
+    width:1000px;
+
+    height:690px;
 }
 
 .bd-example img{
-    width:600px;
-    height:300px;
+    width:1000px;
+    object-fit: fill;
 }
 
 .qr-image{
@@ -868,4 +872,75 @@ body{
     right:-130px;
     border: 1px solid black;
     padding: 10px;
+}
+
+.carousel-image-modifier{
+    filter:brightness(50%);
+    height:700px;
+}
+
+
+
+
+.carousel-inner-modifier{
+    height:100%;
+}
+
+.carousel-item-modifier{
+    height:100%;
+    position:relative;
+
+}
+
+.carousel-slide-modifier{
+    height:100% !important;
+}
+
+.image-1{
+    background: url("https://u.realgeeks.media/nwmoderngroup/commercial.jpg");
+    background-size:cover;
+
+
+}
+
+.image-2{
+    background: url("https://d2z1w4aiblvrwu.cloudfront.net/ad/dgkK/jim-beam-black-friends-large-6.jpg");
+    background-size:cover;
+}
+
+.image-3{
+    background: url("https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80");
+    background-size:cover;
+}
+
+.image-1-welcome{
+    color:white;
+    position:absolute;
+    top:20%;
+    left:50%;
+    transform: translateX(-50%);
+    font-size:60px;
+    text-align: center;
+    width:100%;
+}
+
+.image-1-welcome span{
+    display:block;
+    font-size:120px;
+}
+
+.item-1 p{
+    position:absolute;
+    left:50%;
+    transform: translateX(-50%);
+    bottom:35%;
+    color:white;
+    font-size:30px;
+    text-align:center;
+    width:100%;
+}
+
+.activity-alert{
+    width:500px;
+    margin:0 auto;
 }

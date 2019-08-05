@@ -17,58 +17,23 @@ class Login extends React.Component {
         </head>
 
         <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-success nav-bar-modifier">
-          <a class="navbar-brand" href="/blitt">Blitt</a>
 
-
-            <ul class="navbar-nav ">
-              <li class="nav-item active ">
-                <a class="nav-link" href={url}>{loginOrLogout}<span class="sr-only">(current)</span></a>
-              </li>
-            </ul>
-
-
-        </nav>
             <div className="login-page-container">
 
                 <div class="bd-example">
-                  <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                      <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
-                      <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
-                      <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
-                    </ol>
-                    <div class="carousel-inner">
-                      <div class="carousel-item active">
-                        <img src="https://u.realgeeks.media/nwmoderngroup/commercial.jpg" className="d-block w-100" alt="..."/>
-                        <div class="carousel-caption d-none d-md-block">
-                          <h5>First slide label</h5>
-                          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                        </div>
+                  <div id="carouselExampleCaptions" class="carousel slide carousel-slide-modifier" data-ride="carousel">
+
+                    <div class="carousel-inner carousel-inner-modifier">
+                      <div class="carousel-item active carousel-item-modifier item-1">
+
+
+                        <div className="carousel-image-modifier image-1"></div>
+                        <h2 className="image-1-welcome">Welcome to <span>Blitt</span></h2>
+                        <p>A Bill Splitting app for your friends and family</p>
                       </div>
-                      <div class="carousel-item">
-                        <img src="https://d2z1w4aiblvrwu.cloudfront.net/ad/dgkK/jim-beam-black-friends-large-6.jpg" class="d-block w-100" alt="..."/>
-                        <div class="carousel-caption d-none d-md-block">
-                          <h5>Second slide label</h5>
-                          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        </div>
-                      </div>
-                      <div class="carousel-item">
-                        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80" className="d-block w-100" alt="..."/>
-                        <div class="carousel-caption d-none d-md-block">
-                          <h5>Third slide label</h5>
-                          <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-                        </div>
-                      </div>
+
                     </div>
-                    <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Next</span>
-                    </a>
+
                   </div>
                 </div>
                 <div className="login-container login-container-modifier">

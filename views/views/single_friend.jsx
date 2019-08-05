@@ -49,6 +49,13 @@ class Single_Friend extends React.Component {
                                 <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target={datatarget}>
                                   Settle Up
                                 </button>
+                                <button type="button" class="btn btn-outline-danger qr-button">
+                                    QR Code
+                                </button>
+                            </div>
+                            <div className="qr-container">
+                                <input class="qr-phone"value={this.props.result[0].mobile} hidden/>
+                                {/*<img className="qr-image" hidden/>*/}
                             </div>
 
 
@@ -86,7 +93,7 @@ class Single_Friend extends React.Component {
 
 
           </div>
-
+          <script src="/qrscript.js"></script>
       </Default>
     );
   }

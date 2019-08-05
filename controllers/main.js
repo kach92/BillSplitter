@@ -122,6 +122,9 @@ module.exports = (db) => {
                         result: result,
                         user_id:user_id
                     }
+                    if(request.query.billErr){
+                        data["billErr"] = true
+                    }
                     response.render('views/activity',data)
                 } else {
                     response.send("UNABLE TO FETCH ACTIVITIES")

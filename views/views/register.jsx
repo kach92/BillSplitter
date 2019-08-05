@@ -21,17 +21,7 @@ class Register extends React.Component {
         </head>
 
         <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-success nav-bar-modifier">
-          <a class="navbar-brand" href="/blitt">Blitt</a>
 
-            <ul class="navbar-nav mr-auto ">
-              <li class="nav-item active ">
-                <a class="nav-link" href={url}>{loginOrLogout}<span class="sr-only">(current)</span></a>
-              </li>
-            </ul>
-
-
-        </nav>
         <div className="main-container">
       <div className="login-container">
             <h2>Register</h2>
@@ -56,6 +46,7 @@ class Register extends React.Component {
                     <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Confirm Password" name="confirmPassword" required/>
                 </div>
               <button type="submit" class="btn btn-primary">Submit</button>
+              <a href="/blitt/login" class="btn btn-primary">Back</a>
             </form>
 
       </div>

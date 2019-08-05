@@ -5,7 +5,12 @@ var upload = multer({
     dest: './uploads/'
 });
 var cloudinary = require('cloudinary');
-var configForCloudinary = require("../config.json");
+var configForCloudinary;
+if( process.env.CLOUDINARY_URL ){
+  configForCloudinary = process.env.CLOUDINARY_URL;
+}else{
+  configForCloudinary = require("../config.json");
+}
 cloudinary.config(configForCloudinary);
 const format = require('pg-format');
 

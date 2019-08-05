@@ -142,7 +142,8 @@ module.exports = (db) => {
 
 
                 } else {
-                    response.send("CANT GET SINGLE BILL")
+                    response.redirect("/blitt/activityList?billErr=true")
+                    console.log("bill deleted")
                 }
 
             })
