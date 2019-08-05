@@ -71,5 +71,6 @@ CREATE TABLE IF NOT EXISTS activity(
     bill_id INT,
     group_id INT,
     amount FLOAT(8),
+    bill_name TEXT,
     created_at TIMESTAMP DEFAULT now()
 );
