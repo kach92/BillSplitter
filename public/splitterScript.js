@@ -29,7 +29,7 @@ let update = function() {
         if (billInput.value === "") {
             tempAmount = 0
         } else {
-            tempAmount = parseInt(billInput.value)
+            tempAmount = parseFloat(billInput.value)
         }
 
         let equalAmount = (tempAmount / tickCount).toFixed(2);
