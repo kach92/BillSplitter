@@ -35,7 +35,7 @@ class Create_Bill extends React.Component {
               </div>
               <div class="form-group">
                 <label for="billAmountInput">Bill Amount</label>
-                <input type="number" class="form-control" id="billAmountInput" placeholder="Enter Amount" name="bill_amount" value={this.props.singleBill.amount} required/>
+                <input type="number" class="form-control" step="0.01" id="billAmountInput" placeholder="Enter Amount" name="bill_amount" value={this.props.singleBill.amount} required/>
               </div>
               <div class="form-group">
                 <label for="payer">Payer</label>
