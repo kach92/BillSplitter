@@ -256,7 +256,7 @@ module.exports = (dbPoolInstance) => {
     }
 
     let checkTrueCountOfBillsByGroup = (group_id, callback) => {
-        let query = 'SELECT x.bill_id,x.count AS true_count,y.count AS bill_count,y.group_id FROM (SELECT bill_id,COUNT(paid) FROM users_bills WHERE paid=true GROUP BY bill_id)AS x INNER JOIN(SELECT x.bill_id,x.count,bills.group_id FROM (SELECT bill_id,COUNT(1) FROM users_bills GROUP BY bill_id ORDER BY bill_id) AS x INNER JOIN bills ON (x.bill_id = bills.id) WHERE bills.group_id = $1) AS y ON (x.bill_id = y.bill_id)ORDER BY x.bill_id DESC'
+        let query = 'SELECT x.bill_id,x.count AS true_count,y.count AS bill_count,y.group_id FROM (SELECT bill_id,COUNT(paid) FROM users_bills WHERE paid=true GROUP BY bill_id)AS x INNER JOIN(SELECT x.bill_id,x.count,bills.group_id FROM (SELECT bill_id,COUNT(1) FROM users_bills WHERE NOT split_amount = 0 GROUP BY bill_id ORDER BY bill_id) AS x INNER JOIN bills ON (x.bill_id = bills.id) WHERE bills.group_id = $1) AS y ON (x.bill_id = y.bill_id)ORDER BY x.bill_id DESC'
         let arr = [group_id];
         dbPoolInstance.query(query, arr, (error, queryResult) => {
             if (error) {
