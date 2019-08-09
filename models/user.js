@@ -4,8 +4,8 @@ var SALT = "whosyourdaddy";
 module.exports = (dbPoolInstance) => {
 
     let registerPost = (registerInfo, callback) => {
-        let query = 'INSERT INTO users (name,password,image) VALUES ($1,$2,$3) RETURNING *';
-        let arr = [registerInfo.name, registerInfo.password, registerInfo.image]
+        let query = 'INSERT INTO users (name,password,image,mobile) VALUES ($1,$2,$3,$4) RETURNING *';
+        let arr = [registerInfo.name, registerInfo.password, registerInfo.image, registerInfo.mobile]
         dbPoolInstance.query(query, arr, (error, queryResult) => {
             if (error) {
                 callback(error, null);
