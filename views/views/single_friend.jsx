@@ -54,7 +54,7 @@ class Single_Friend extends React.Component {
                                 </button>
                             </div>
                             <div className="qr-container">
-                                <input class="qr-phone"value={this.props.result[0].mobile} hidden/>
+                                <input class="qr-phone"value={this.props.friend_details.mobile} hidden/>
                                 {/*<img className="qr-image" hidden/>*/}
                             </div>
 
