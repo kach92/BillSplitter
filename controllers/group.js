@@ -244,7 +244,7 @@ module.exports = (db) => {
                                                     for (let i = 0; i < data.billList.length; i++) {
                                                         for (let j = 0; j < trueTable.length; j++) {
                                                             if (data.billList[i].bill_id === trueTable[j].bill_id) {
-                                                                if ((parseInt(trueTable[j].true_count) + 1) === parseInt(trueTable[j].bill_count)) {
+                                                                if (parseInt(trueTable[j].true_count) === parseInt(trueTable[j].bill_count)) {
                                                                     data.billList[i]["settled"] = true;
                                                                 }
                                                                 break;
