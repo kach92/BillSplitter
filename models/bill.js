@@ -201,7 +201,7 @@ module.exports = (dbPoolInstance) => {
     }
 
     let settleSplitAmountByGroup = (user_id, group_id, settler_id, callback) => {
-        let query = 'UPDATE users_bills SET paid = true WHERE id IN (SELECT users_bills.id FROM users_bills INNER JOIN bills ON (bills.id = users_bills.bill_id) WHERE bills.group_id = $1 AND NOT bills.paid_by_user_id = users_bills.user_id AND ((users_bills.user_id = $2 AND bills.paid_by_user_id = $3)OR(users_bills.user_id = $3 AND bills.paid_by_user_id = $2))) RETURNING *'
+        let query = 'UPDATE users_bills SET paid = true WHERE id IN (SELECT users_bills.id FROM users_bills INNER JOIN bills ON (bills.id = users_bills.bill_id) WHERE bills.group_id = $1 AND NOT bills.paid_by_user_id = users_bills.user_id AND ((users_bills.user_id = $2 AND bills.paid_by_user_id = $3)OR(users_bills.user_id = $3 AND bills.paid_by_user_id = $2)) AND NOT users_bills.split_amount = 0) RETURNING *'
         let arr = [group_id, user_id, settler_id]
         dbPoolInstance.query(query, arr, (error, queryResult) => {
             if (error) {
@@ -293,7 +293,7 @@ module.exports = (dbPoolInstance) => {
     }
 
     let settleSplitAmountByUser = (user_id, friend_id, callback) => {
-        let query = "UPDATE users_bills SET paid = true WHERE id IN (SELECT users_bills.id FROM users_bills INNER JOIN bills ON (bills.id = users_bills.bill_id) WHERE NOT bills.paid_by_user_id = users_bills.user_id AND ((users_bills.user_id = $1 AND bills.paid_by_user_id = $2)OR(users_bills.user_id = $2 AND bills.paid_by_user_id = $1))) RETURNING *"
+        let query = "UPDATE users_bills SET paid = true WHERE id IN (SELECT users_bills.id FROM users_bills INNER JOIN bills ON (bills.id = users_bills.bill_id) WHERE NOT bills.paid_by_user_id = users_bills.user_id AND ((users_bills.user_id = $1 AND bills.paid_by_user_id = $2)OR(users_bills.user_id = $2 AND bills.paid_by_user_id = $1))AND NOT users_bills.split_amount = 0) RETURNING *"
         let arr = [user_id, friend_id];
         dbPoolInstance.query(query, arr, (error, queryResult) => {
             if (error) {
