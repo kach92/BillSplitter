@@ -240,21 +240,19 @@ module.exports = (db) => {
                                             db.bill.checkTrueCountOfBillsByGroup(group_id, (error, result) => {
                                                 if (result) {
                                                     let trueTable = result
-                                                    let settledBill = []
                                                     for (let i = 0; i < data.billList.length; i++) {
                                                         for (let j = 0; j < trueTable.length; j++) {
                                                             if (data.billList[i].bill_id === trueTable[j].bill_id) {
                                                                 if (parseInt(trueTable[j].true_count) === parseInt(trueTable[j].bill_count)) {
                                                                     data.billList[i]["settled"] = true;
-                                                                    settledBill.push(data.billList.splice(i,1))
+
                                                                 }
                                                                 break;
 
                                                             }
                                                         }
                                                     }
-                                                    let merged =[].concat.apply([], settledBill)
-                                                    data.billList = data.billList.concat(merged)
+
                                                     response.render("views/single_group", data)
                                                 } else {
                                                     response.send("FAIL TO GET TRUE COUNT")
