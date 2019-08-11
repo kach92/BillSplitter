@@ -3,7 +3,9 @@ var Default = require("./layout/default")
 
 class User_Profile extends React.Component {
   render() {
-
+    let passwordChange = this.props.password?<div class="alert alert-success" role="alert">
+  Password change successful.
+</div>:"";
     return (
       <Default title={this.props.title} cookieAvailable={this.props.cookieAvailable} user_name={this.props.user_name}>
             <img className="profile-page-img"src={this.props.result.image}/>
@@ -21,7 +23,23 @@ class User_Profile extends React.Component {
                         </div>
                     </div>
                 </div>
+                {passwordChange}
+                <table className="table table-bordered">
+                    <tr>
+                        <th scope="row">Name</th>
+                        <td>{this.props.result.name}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Phone Number</th>
+                        <td>{this.props.result.mobile}</td>
+                    </tr>
+                </table>
+                <div className="user-page-edit-container">
+                    <a className="btn btn-danger" href="/blitt/user_profile/edit_profile">Edit Profile</a>
+                    <a className="btn btn-danger delete-button" href="/blitt/user_profile/change_password">Change Password</a>
+                </div>
             </form>
+
 
       </Default>
     );

@@ -197,6 +197,43 @@ module.exports = (dbPoolInstance) => {
         });
     }
 
+    let updateUserProfile = (user_id, new_details,callback) => {
+        let query = "UPDATE users SET name=$1,mobile=$2 WHERE id=$3 RETURNING *"
+        let arr = [new_details.name,new_details.mobile,user_id];
+
+        dbPoolInstance.query(query, arr, (error, queryResult) => {
+            if (error) {
+                callback(error, null);
+
+            } else {
+                if (queryResult.rows.length > 0) {
+
+                    callback(null, queryResult.rows[0]);
+                } else {
+                    callback(null, null);
+                }
+            }
+        });
+    }
+
+    let updatePassword = (new_password, user_id,callback) => {
+        let query = "UPDATE users SET password=$1 WHERE id=$2 RETURNING *"
+        let arr = [new_password,user_id];
+
+        dbPoolInstance.query(query, arr, (error, queryResult) => {
+            if (error) {
+                callback(error, null);
+
+            } else {
+                if (queryResult.rows.length > 0) {
+
+                    callback(null, queryResult.rows[0]);
+                } else {
+                    callback(null, null);
+                }
+            }
+        });
+    }
 
 
     return {
@@ -210,6 +247,8 @@ module.exports = (dbPoolInstance) => {
         getSingleUser,
         checkIfUserExist,
         getUserDetail,
-        updateProfilePic
+        updateProfilePic,
+        updateUserProfile,
+        updatePassword
     };
 };

@@ -63,9 +63,13 @@ module.exports = (app, allModels) => {
 
   app.get('/blitt/groupList/:id/:billId/editBill',billControllerCallbacks.editBill);
   app.post('/blitt/groupList/:id/:billId/editBill',billControllerCallbacks.editBillPost);
-  app.post('/blitt/groupList/:id/:billId/deleteBill',billControllerCallbacks.deleteBill)
+  app.post('/blitt/groupList/:id/:billId/deleteBill',billControllerCallbacks.deleteBill);
   app.get('/blitt/user_profile',userControllerCallbacks.userProfile);
-  app.post('/blitt/user_profile/postProfilePic',upload.single('myFile'),userControllerCallbacks.postProfilePic),
-  app.get('/blitt/activityList',mainControllerCallbacks.getAllActivities)
+  app.get('/blitt/user_profile/edit_profile',userControllerCallbacks.editProfile);
+  app.post('/blitt/user_profile/edit_profile',userControllerCallbacks.editProfilePost);
+  app.get('/blitt/user_profile/change_password',userControllerCallbacks.changePassword);
+  app.post('/blitt/user_profile/change_password',userControllerCallbacks.changePasswordPost);
+  app.post('/blitt/user_profile/postProfilePic',upload.single('myFile'),userControllerCallbacks.postProfilePic);
+  app.get('/blitt/activityList',mainControllerCallbacks.getAllActivities);
 };
 

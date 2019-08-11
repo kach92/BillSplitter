@@ -259,10 +259,7 @@ module.exports = (db) => {
                             }
 
                         }
-
                         async function updateNetTable() {
-
-
                             for (let i = 0; i < billDetails.split_amount.length; i++) {
                                 if (parseInt(payer_id) !== parseInt(billDetails.user_id[i])) {
                                     let waiter2 = await db.bill.updateNetTableForEdit(billDetails.user_id[i], billDetails.split_amount[i], payer_id, net_table_id[count].id, (error, result) => {

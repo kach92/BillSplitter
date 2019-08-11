@@ -944,3 +944,18 @@ body{
     width:500px;
     margin:0 auto;
 }
+
+.profile-pic-form{
+    width:400px;
+}
+
+.user-page-edit-container{
+    display:flex;
+    justify-content: space-between;
+}
+
+.edit-profile-container{
+    top:0;
+    box-shadow: none;
+    border: none;
+}

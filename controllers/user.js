@@ -6,10 +6,10 @@ var upload = multer({
 });
 var cloudinary = require('cloudinary');
 var configForCloudinary;
-if( process.env.CLOUDINARY_URL ){
-  configForCloudinary = process.env.CLOUDINARY_URL;
-}else{
-  configForCloudinary = require("../config.json");
+if (process.env.CLOUDINARY_URL) {
+    configForCloudinary = process.env.CLOUDINARY_URL;
+} else {
+    configForCloudinary = require("../config.json");
 }
 cloudinary.config(configForCloudinary);
 const format = require('pg-format');
@@ -33,7 +33,7 @@ module.exports = (db) => {
                 data.failLogin = true
             }
 
-            if(request.query.register){
+            if (request.query.register) {
                 data["register"] = true
             }
 
@@ -289,6 +289,9 @@ module.exports = (db) => {
                         user_id: user_id,
                         user_name: user_name
                     }
+                    if(request.query.password === "true"){
+                        data["password"] = true
+                    }
                     response.render('views/user_profile', data)
                 } else {
                     response.send("CANT GET USER DETAILS");
@@ -313,6 +316,95 @@ module.exports = (db) => {
 
     }
 
+    let editProfileControllerCallback = (request, response) => {
+        let cookieAvailable = checkCookie(request);
+        if (cookieAvailable) {
+            let user_id = request.cookies["user_id"];
+            let user_name = request.cookies["user_name"]
+            db.user.getUserDetail(user_id, (error, result) => {
+                if (result) {
+                    let data = {
+                        title: "Edit Profile",
+                        cookieAvailable: cookieAvailable,
+                        result: result,
+                        user_id: user_id,
+                        user_name: user_name
+                    }
+                    response.render('views/edit_profile', data)
+                } else {
+                    response.send("CANT GET USER DETAILS");
+                }
+            })
+        } else {
+            response.send("YOU ARE NOT LOGGED IN")
+        }
+    }
+
+    let editProfilePostControllerCallback = (request, response) => {
+        let user_id = request.cookies["user_id"];
+        let newDetail = request.body
+        db.user.updateUserProfile(user_id, newDetail,(error, result) => {
+            if (result) {
+                response.cookie("user_name", result.name);
+                response.redirect('/blitt/user_profile')
+            } else {
+                response.send("CANT UPDATE USER PROFILE");
+            }
+        })
+    }
+
+    let changePasswordControllerCallback = (request, response) => {
+        let cookieAvailable = checkCookie(request);
+        if (cookieAvailable) {
+            let user_id = request.cookies["user_id"];
+            let user_name = request.cookies["user_name"]
+            db.user.getUserDetail(user_id, (error, result) => {
+                if (result) {
+                    let data = {
+                        title: "Edit Profile",
+                        cookieAvailable: cookieAvailable,
+                        result: result,
+                        user_id: user_id,
+                        user_name: user_name
+                    }
+
+                    if(request.query.oriPassword==="true"){
+                        data["oriPassword"] = true
+                    }
+                    response.render('views/change_password', data)
+                } else {
+                    response.send("CANT GET USER DETAILS");
+                }
+            })
+        } else {
+            response.send("YOU ARE NOT LOGGED IN")
+        }
+    }
+
+    let changePasswordPostControllerCallback = (request, response) => {
+        if (sha256(request.body.oldPassword) === request.body.originalPassword) {
+            if(request.body.password === request.body.confirmPassword){
+                let user_id = request.cookies["user_id"];
+                db.user.updatePassword(sha256(request.body.password),user_id,(error,result)=>{
+                    if(result){
+                        response.redirect("/blitt/user_profile?password=true")
+                    }else{
+                        response.send("UNABLE TO UPDATE PASSWORD")
+                    }
+                })
+
+            }else{
+                response.redirect("/blitt/user_profile/change_password?oriPassword=true")
+            }
+
+        }else{
+            response.redirect("/blitt/user_profile/change_password?oriPassword=true")
+        }
+    }
+
+
+
+
     let logoutControllerCallback = (request, response) => {
         response.cookie("logged_in", "SALT")
         response.redirect("/blitt/login")
@@ -330,7 +422,11 @@ module.exports = (db) => {
         getFriendBills: getFriendBillsControllerCallback,
         settleByUser: settleByUserControllerCallback,
         userProfile: userProfileControllerCallback,
-        postProfilePic: postProfilePicControllerCallback
+        postProfilePic: postProfilePicControllerCallback,
+        editProfile: editProfileControllerCallback,
+        editProfilePost: editProfilePostControllerCallback,
+        changePassword: changePasswordControllerCallback,
+        changePasswordPost: changePasswordPostControllerCallback
 
     };
 
