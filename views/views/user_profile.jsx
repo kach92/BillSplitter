@@ -6,6 +6,9 @@ class User_Profile extends React.Component {
     let passwordChange = this.props.password?<div class="alert alert-success" role="alert">
   Password change successful.
 </div>:"";
+    let editChange = this.props.edit?<div class="alert alert-success" role="alert">
+  Edit profile successful.
+</div>:"";
     return (
       <Default title={this.props.title} cookieAvailable={this.props.cookieAvailable} user_name={this.props.user_name}>
             <img className="profile-page-img"src={this.props.result.image}/>
@@ -24,6 +27,7 @@ class User_Profile extends React.Component {
                     </div>
                 </div>
                 {passwordChange}
+                {editChange}
                 <table className="table table-bordered">
                     <tr>
                         <th scope="row">Name</th>

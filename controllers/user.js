@@ -292,6 +292,9 @@ module.exports = (db) => {
                     if(request.query.password === "true"){
                         data["password"] = true
                     }
+                    if(request.query.edit === "true"){
+                        data["edit"] = true
+                    }
                     response.render('views/user_profile', data)
                 } else {
                     response.send("CANT GET USER DETAILS");
@@ -346,7 +349,7 @@ module.exports = (db) => {
         db.user.updateUserProfile(user_id, newDetail,(error, result) => {
             if (result) {
                 response.cookie("user_name", result.name);
-                response.redirect('/blitt/user_profile')
+                response.redirect('/blitt/user_profile?edit=true')
             } else {
                 response.send("CANT UPDATE USER PROFILE");
             }
