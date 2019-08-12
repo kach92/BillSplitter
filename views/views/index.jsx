@@ -51,20 +51,20 @@ class Home extends React.Component {
 
             </div>
                 <div className="profile-cards-container">
-                <div class="card border-success mb-3" style={{width: "230px"}}>
+                <div class="card border-success mb-3 profile-card-modifier" style={{width: "230px"}}>
                     <div class="card-header">Total Expenses</div>
                     <div class="card-body">
                         <p class="card-text">S$ {this.props.totalExpenses.toFixed(2)}</p>
                     </div>
                 </div>
-                <div class="card border-secondary mb-3" style={{width: "230px"}}>
+                <div class="card border-secondary mb-3 profile-card-modifier" style={{width: "230px"}}>
                     <div class="card-header">Total Borrowed</div>
                     <div class="card-body">
 
                         <p class="card-text" style={{color:"#ff7751"}}>S$ {this.props.totalBorrowed.toFixed(2)}</p>
                     </div>
                 </div>
-                <div class="card border-info mb-3" style={{width: "230px"}}>
+                <div class="card border-info mb-3 profile-card-modifier" style={{width: "230px"}}>
                     <div class="card-header">Total Lent</div>
                     <div class="card-body">
 

@@ -832,12 +832,20 @@ body{
 
 .nav-bar-modifier{
     display:flex;
-    justify-content: space-between;
+    position:relative;
+    justify-content: flex-end;
+}
+
+.navbar-brand{
+    font-family: 'Pacifico', cursive;
+    position:absolute;
+    left:50%;
+    transform: translateX(-50%);
 }
 
 .login-page-container{
     display:flex;
-    width:1385px;
+    width:100%;
 
     margin:-0 auto;
 
@@ -853,9 +861,12 @@ body{
     box-shadow: none;
     margin-top:150px;
 }
+#blitt-name{
+    font-family: 'Pacifico', cursive;
+}
 
 .bd-example{
-    width:1000px;
+    width:70%;
 
     height:690px;
 }
@@ -958,4 +969,170 @@ body{
     top:0;
     box-shadow: none;
     border: none;
+}
+
+
+
+@media(max-width:768px){
+    .login-page-container{
+        flex-direction: column;
+    }
+    .bd-example{
+        width:100%;
+        height:56px;
+
+    }
+
+    .image-1{
+        background: none;
+        background-color: #56cc9d;
+        filter:brightness(100%);
+
+    }
+
+    .item-1 p{
+        visibility: hidden;
+    }
+
+    #blitt-name{
+        font-size:30px;
+    }
+
+    .login-container-modifier{
+        margin-top:0;
+    }
+    .carousel-slide-modifier{
+        width:100%;
+    }
+
+    .main-container{
+        width:375px;
+    }
+    .profile-card-modifier{
+        width:120px !important;
+        height:80px;
+        font-size:12px;
+    }
+
+    .profile-card-modifier p{
+        font-size:20px;
+    }
+
+    .profile-card-modifier .card-header{
+        padding:5px;
+    }
+
+    .profile-card-modifier .card-body{
+        padding:5px;
+    }
+
+    .card-slot{
+        min-width:375px;
+    }
+
+    .total-card{
+        width:100%;
+    }
+
+    .group-card{
+        width:100%;
+    }
+
+    .activity-card-modifier{
+        width:100%;
+    }
+
+    .group-card-img img{
+        width:42px;
+        height:42px;
+    }
+
+    .navbar-brand{
+        font-size:30px;
+    }
+
+    .user-banner{
+        font-size: 20px
+    }
+
+    .member-list{
+        font-size: 8px
+    }
+
+    .group-card-amount{
+        font-size: 11px
+    }
+
+    .group-card-amount-only{
+        font-size:24px;
+    }
+
+    .group-card-main .group-name {
+        font-size: 22px;
+    }
+
+    .total-card-word {
+
+        font-size: 22px;
+    }
+
+    .total-card-details{
+        margin-left:5px;
+    }
+
+    .total-card-img img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .group-head{
+        width:100%;
+    }
+
+    .group-head-img img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .group-head-name {
+        font-size: 24px;
+    }
+
+    .group-head-amount {
+        font-size: 16px;
+    }
+
+    .bill-card{
+        width:100%;
+        height:100px;
+    }
+
+    .bill-card-img {
+        width: 22%;
+    }
+
+    .bill-card-img img {
+        width: 40px;
+    }
+
+    .amount-to-pay span {
+        font-size: 20px;
+    }
+
+    .amount-to-pay{
+        font-size: 10px;
+    }
+
+    .time-of-bill {
+
+        font-size: 10px;
+    }
+
+    .bill-card-description {
+        font-size: 20px;
+    }
+
+    .payer{
+        font-size:14px;
+    }
 }

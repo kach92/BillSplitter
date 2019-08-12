@@ -15,9 +15,12 @@ class Login extends React.Component {
     <html>
         <head>
             <title>Blitt Login</title>
+            <meta charset="utf-8"/>
+              <meta name="viewport" content="width=device-width, initial-scale=1"/>
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
             <link rel="stylesheet" type="text/css" href="/css/bootstrap.css"></link>
             <link rel="stylesheet" type="text/css" href="/css/style.css"></link>
+            <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet"/>
         </head>
 
         <body>
@@ -32,7 +35,7 @@ class Login extends React.Component {
 
 
                         <div className="carousel-image-modifier image-1"></div>
-                        <h2 className="image-1-welcome">Welcome to <span>Blitt</span></h2>
+                        <h2 className="image-1-welcome"><span id="blitt-name">Blitt</span></h2>
                         <p>A Bill Splitting app for your friends and family</p>
                       </div>
 
