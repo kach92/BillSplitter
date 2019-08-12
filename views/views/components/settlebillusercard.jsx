@@ -20,17 +20,19 @@ class SettleBillUserCard extends React.Component {
                 <p className="settle-bill-detail-name">{this.props.name}</p>
                 {text}
             </div>
-            <div className="settle-bill-selectbutton">
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target={datatarget}>
-                  Submit
-                </button>
-                <button type="button" class="btn btn-danger qr-button">
-                    QR Code
-                </button>
-            </div>
-            <div className="qr-container">
-                <input class="qr-phone"value={this.props.mobile} hidden/>
-                {/*<img className="qr-image" hidden/>*/}
+            <div className="testing">
+                <div className="settle-bill-selectbutton">
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target={datatarget}>
+                      Submit
+                    </button>
+                    <button type="button" class="btn btn-danger qr-button">
+                        QR Code
+                    </button>
+                </div>
+                <div className="qr-container">
+                    <input class="qr-phone"value={this.props.mobile} hidden/>
+                    {/*<img className="qr-image" hidden/>*/}
+                </div>
             </div>
 
 

@@ -1064,7 +1064,7 @@ body{
     }
 
     .group-card-amount-only{
-        font-size:24px;
+        font-size:20px;
     }
 
     .group-card-main .group-name {
@@ -1134,5 +1134,105 @@ body{
 
     .payer{
         font-size:14px;
+    }
+
+    .settle-bill-heading{
+        font-size: 1.1rem;
+    }
+
+    .settle-bill-container{
+        width:100%;
+    }
+
+    .qr-image {
+    position: relative;
+        top: 0%;
+        transform: translateY(0);
+        right: 0px;
+        border: 1px solid black;
+        padding: 5px;
+        width:70px;
+        height:70px;
+    }
+
+    .testing{
+        position:relative;
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+
+    }
+
+    .settle-bill-detail{
+        margin-left: 0;
+    }
+
+    .bill-head{
+        width:100%;
+    }
+
+    .bill-head-description {
+        font-size: 23px;
+    }
+
+    .bill-head-amount {
+
+        font-size: 23px;
+    }
+
+    .single-friend-container{
+        width:100%;
+    }
+
+    .single-friend-card{
+        width:100%;
+    }
+
+    .single-friend-group-container{
+        width:100%;
+    }
+
+    .single-friend-card-img img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .single-friend-card-main {
+        margin-left: 0;
+        font-size: 23px;
+    }
+
+    .single-friend-card-amount {
+        font-size: 10px;
+    }
+
+    .single-user-button {
+        margin-left: 8px;
+    }
+
+    .single-friend-group-img img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .single-friend-group-img {
+        margin-left: 10px;
+    }
+
+    .single-friend-group-name {
+        color: black;
+        font-size: 17px;
+    }
+
+    .single-friend-group-amount {
+        font-size: 12px;
+    }
+
+    .profile-pic-form{
+        width:100%;
+    }
+
+    .edit-profile-container{
+        width:100%;
     }
 }
