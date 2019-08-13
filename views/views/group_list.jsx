@@ -23,7 +23,7 @@ class Group_List extends React.Component {
                 <a class="nav-link" id="contact-tab"  href="/blitt/friendList" role="tab" >Friends</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" id="activity-tab"  href="/blitt/activityList" role="tab" >Activty</a>
+                <a class="nav-link" id="activity-tab"  href="/blitt/activityList" role="tab" >Activity</a>
               </li>
             </ul>
             <div class="tab-content" id="myTabContent">
