@@ -44,3 +44,5 @@ Users can also check the activitiy log for any recent updates. Users can only se
 ## Unsolved Problems
 So far I am still tracing for bugs in the app as money calculations are very sensitive and bugs are hard to trace. There are also few more functions that I will like to implement later on such as a proper profile page for user to change their personal details, and also a add friend system. Another unsolvable issue would be when the owing is 0, the app supposed to show no owings but it will show "You owe 0.00" instead, this is some issue when doing calculation using parseFloat and toFixed. Will continue to see how to solve this.
 
+## Disclaimer
+This project is a school project for web developing practice and skills showcase purpose only, and some parts may look similar to existing bill splitting app. 
