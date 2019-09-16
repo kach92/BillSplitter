@@ -1,7 +1,10 @@
-# BillSplitter
-A Bill Splitting Web App
+# Blitt
+
 
 ![ALT TEXT](https://res.cloudinary.com/kach92/image/upload/v1564994560/Blitt_zddb0w.png)
+
+General Assembly Software Engineering Immersive 19 Unit 2 Project - Blitt (Bill Splitting Web App)
+
 
 ## Objective
 The app aims to ease users from the trouble of keeping record on how much they owe or owed on bills that are paid by themselves or others.
@@ -12,6 +15,24 @@ The app aims to ease users from the trouble of keeping record on how much they o
 - easily check how much you owe or how much others you through the group list or friend list page.
 - calculations will be done whenver you settle the total amount with someone.
 - a bar graph and line graph to show your past 30 days expenses, amount you borrowed or amount you lent, by category or daily expenses.
+
+## Installation Instructions
+1. Installs all the dependencies of the project using
+```
+npm install
+````
+2. Create the Postgres db for running on local
+```
+createdb DATABASE_NAME -U USERNAME
+````
+3. Creates the tables neccessary to run this project
+```
+psql -d DATABASE_NAME -U USERNAME -f tables.sql
+````
+4. Seed dummy data
+```
+psql -d DATABASE_NAME -U USERNAME -f seed.sql
+````
 
 ## Technologies Used
 - Front-end
