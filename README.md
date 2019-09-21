@@ -1,7 +1,7 @@
 # Blitt
 
 
-![ALT TEXT](https://res.cloudinary.com/kach92/image/upload/v1564994560/Blitt_zddb0w.png)
+![Blitt](https://user-images.githubusercontent.com/50238797/65367315-d7161d80-dc61-11e9-8f2d-9038afbe2a41.PNG)
 
 General Assembly Software Engineering Immersive 19 Unit 2 Project - Blitt (Bill Splitting Web App)
 
