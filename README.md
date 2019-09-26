@@ -1,7 +1,10 @@
-# BillSplitter
-A Bill Splitting Web App
+# Blitt
 
-![ALT TEXT](https://res.cloudinary.com/kach92/image/upload/v1564994560/Blitt_zddb0w.png)
+
+![Blitt](https://user-images.githubusercontent.com/50238797/65367315-d7161d80-dc61-11e9-8f2d-9038afbe2a41.PNG)
+
+General Assembly Software Engineering Immersive 19 Unit 2 Project - Blitt (Bill Splitting Web App)
+
 
 ## Objective
 The app aims to ease users from the trouble of keeping record on how much they owe or owed on bills that are paid by themselves or others.
@@ -12,6 +15,24 @@ The app aims to ease users from the trouble of keeping record on how much they o
 - easily check how much you owe or how much others you through the group list or friend list page.
 - calculations will be done whenver you settle the total amount with someone.
 - a bar graph and line graph to show your past 30 days expenses, amount you borrowed or amount you lent, by category or daily expenses.
+
+## Installation Instructions
+1. Installs all the dependencies of the project using
+```
+npm install
+````
+2. Create the Postgres db for running on local
+```
+createdb DATABASE_NAME -U USERNAME
+````
+3. Creates the tables neccessary to run this project
+```
+psql -d DATABASE_NAME -U USERNAME -f tables.sql
+````
+4. Seed dummy data
+```
+psql -d DATABASE_NAME -U USERNAME -f seed.sql
+````
 
 ## Technologies Used
 - Front-end
@@ -44,3 +65,5 @@ Users can also check the activitiy log for any recent updates. Users can only se
 ## Unsolved Problems
 So far I am still tracing for bugs in the app as money calculations are very sensitive and bugs are hard to trace. There are also few more functions that I will like to implement later on such as a proper profile page for user to change their personal details, and also a add friend system. Another unsolvable issue would be when the owing is 0, the app supposed to show no owings but it will show "You owe 0.00" instead, this is some issue when doing calculation using parseFloat and toFixed. Will continue to see how to solve this.
 
+## Disclaimer
+This project is a school project for web developing practice and skills showcase purpose only, and some parts may look similar to existing bill splitting app. 
