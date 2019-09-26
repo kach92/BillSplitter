@@ -28,8 +28,6 @@ CREATE TABLE IF NOT EXISTS users_bills(
     paid BOOLEAN DEFAULT false,
     FOREIGN KEY(user_id) REFERENCES users (id),
     FOREIGN KEY(bill_id) REFERENCES bills (id) ON DELETE CASCADE
-
-
 );
 
 CREATE TABLE IF NOT EXISTS groups(

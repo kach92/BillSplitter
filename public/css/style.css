@@ -869,7 +869,7 @@ body{
 .bd-example{
     width:70%;
 
-    height:690px;
+    height:100vh;
 }
 
 .bd-example img{
@@ -888,7 +888,7 @@ body{
 
 .carousel-image-modifier{
     filter:brightness(50%);
-    height:700px;
+    height:100vh;
 }
 
 

@@ -6,7 +6,7 @@ class FriendCard extends React.Component {
     let url = "/blitt/friendList/"+this.props.friend_id
     let oweList = this.props.group_net.map(x=>{
         let groupUrl = "/blitt/groupList/"+x.group_id
-        return x.net>0? <p>You owe {this.props.friend_name} <span style={{color:"red"}}>S${x.net.toFixed(2)}</span> at <span style={{fontWeight:"bold"}}><a href={groupUrl}className="group-link">{x.group_name}</a></span></p> : <p>{this.props.friend_name} owes you <span style={{color:"green"}}>S${(parseFloat(x.net)*-1).toFixed(2)}</span> at <span style={{fontWeight:"bold"}}><a href={groupUrl}className="group-link">{x.group_name}</a></span></p>;
+        return x.net.toFixed(2)>0? <p>You owe {this.props.friend_name} <span style={{color:"red"}}>S${x.net.toFixed(2)}</span> at <span style={{fontWeight:"bold"}}><a href={groupUrl}className="group-link">{x.group_name}</a></span></p> : x.net.toFixed(2) < 0 ? <p>{this.props.friend_name} owes you <span style={{color:"green"}}>S${(parseFloat(x.net)*-1).toFixed(2)}</span> at <span style={{fontWeight:"bold"}}><a href={groupUrl}className="group-link">{x.group_name}</a></span></p> : null
     })
 
 

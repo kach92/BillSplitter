@@ -308,7 +308,7 @@ module.exports = (db) => {
     let postProfilePicControllerCallback = (request, response) => {
         let user_id = request.cookies["user_id"]
         cloudinary.uploader.upload(request.file.path, function(result) {
-            db.user.updateProfilePic(user_id, result.url, (error, result) => {
+            db.user.updateProfilePic(user_id, result.url, (error, result) =>{
                 if (result) {
                     response.redirect("/blitt/user_profile")
                 } else {
