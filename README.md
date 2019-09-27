@@ -39,7 +39,7 @@ psql -d DATABASE_NAME -U USERNAME -f seed.sql
 - Front-end
  - HTML, CSS, Javascript
 - Backend
- - NodeJS, ExpressJS, React
+ - NodeJS, ExpressJS
 - Database
  - PostgreSQL
 - Others
