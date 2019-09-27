@@ -37,7 +37,7 @@ psql -d DATABASE_NAME -U USERNAME -f seed.sql
 
 ## Technologies Used
 - Front-end
- - HTML, CSS, Javascript
+ - HTML, CSS, Javascript, ReactJS
 - Backend
  - NodeJS, ExpressJS
 - Database
