@@ -427,7 +427,7 @@ module.exports = (dbPoolInstance) => {
     let getExpensesByCategory = (user_id, callback) => {
         let query = 'SELECT x.category, SUM(x.split_amount) FROM (SELECT users_bills.split_amount,bills.category FROM users_bills INNER JOIN bills ON (users_bills.bill_id = bills.id) WHERE users_bills.user_id = $1 AND bills.created_at>$2)AS x GROUP BY category'
         let d = new Date();
-        d.setDate(d.getDate() - 5);
+        d.setDate(d.getDate() - 30);
         let arr = [user_id, d];
         dbPoolInstance.query(query, arr, (error, queryResult) => {
             if (error) {
@@ -448,8 +448,10 @@ module.exports = (dbPoolInstance) => {
     }
 
     let get3TypesOfExpenses = (user_id, callback) => {
-        let query = "SELECT users_bills.user_id, users_bills.split_amount,bills.paid_by_user_id,bills.amount  FROM users_bills INNER JOIN bills ON (users_bills.bill_id = bills.id) WHERE users_bills.user_id = $1;"
-        let arr = [user_id];
+        let query = "SELECT users_bills.user_id, users_bills.split_amount,bills.paid_by_user_id,bills.amount  FROM users_bills INNER JOIN bills ON (users_bills.bill_id = bills.id) WHERE users_bills.user_id = $1 AND bills.created_at>$2"
+        let d = new Date();
+        d.setDate(d.getDate() - 30);
+        let arr = [user_id,d];
         dbPoolInstance.query(query, arr, (error, queryResult) => {
             if (error) {
                 callback(error, null);

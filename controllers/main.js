@@ -1,4 +1,4 @@
-var sha256 = require('js-sha256');
+ var sha256 = require('js-sha256');
 var SALT = "whosyourdaddy";
 
 var checkCookie = function(request) {
