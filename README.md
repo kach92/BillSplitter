@@ -3,7 +3,8 @@
 
 ![Blitt](https://user-images.githubusercontent.com/50238797/65367315-d7161d80-dc61-11e9-8f2d-9038afbe2a41.PNG)
 
-General Assembly Software Engineering Immersive 19 Unit 2 Project - Blitt (Bill Splitting Web App)
+General Assembly Software Engineering Immersive 19 Unit 2 Project - Blitt (Bill Splitting Web App)<br/>
+Check out the full app here! https://blitt.herokuapp.com/blitt
 
 
 ## Objective
@@ -36,9 +37,9 @@ psql -d DATABASE_NAME -U USERNAME -f seed.sql
 
 ## Technologies Used
 - Front-end
- - HTML, CSS, Javascript
+ - HTML, CSS, Javascript, ReactJS
 - Backend
- - NodeJS, ExpressJS, React
+ - NodeJS, ExpressJS
 - Database
  - PostgreSQL
 - Others
