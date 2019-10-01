@@ -404,7 +404,7 @@ module.exports = (dbPoolInstance) => {
     let getExpensesByUser = (user_id, callback) => {
         let query = "SELECT DATE_TRUNC ('day', x.created_at) AS date, SUM(x.split_amount) FROM (SELECT users_bills.user_id,users_bills.split_amount,bills.created_at FROM users_bills INNER JOIN bills ON (users_bills.bill_id = bills.id) WHERE users_bills.user_id = $1 AND bills.created_at>$2)AS x GROUP BY date ORDER BY date ASC"
         let d = new Date();
-        d.setDate(d.getDate() - 5);
+        d.setDate(d.getDate() - 30);
         let arr = [user_id, d];
         dbPoolInstance.query(query, arr, (error, queryResult) => {
             if (error) {
